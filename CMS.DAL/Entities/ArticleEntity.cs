@@ -15,6 +15,5 @@ namespace CMS.DAL.Entities
         public PageType PageType { get; set; }
         
         public ICollection<CategoryEntity> Categories { get; set; }
-        public ICollection<TagEntity> Tags { get; set; }
     }
 }

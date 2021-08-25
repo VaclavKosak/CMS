@@ -11,7 +11,5 @@ namespace CMS.DAL.Entities
         public DateTime DateTimeFrom { get; set; }
         public DateTime DateTimeTo { get; set; }
         public string Text { get; set; }
-        
-        public ICollection<TagEntity> Tags { get; set; }
     }
 }
