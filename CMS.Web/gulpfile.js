@@ -92,7 +92,7 @@ function libAdminCss() {
 
 function libJavascript() {
     return gulp.src([
-        paths.lib.src + '/bootstrap/js/bootstrap.bundle.min.js'
+        paths.lib.src + '/bootstrap/js/bootstrap.min.js'
     ])
         .pipe(tsProject())
         .pipe(concat('lib-bundle.js'))
@@ -105,7 +105,7 @@ function libJavascript() {
 
 function libAdminJavascript() {
     return gulp.src([
-        paths.lib.src + '/bootstrap/js/bootstrap.bundle.min.js'
+        paths.lib.src + '/bootstrap/js/bootstrap.min.js'
     ])
         .pipe(tsProject())
         .pipe(concat('lib-admin-bundle.js'))
@@ -149,4 +149,4 @@ exports.images = images;
 exports.watch = watch;
 exports.css = series(css, libCss, libAdminCss);
 exports.js = series(javascript, libJavascript, libAdminJavascript);
-exports.build = series(clean, parallel(series(css, javascript), series(libCss, libJavascript, libAdminCss, libAdminJavascript)));
+exports.build = series(clean, series(series(css, javascript), series(libCss, libJavascript, libAdminCss, libAdminJavascript)), images);
