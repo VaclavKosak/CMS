@@ -96,7 +96,7 @@ function libAdminCss() {
 
 function libJavascript() {
     return gulp.src([
-        paths.lib.src + '/bootstrap/js/bootstrap.min.js'
+        paths.lib.src + '/bootstrap/js/bootstrap.bundle.min.js'
     ])
         .pipe(tsProject())
         .pipe(concat('lib-bundle.js'))

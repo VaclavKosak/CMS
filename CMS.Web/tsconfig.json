@@ -3,7 +3,8 @@
     "module": "commonjs",
     "target": "ES6",
     "sourceMap": true,
-    "allowJs": true
+    "allowJs": true,
+    "rootDir": "wwwroot/assets"
   },
   "exclude": [
     "node_modules"
