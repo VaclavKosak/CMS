@@ -78,7 +78,11 @@ function libCss() {
 
 function libAdminCss() {
     return gulp.src([
-        paths.lib.src + '/bootstrap/scss/bootstrap.scss'
+        paths.lib.src + '/bootstrap/scss/bootstrap.scss',
+        paths.lib.src + '/bootstrap/scss/bootstrap-grid.scss',
+        paths.lib.src + '/bootstrap/scss/bootstrap-reboot.scss',
+        paths.lib.src + '/bootstrap/scss/bootstrap-utilities.scss',
+        paths.lib.src + '/quilljs/quill.snow.css'
     ])
         .pipe(sourcemaps.init())
         .pipe(sass({ outputStyle: "expanded" }))
@@ -105,7 +109,8 @@ function libJavascript() {
 
 function libAdminJavascript() {
     return gulp.src([
-        paths.lib.src + '/bootstrap/js/bootstrap.min.js'
+        paths.lib.src + '/bootstrap/js/bootstrap.bundle.min.js',
+        paths.lib.src + '/quilljs/quill.min.js'
     ])
         .pipe(tsProject())
         .pipe(concat('lib-admin-bundle.js'))
