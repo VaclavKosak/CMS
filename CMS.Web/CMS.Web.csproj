@@ -26,4 +26,9 @@
       <ProjectReference Include="..\CMS.DAL\CMS.DAL.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Views\Event\Details.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Event\Index.cshtml" />
+    </ItemGroup>
+
 </Project>
