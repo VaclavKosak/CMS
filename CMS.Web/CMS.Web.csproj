@@ -31,4 +31,27 @@
       <_ContentIncludedByDefault Remove="Views\Event\Index.cshtml" />
     </ItemGroup>
 
+    <ItemGroup>
+      <EmbeddedResource Update="Resources\Identity\Pages\Account\Register.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Register.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Identity\Pages\Account\Register.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Register.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Register.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Register.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Register.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Register.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Resources\Areas" />
+    </ItemGroup>
+
 </Project>
