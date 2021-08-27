@@ -6,6 +6,7 @@ using CMS.DAL.Installers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -25,6 +26,8 @@ namespace CMS.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddLocalization(opt => { opt.ResourcesPath = "Resources";  });
+            services.AddMvc().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).AddDataAnnotationsLocalization();
             services.AddControllersWithViews();
             services.AddOptions();
             
@@ -84,6 +87,15 @@ namespace CMS.Web
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            var supportedCultures = new[] { "cs", "en" };
+            var localizationOptions = new RequestLocalizationOptions().SetDefaultCulture(supportedCultures[0])
+                .AddSupportedCultures(supportedCultures)
+                .AddSupportedUICultures(supportedCultures);
+            // localizationOptions.ApplyCurrentCultureToResponseHeaders = true;
+
+            app.UseRequestLocalization(localizationOptions);
+            
 
             app.UseEndpoints(endpoints =>
             {
