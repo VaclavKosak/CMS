@@ -6,27 +6,29 @@
 
 <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
     <div class="row g-3">
-        <h1 class="h3 mb-3 display-6 fw-bold">@localizer["register"]</h1>
-        
+        <h1 class="h3 mb-3 display-6 fw-bold">@_localizer["register"]</h1>
         <div class="col-12">
-            <label asp-for="Input.Email" class="form-label">@localizer["email"]</label>
+            <div asp-validation-summary="All" class="invalid-feedback"></div>
+        </div>
+        <div class="col-12">
+            <label asp-for="Input.Email" class="form-label">@_localizer["email"]</label>
             <input asp-for="Input.Email" class="form-control" />
-            <span asp-validation-for="Input.Email" class="invalid-feedback">@localizer["email_invalid"]</span>
+            <span asp-validation-for="Input.Email" class="invalid-feedback">@_localizer["email_invalid"]</span>
         </div>
 
         <div class="col-12">
-            <label asp-for="Input.Password" class="form-label">@localizer["password"]</label>
+            <label asp-for="Input.Password" class="form-label">@_localizer["password"]</label>
             <input asp-for="Input.Password" class="form-control" />
-            <span asp-validation-for="Input.Password" class="invalid-feedback">@localizer["password_invalid"]</span>
+            <span asp-validation-for="Input.Password" class="invalid-feedback">@_localizer["password_invalid"]</span>
         </div>
         
         <div class="col-12">
-            <label asp-for="Input.ConfirmPassword" class="form-label">@localizer["confirm_password"]</label>
+            <label asp-for="Input.ConfirmPassword" class="form-label">@_localizer["confirm_password"]</label>
             <input asp-for="Input.ConfirmPassword" class="form-control" />
-            <span asp-validation-for="Input.Password" class="invalid-feedback">@localizer["confirm_password_invalid"]</span>
+            <span asp-validation-for="Input.Password" class="invalid-feedback">@_localizer["confirm_password_invalid"]</span>
         </div>
         
-        <button class="w-100 btn btn-lg btn-dark" type="submit">@localizer["register_button"]</button>
+        <input class="w-100 btn btn-lg btn-dark" type="submit" value="@_localizer["register_button"]" />
     </div>
 </form>
                 

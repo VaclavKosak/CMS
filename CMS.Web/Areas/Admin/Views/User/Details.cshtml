@@ -1,0 +1,22 @@
+@model CMS.Models.User.UserModel
+
+@{
+    ViewBag.Title = @_localizer["title"];
+}
+
+<div class="row">
+    <div class="col-6">
+        @if (Model.ProfilePhoto is not (null or ""))
+        {
+            <img src="~/uploads/@Model.ProfilePhoto" alt="Profile image"/>
+        }
+        else
+        {
+            <img src="~/assets/dist/images/profile-img.png" alt="Profile image"/>
+        }
+        
+    </div>
+    <div class="col-6">
+        <p><strong>@_localizer["email"]:</strong> @Model.Email</p>
+    </div>
+</div>

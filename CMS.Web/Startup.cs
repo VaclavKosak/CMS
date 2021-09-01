@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using CMS.BL.Installers;
 using CMS.DAL;
 using CMS.DAL.Entities;
@@ -46,9 +47,9 @@ namespace CMS.Web
                         .AllowAnyMethod());
             });
             
-            services.AddIdentity<AppUser, IdentityRole<Guid>>()
+            services.AddIdentity<AppUser, AppRole>()
                 .AddEntityFrameworkStores<WebDataContext>()
-                .AddRoles<IdentityRole<Guid>>()
+                .AddRoles<AppRole>()
                 .AddDefaultUI()
                 .AddDefaultTokenProviders();
 
@@ -59,6 +60,25 @@ namespace CMS.Web
                 options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
             });
             
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequireLowercase = true;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequiredUniqueChars = 1;
+                
+                // Lockout settings.
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.AllowedForNewUsers = true;
+
+                // User settings.
+                // options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+                // options.User.RequireUniqueEmail = false;
+            });
+            
             services.AddAuthorization(options =>
             {
                 // options.AddPolicy("", policy => policy.RequireRole("?"));
@@ -67,7 +87,7 @@ namespace CMS.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -116,6 +136,7 @@ namespace CMS.Web
             });
             
             UpdateDatabase(app);
+            CreateRoles(serviceProvider);
         }
         
         private void UpdateDatabase(IApplicationBuilder app)
@@ -123,6 +144,29 @@ namespace CMS.Web
             using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
             using var context = serviceScope.ServiceProvider.GetService<WebDataContext>();
             if (context != null) context.Database.Migrate();
+        }
+        
+        private void CreateRoles(IServiceProvider serviceProvider)
+        {
+            // Initializing custom roles 
+            var roleManager = serviceProvider.GetRequiredService<RoleManager<AppRole>>();
+            // Roles
+            string[] roleNames = { "Admin", "Editor", "User"};
+
+            foreach (var roleName in roleNames)
+            {
+                var roleExist = roleManager.RoleExistsAsync(roleName).Result;
+                if (!roleExist)
+                {
+                    var role = new AppRole
+                    {
+                        Id = Guid.NewGuid(),
+                        Name = roleName,
+                        NormalizedName = roleName.Normalize()
+                    };
+                    var result = roleManager.CreateAsync(role).Result;
+                }
+            }
         }
     }
 }

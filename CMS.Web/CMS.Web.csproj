@@ -8,14 +8,14 @@
       <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
       <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
       <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.6" />
-      <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.6" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.6" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.6">
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.9" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.9" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.9" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.9">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.6" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
       <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="5.0.2" />
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
@@ -48,10 +48,63 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Register.cs.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Shared\AdminLayout.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>AdminLayout.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Shared\AdminLayout.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>AdminLayout.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Admin\Views\UserRole\Create.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Create.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Admin\Views\UserRole\Create.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Create.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Admin\Views\UserRole\Edit.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Edit.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Admin\Views\UserRole\Edit.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Edit.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Admin\Views\UserRole\Index.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Index.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Admin\Views\UserRole\Index.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Index.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Shared\_AdminLayout.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>AdminLayout.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Views\Shared\_AdminLayout.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>AdminLayout.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Admin\Views\User\Index.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Index.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Admin\Views\User\Details.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Details.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Admin\Views\User\Delete.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Delete.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Resources\Areas" />
+      <Folder Include="Migrations" />
+      <Folder Include="Resources\Views" />
     </ItemGroup>
 
 </Project>
