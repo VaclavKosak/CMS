@@ -6,6 +6,7 @@ namespace CMS.DAL.Entities
     {
         public string Title { get; set; }
         public string Description { get; set; }
-        public DateTime DateTime { get; set; }
+        public DateTime DateTimeFrom { get; set; }
+        public DateTime DateTimeTo { get; set; }
     }
 }
