@@ -1,6 +1,11 @@
-﻿@using CMS.Web
+﻿@using CMS.DAL.Entities
+@using CMS.Web
 @using CMS.Web.Models
+@using Microsoft.AspNetCore.Identity
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 @addTagHelper *, CMS.Web
 @inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer _localizer
+
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager

@@ -36,4 +36,20 @@
     <data name="web" xml:space="preserve">
         <value>Web</value>
     </data>
+    <data name="home" xml:space="preserve">
+        <value>Domů</value>
+        <comment>home</comment>
+    </data>
+    <data name="articles" xml:space="preserve">
+        <value>Články</value>
+        <comment>articles</comment>
+    </data>
+    <data name="calendar" xml:space="preserve">
+        <value>Kalendář</value>
+        <comment>calendar</comment>
+    </data>
+    <data name="gallery" xml:space="preserve">
+        <value>Galerie</value>
+        <comment>gallery</comment>
+    </data>
 </root>
