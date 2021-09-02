@@ -8,13 +8,15 @@ namespace CMS.BL.MapperProfiles
     {
         public GalleryMapperProfile()
         {
-            CreateMap<GalleryEntity, GalleryDetailModel>();
             CreateMap<GalleryEntity, GalleryListModel>();
-            CreateMap<GalleryDetailModel, GalleryEntity>();
             CreateMap<GalleryNewModel, GalleryEntity>();
+            CreateMap<GalleryEntity, GalleryDetailModel>();
+            CreateMap<GalleryDetailModel, GalleryNewModel>();
             
-            CreateMap<GalleryUpdateModel, ArticleEntity>();
+            CreateMap<GalleryUpdateModel, GalleryEntity>();
             CreateMap<GalleryDetailModel, GalleryUpdateModel>();
+            
+            CreateMap<GalleryEntity, GalleryUpdateModel>();
         }
     }
 }

@@ -36,7 +36,7 @@ namespace CMS.BL.Facades
                 {
                     return null;
                 }
-                parentId = entity.ParentId;
+                parentId = entity.Id;
             }
             
             var detailData = Mapper.Map<GalleryDetailModel>(entity);
