@@ -81,7 +81,7 @@
         <hr>
         <div class="dropdown">
             <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                @if (@UserManager.GetUserAsync(User).Result.ProfilePhoto is not (null or ""))
+                @if (SignInManager.IsSignedIn(User) && UserManager.GetUserAsync(User).Result.ProfilePhoto is not (null or ""))
                 {
                     <img src="~/uploads/@Model.ProfilePhoto" alt="Profile image" width="32" height="32" class="rounded-circle me-2" />
                 }
