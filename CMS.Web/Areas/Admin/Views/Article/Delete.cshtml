@@ -1,0 +1,14 @@
+@model CMS.Models.Article.ArticleDetailModel
+
+@{
+    ViewBag.Title = @_localizer["title"];
+}
+
+<p><strong>@_localizer["article_title"]:</strong> @Model.Title</p>
+<p><strong>@_localizer["description"]:</strong> @Model.Description</p>
+<p><strong>@_localizer["text"]:</strong> @Model.Text</p>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <input type="submit" value="Delete" class="btn btn-danger" />
+</form>

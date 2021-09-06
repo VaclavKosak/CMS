@@ -125,6 +125,16 @@ input[type="color"] {
   }
 }
 
+#editor {
+  height: 150px;
+}
+
+.row {
+  .col-md-6, .col-md-12 {
+    height: 100%;
+  }
+}
+
 // Sign in
 .form-signin {
   width: 60%;

@@ -1,0 +1,64 @@
+@using CMS.Common.Enums
+@model CMS.Models.Article.ArticleNewModel
+
+@{
+    ViewBag.Title = @_localizer["title"];
+}
+
+<form asp-action="Create" class="row g-3 needs-validation" novalidate>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <div class="col-md-12">
+        <label asp-for="Title" class="form-label">@_localizer["article_title"]</label>
+        <input asp-for="Title" class="form-control">
+        <span asp-validation-for="Title" class="invalid-feedback">@_localizer["article_title_invalid"]</span>
+    </div>
+    <div class="col-md-12">
+        <label asp-for="Description" class="form-label">@_localizer["description"]</label>
+        <input asp-for="Description" class="form-control">
+        <span asp-validation-for="Description" class="invalid-feedback">@_localizer["description_invalid"]</span>
+    </div>
+    <div class="col-md-12">
+        <label asp-for="Url" class="form-label">@_localizer["url"]</label>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="url">@ViewBag.Domain/</span>
+            <input asp-for="Url" class="form-control" aria-describedby="url">
+            <button class="btn btn-outline-secondary" type="button" id="generate_url">@_localizer["generate_url"]</button>
+        </div>
+        <span asp-validation-for="Url" class="invalid-feedback">@_localizer["url_invalid"]</span>
+    </div>
+    <div class="col-md-12">
+        <label asp-for="PublicationDateTime" class="form-label">@_localizer["public_date"]</label>
+        <input asp-for="PublicationDateTime" class="form-control">
+        <span asp-validation-for="PublicationDateTime" class="invalid-feedback">@_localizer["public_date_invalid"]</span>
+    </div>
+    <div class="col-md-12">
+        <input type="hidden" id="editor-value" asp-for="Text"/>
+        <label asp-for="Text" class="form-label">@_localizer["text"]</label>
+        <div asp-for="Text" class="form-control" id="editor"></div>
+        <span asp-validation-for="Text" class="invalid-feedback">@_localizer["text_invalid"]</span>
+    </div>
+    <div class="col-md-12">
+        <label asp-for="PageType" class="form-label">@_localizer["page_type"]</label>
+        <select asp-for="PageType" asp-items="@Html.GetEnumSelectList(typeof(PageType))" class="form-control"></select>
+        <span asp-validation-for="PageType" class="invalid-feedback">@_localizer["page_type_invalid"]</span>
+    </div>
+    <div class="col-md-12">
+        <div class="form-check">
+            <input asp-for="Draft" type="checkbox" class="form-check-input">
+            <label asp-for="Draft" class="form-check-label">@_localizer["draft"]</label>
+        </div>
+        <span asp-validation-for="Draft" class="invalid-feedback">@_localizer["draft_invalid"]</span>
+    </div>
+    
+
+    <div class="col-12">
+        <input class="btn btn-dark" type="submit" value="@_localizer["create_button"]" />
+    </div>
+</form>
+
+@section Scripts
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", () => { new web.EditorController(); });
+    </script>
+}
