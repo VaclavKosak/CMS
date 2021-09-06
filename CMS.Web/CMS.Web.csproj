@@ -104,11 +104,16 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Index.cs.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Admin\Views\Calendar\Create.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Create.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Migrations" />
       <Folder Include="Resources\Views" />
+      <Folder Include="wwwroot\upload" />
     </ItemGroup>
 
 </Project>

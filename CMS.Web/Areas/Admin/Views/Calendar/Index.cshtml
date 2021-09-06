@@ -23,10 +23,10 @@
         @foreach (var item in Model)
             {
                 <tr>
-                    <th>@item.Title</th>
-                    <th>@item.Description</th>
-                    <th>@item.DateTimeFrom</th>
-                    <th>@item.DateTimeTo</th>
+                    <th scope="row">@item.Title</th>
+                    <td>@item.Description</td>
+                    <td>@item.DateTimeFrom</td>
+                    <td>@item.DateTimeTo</td>
                     <td>
                         <a asp-action="Edit" asp-route-id="@item.Id" class="link-dark text-decoration-none me-2" title="@_localizer["edit"]">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">

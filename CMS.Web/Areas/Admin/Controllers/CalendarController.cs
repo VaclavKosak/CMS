@@ -56,19 +56,19 @@ namespace CMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 Guid id = await _calendarFacade.Create(item);
-                return RedirectToAction(nameof(Details), new { id = id});
+                return RedirectToAction(nameof(Index));
             }
             return View(item);
         }
         
-         public IActionResult Edit(Guid? id)
+         public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var item = _calendarFacade.GetById(id.Value);
+            var item = await _calendarFacade.GetById(id.Value);
             
             return View(_mapper.Map<CalendarUpdateModel>(item));
         }
@@ -92,7 +92,7 @@ namespace CMS.Web.Areas.Admin.Controllers
                 {
                     return View(item);
                 }
-                return RedirectToAction(nameof(Details), new { id = item.Id});
+                return RedirectToAction(nameof(Index));
             }
             
             return RedirectToAction(nameof(Index));
