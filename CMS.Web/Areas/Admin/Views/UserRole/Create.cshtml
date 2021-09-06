@@ -6,12 +6,12 @@
 
 <form asp-action="Create" class="row g-3 needs-validation" novalidate>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <label asp-for="UserId" class="form-label">@_localizer["user"]</label>
         <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId"></select>
         <span asp-validation-for="UserId" class="invalid-feedback">@_localizer["user_invalid"]</span>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <label asp-for="RoleId" class="form-label">@_localizer["role"]</label>
         <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>
         <span asp-validation-for="RoleId" class="invalid-feedback">@_localizer["role_invalid"]</span>
