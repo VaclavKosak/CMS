@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CMS.BL.Facades;
 using CMS.Models.Calendar;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,24 +12,20 @@ namespace CMS.Web.Areas.Admin.Controllers
     public class CalendarController : Controller
     {
         private readonly CalendarFacade _calendarFacade;
-        private readonly IWebHostEnvironment _webHostEnvironment;
         private readonly IMapper _mapper;
         
-        public CalendarController(CalendarFacade calendarFacade, IWebHostEnvironment webHostEnvironment, IMapper mapper)
+        public CalendarController(CalendarFacade calendarFacade, IMapper mapper)
         {
-            this._calendarFacade = calendarFacade;
-            this._webHostEnvironment = webHostEnvironment;
-            this._mapper = mapper;
+            _calendarFacade = calendarFacade;
+            _mapper = mapper;
         }
         
-        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var items = await _calendarFacade.GetAll();
             return View(items);
         }
-
-        [AllowAnonymous]
+        
         public async Task<IActionResult> Details(Guid? id)
         {
             if (id == null)

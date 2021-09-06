@@ -1,7 +1,10 @@
 ﻿@model CMS.Models.Calendar.CalendarDetailModel
 
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = @_localizer["title"];
 }
 
-<h2>title</h2>
+<p><strong>@_localizer["calendar_title"]:</strong> @Model.Title</p>
+<p><strong>@_localizer["description"]:</strong> @Model.Description</p>
+<p><strong>@_localizer["datetime_from"]:</strong> @Model.DateTimeFrom</p>
+<p><strong>@_localizer["datetime_to"]:</strong> @Model.DateTimeTo</p>

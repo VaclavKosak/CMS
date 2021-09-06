@@ -1,13 +1,22 @@
 ﻿@model CMS.Models.Calendar.CalendarDetailModel
 
 @{
-    ViewBag.Title = "Detail";
+    ViewBag.Title = @_localizer["title"];
 }
 
-<h2>@ViewData["Title"]</h2>
+<p><strong>@_localizer["calendar_title"]:</strong> @Model.Title</p>
+<p><strong>@_localizer["description"]:</strong> @Model.Description</p>
+<p><strong>@_localizer["datetime_from"]:</strong> @Model.DateTimeFrom</p>
+@if (Model.DateTimeTo > Model.DateTimeFrom)
+{
+    <p><strong>@_localizer["datetime_to"]:</strong> @Model.DateTimeTo</p>
+}
+else
+{
+    <p><strong>@_localizer["datetime_to"]:</strong> -</p>
+}
 
 <form asp-action="Delete">
     <input type="hidden" asp-for="Id" />
-    <input type="submit" value="Delete" class="btn btn-danger" /> |
-    <a asp-action="Index">Back to List</a>
+    <input type="submit" value="Delete" class="btn btn-danger" />
 </form>
