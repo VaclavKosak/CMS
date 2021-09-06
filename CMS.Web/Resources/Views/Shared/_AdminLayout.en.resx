@@ -36,4 +36,19 @@
     <data name="web" xml:space="preserve">
         <value>Web</value>
     </data>
+    <data name="articles" xml:space="preserve">
+        <value>Articles</value>
+    </data>
+    <data name="calendar" xml:space="preserve">
+        <value>Calendar</value>
+    </data>
+    <data name="categories" xml:space="preserve">
+        <value>Categories</value>
+    </data>
+    <data name="gallery" xml:space="preserve">
+        <value>Gallery</value>
+    </data>
+    <data name="home" xml:space="preserve">
+        <value>Home</value>
+    </data>
 </root>
