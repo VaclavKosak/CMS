@@ -11,7 +11,7 @@ namespace web {
 
         private tooltip(){
             let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+            tooltipTriggerList.forEach(function (tooltipTriggerEl:any) {
                 // @ts-ignore
                 new bootstrap.Tooltip(tooltipTriggerEl)
             });
@@ -23,8 +23,8 @@ namespace web {
 
             // Loop over them and prevent submission
             Array.prototype.slice.call(forms)
-                .forEach(function (form) {
-                    form.addEventListener('submit', function (event) {
+                .forEach(function (form:any) {
+                    form.addEventListener('submit', function (event:any) {
                         if (!form.checkValidity()) {
                             event.preventDefault()
                             event.stopPropagation()
