@@ -8,8 +8,8 @@
 <form asp-action="Create" class="row g-3 needs-validation" novalidate>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <div class="col-md-12">
-        <label asp-for="Title" class="form-label">@_localizer["article_title"]</label>
-        <input asp-for="Title" class="form-control">
+        <label asp-for="Title" class="form-label" >@_localizer["article_title"]</label>
+        <input asp-for="Title" class="form-control" id="sourceUrl">
         <span asp-validation-for="Title" class="invalid-feedback">@_localizer["article_title_invalid"]</span>
     </div>
     <div class="col-md-12">
@@ -21,7 +21,7 @@
         <label asp-for="Url" class="form-label">@_localizer["url"]</label>
         <div class="input-group mb-3">
             <span class="input-group-text" id="url">@ViewBag.Domain/</span>
-            <input asp-for="Url" class="form-control" aria-describedby="url">
+            <input asp-for="Url" class="form-control" aria-describedby="url" id="destUrl">
             <button class="btn btn-outline-secondary" type="button" id="generate_url">@_localizer["generate_url"]</button>
         </div>
         <span asp-validation-for="Url" class="invalid-feedback">@_localizer["url_invalid"]</span>
@@ -60,5 +60,6 @@
 {
     <script>
         document.addEventListener("DOMContentLoaded", () => { new web.EditorController(); });
+        document.addEventListener("DOMContentLoaded", () => { new web.UrlController("sourceUrl", "destUrl", "generate_url"); });
     </script>
 }
