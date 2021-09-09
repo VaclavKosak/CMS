@@ -45,7 +45,7 @@ namespace CMS.Web.Areas.Admin.Controllers
             return View(item);
         }
         
-         public async Task<IActionResult> Edit(Guid? id)
+        public async Task<IActionResult> Edit(Guid? id)
         {
             if (id == null)
             {
@@ -95,9 +95,9 @@ namespace CMS.Web.Areas.Admin.Controllers
         
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public IActionResult DeleteConfirmed(Guid id)
+        public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
-            _categoryFacade.Remove(id);
+            await _categoryFacade.Remove(id);
             return RedirectToAction(nameof(Index));
         }
     }
