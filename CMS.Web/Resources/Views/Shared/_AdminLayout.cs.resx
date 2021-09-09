@@ -56,4 +56,8 @@
         <value>Kategorie</value>
         <comment>categories</comment>
     </data>
+    <data name="menuitem" xml:space="preserve">
+        <value>Položky menu</value>
+        <comment>menuitem</comment>
+    </data>
 </root>

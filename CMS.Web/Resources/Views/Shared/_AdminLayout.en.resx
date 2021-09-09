@@ -51,4 +51,7 @@
     <data name="home" xml:space="preserve">
         <value>Home</value>
     </data>
+    <data name="menuitem" xml:space="preserve">
+        <value>Menu items</value>
+    </data>
 </root>

@@ -4,8 +4,7 @@ namespace CMS.Common.Enums
     {
         Article = 1,
         Category = 2,
-        Event = 3,
-        MenuItem = 4,
-        Tag = 5
+        Calendar = 3,
+        Gallery = 4
     }
 }

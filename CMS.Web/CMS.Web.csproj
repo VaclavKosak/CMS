@@ -29,6 +29,7 @@
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Views\Event\Details.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Event\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Components\MenuComponent\Default.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -151,6 +152,22 @@
       <EmbeddedResource Update="Resources\Areas\Admin\Views\Home\Index.cs.resx">
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Index.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Admin\Views\MenuItem\Index.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Index.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Admin\Views\MenuItem\Create.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Create.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Admin\Views\MenuItem\Delete.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Delete.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Admin\Views\MenuItem\Edit.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Create.cs.Designer.cs</LastGenOutput>
       </EmbeddedResource>
     </ItemGroup>
 

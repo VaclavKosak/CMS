@@ -1,0 +1,8 @@
+@model System.Collections.Generic.IList<CMS.Models.MenuItem.MenuItemListModel>
+
+@foreach (var item in Model)
+{
+    <li class="menu__item">
+        <a class="menu__item__a" href="~/@item.Url">@item.Title</a>
+    </li>
+}

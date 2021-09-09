@@ -1,10 +1,10 @@
 using System;
-using CMS.Common.Enums;
 
-namespace CMS.DAL.Entities
+namespace CMS.Models.MenuItem
 {
-    public class MenuItemEntity : EntityBase<Guid>
+    public class MenuItemUpdateModel
     {
+        public Guid Id { get; set; }
         public string Title { get; set; }
         public int Order { get; set; }
         public string Url { get; set; }

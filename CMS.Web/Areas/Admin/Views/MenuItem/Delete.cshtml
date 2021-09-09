@@ -1,0 +1,14 @@
+@model CMS.Models.MenuItem.MenuItemDetailModel
+
+@{
+    ViewBag.Title = @_localizer["title"];
+}
+
+<p><strong>@_localizer["menuitem_title"]:</strong> @Model.Title</p>
+<p><strong>@_localizer["url"]:</strong> @Model.Url</p>
+<p><strong>@_localizer["order"]:</strong> @Model.Order</p>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="Id" />
+    <input type="submit" value="Delete" class="btn btn-danger" />
+</form>
