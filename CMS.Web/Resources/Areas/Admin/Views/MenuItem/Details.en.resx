@@ -1,11 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
-
 <root>
-    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
-        <xsd:element name="root" msdata:IsDataSet="true">
-            
-        </xsd:element>
-    </xsd:schema>
     <resheader name="resmimetype">
         <value>text/microsoft-resx</value>
     </resheader>
@@ -19,35 +12,27 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="title" xml:space="preserve">
-        <value>Výpis položek menu</value>
-        <comment>title</comment>
-    </data>
-    <data name="create_button" xml:space="preserve">
-        <value>Vytvořit položku</value>
-        <comment>create_button</comment>
+        <value>List sub menu items</value>
     </data>
     <data name="menuitem_title" xml:space="preserve">
-        <value>Název</value>
+        <value>Title</value>
         <comment>menuitem_title</comment>
     </data>
     <data name="url" xml:space="preserve">
         <value>URL</value>
-        <comment>url</comment>
     </data>
     <data name="order" xml:space="preserve">
-        <value>Pořadí</value>
-        <comment>order</comment>
+        <value>Order</value>
+    </data>
+    <data name="create_button" xml:space="preserve">
+        <value>Create item</value>
     </data>
     <data name="edit" xml:space="preserve">
-        <value>Upravit</value>
+        <value>Edit</value>
         <comment>edit</comment>
     </data>
-    <data name="detail" xml:space="preserve">
-        <value>Detail</value>
-        <comment>detail</comment>
-    </data>
     <data name="delete" xml:space="preserve">
-        <value>Smazat</value>
+        <value>Delete</value>
         <comment>delete</comment>
     </data>
 </root>

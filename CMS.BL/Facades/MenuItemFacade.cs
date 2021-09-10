@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -14,6 +15,19 @@ namespace CMS.BL.Facades
         public MenuItemFacade(MenuItemRepository repository, IMapper mapper) 
             : base(repository, mapper)
         {
+        }
+        
+        public async Task<List<MenuItemListModel>> GetAll(Guid parentId)
+        {
+            return Mapper.Map<List<MenuItemListModel>>(await Repository.GetAll(parentId));
+        }
+        
+        public async Task<MenuItemDetailModel> GetDetailDataById(Guid id)
+        {
+            var entity = await Repository.GetById(id);
+            var detailData = Mapper.Map<MenuItemDetailModel>(entity);
+            detailData.MenuList = await GetAll(detailData.Id);
+            return detailData;
         }
 
         public override async Task<Guid> Create(MenuItemNewModel newModel)

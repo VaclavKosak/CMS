@@ -1,12 +1,16 @@
-@model IList<CMS.Models.MenuItem.MenuItemListModel>
+@model CMS.Models.MenuItem.MenuItemDetailModel
 
 @{
     ViewBag.Title = @_localizer["title"];
 }
 
 @section Button {
-    <a asp-action="Create" class="btn btn-dark btn-custom-big">@_localizer["create_button"]</a>
+    <a asp-action="Create" asp-route-parentId="@Model.Id" class="btn btn-dark btn-custom-big">@_localizer["create_button"]</a>
 }
+
+<div class="text-center">
+    <h1 class="display-5 fw-bold">@Model.Title</h1>
+</div>
 
 <div class="table-responsive">
     <table class="table table-bordered table-hover bg-white table-striped">
@@ -19,24 +23,24 @@
         </tr>
         </thead>
         <tbody>
-        @for (var i = 0; i < Model.Count; i++)
+        @for (var i = 0; i < Model.MenuList.Count; i++)
         {
-            var item = Model[i];
+            var item = Model.MenuList[i];
             <tr>
                 <th scope="row">@item.Title</th>
                 <th scope="row">@item.Url</th>
                 <th scope="row">
                     @if (i - 1 >= 0)
                     {
-                        <a asp-action="ChangeOrder" asp-route-firstItem="@Model[i - 1].Id" asp-route-secondItem="@item.Id" class="link-dark text-decoration-none me-2">
+                        <a asp-action="ChangeOrder" asp-route-firstItem="@Model.MenuList[i - 1].Id" asp-route-secondItem="@item.Id" class="link-dark text-decoration-none me-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up" viewBox="0 0 16 16">
                                 <path fill-rule="evenodd" d="M8 15a.5.5 0 0 0 .5-.5V2.707l3.146 3.147a.5.5 0 0 0 .708-.708l-4-4a.5.5 0 0 0-.708 0l-4 4a.5.5 0 1 0 .708.708L7.5 2.707V14.5a.5.5 0 0 0 .5.5z"/>
                             </svg>
                         </a>
                     }
-                    @if (i + 1 < Model.Count)
+                    @if (i + 1 < Model.MenuList.Count)
                     {
-                        <a asp-action="ChangeOrder" asp-route-firstItem="@item.Id" asp-route-secondItem="@Model[i + 1].Id" class="link-dark text-decoration-none me-2">
+                        <a asp-action="ChangeOrder" asp-route-firstItem="@item.Id" asp-route-secondItem="@Model.MenuList[i + 1].Id" class="link-dark text-decoration-none me-2">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down" viewBox="0 0 16 16">
                               <path fill-rule="evenodd" d="M8 1a.5.5 0 0 1 .5.5v11.793l3.146-3.147a.5.5 0 0 1 .708.708l-4 4a.5.5 0 0 1-.708 0l-4-4a.5.5 0 0 1 .708-.708L7.5 13.293V1.5A.5.5 0 0 1 8 1z"/>
                             </svg>
@@ -47,11 +51,6 @@
                     <a asp-action="Edit" asp-route-id="@item.Id" class="link-dark text-decoration-none me-2" title="@_localizer["edit"]">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
                             <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
-                        </svg>
-                    </a>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="link-dark text-decoration-none me-2" title="@_localizer["detail"]">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search me-2" viewBox="0 0 16 16">
-                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                         </svg>
                     </a>
                     <a asp-action="Delete" asp-route-id="@item.Id" class="link-dark text-decoration-none me-2" title="@_localizer["delete"]">

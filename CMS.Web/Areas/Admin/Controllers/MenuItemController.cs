@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using System.Xml.XPath;
 using AutoMapper;
 using CMS.BL.Facades;
 using CMS.Models.MenuItem;
@@ -25,14 +26,30 @@ namespace CMS.Web.Areas.Admin.Controllers
         
         public async Task<IActionResult> Index()
         {
-            var items = await _menuItemFacade.GetAll();
+            var items = await _menuItemFacade.GetAll(Guid.Empty);
             return View(items);
         }
+        
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
-        public IActionResult Create()
+            var item = await _menuItemFacade.GetDetailDataById(id.Value);
+
+            return View(item);
+        }
+
+        public IActionResult Create(Guid? parentId)
         {
             ViewBag.Domain = _configuration["Domain"];
-            return View();
+            var newModel = new MenuItemNewModel
+            {
+                ParentId = parentId ?? Guid.Empty
+            };
+            return View(newModel);
         }
         
         [HttpPost]
@@ -43,7 +60,8 @@ namespace CMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 Guid id = await _menuItemFacade.Create(item);
-                return RedirectToAction(nameof(Index));
+
+                return item.ParentId != Guid.Empty ? RedirectToAction("Details", new { id = item.ParentId }) : RedirectToAction(nameof(Index));
             }
             return View(item);
         }
@@ -109,8 +127,9 @@ namespace CMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> ChangeOrder(Guid firstItem, Guid secondItem)
         {
             await _menuItemFacade.ChangeOrder(firstItem, secondItem);
+            var item = await _menuItemFacade.GetById(firstItem);
             
-            return RedirectToAction(nameof(Index));
+            return item.ParentId != Guid.Empty ? RedirectToAction("Details", new { id = item.ParentId }) : RedirectToAction(nameof(Index));
         }
     }
 }

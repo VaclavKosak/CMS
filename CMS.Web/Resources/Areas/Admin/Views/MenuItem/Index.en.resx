@@ -27,4 +27,13 @@
     <data name="create_button" xml:space="preserve">
         <value>Create item</value>
     </data>
+    <data name="delete" xml:space="preserve">
+        <value>Delete</value>
+    </data>
+    <data name="detail" xml:space="preserve">
+        <value>Detail</value>
+    </data>
+    <data name="edit" xml:space="preserve">
+        <value>Edit</value>
+    </data>
 </root>

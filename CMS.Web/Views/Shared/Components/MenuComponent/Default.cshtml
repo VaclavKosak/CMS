@@ -2,7 +2,24 @@
 
 @foreach (var item in Model)
 {
-    <li class="menu__item">
-        <a class="menu__item__a" href="~/@item.Url">@item.Title</a>
-    </li>
+    @if (item.ParentId == Guid.Empty)
+    {
+        <li class="menu__item">
+            <a class="menu__item__a" href="~/@item.Url">@item.Title</a>
+            @if (Model.Where(f => f.ParentId == item.Id).Count() > 0)
+            {
+                <ul>
+                    @foreach (var subItem in Model)
+                    {
+                        if (subItem.ParentId == item.Id)
+                        {
+                            <li class="menu__item">
+                                <a class="menu__item__a" href="~/@subItem.Url">@subItem.Title</a>
+                            </li>
+                        }
+                    }
+                </ul>
+            }
+        </li>
+    }
 }

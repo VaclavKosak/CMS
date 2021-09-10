@@ -19,7 +19,7 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="title" xml:space="preserve">
-        <value>Výpis položek menu</value>
+        <value>Výpis položek sub menu</value>
         <comment>title</comment>
     </data>
     <data name="create_button" xml:space="preserve">
@@ -38,16 +38,10 @@
         <value>Pořadí</value>
         <comment>order</comment>
     </data>
-    <data name="edit" xml:space="preserve">
-        <value>Upravit</value>
-        <comment>edit</comment>
-    </data>
-    <data name="detail" xml:space="preserve">
-        <value>Detail</value>
-        <comment>detail</comment>
-    </data>
     <data name="delete" xml:space="preserve">
         <value>Smazat</value>
-        <comment>delete</comment>
+    </data>
+    <data name="edit" xml:space="preserve">
+        <value>Upravit</value>
     </data>
 </root>

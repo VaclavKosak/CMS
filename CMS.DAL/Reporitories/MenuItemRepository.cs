@@ -16,10 +16,19 @@ namespace CMS.DAL.Reporitories
         {
         }
         
+        public async Task<IList<MenuItemEntity>> GetAll(Guid parentId)
+        {
+            await using var context = _contextFactory();
+            return await context.Set<MenuItemEntity>()
+                .Where(m => m.ParentId == parentId)
+                .OrderBy(m => m.Order).ToListAsync();
+        }
+        
         public override async Task<IList<MenuItemEntity>> GetAll()
         {
             await using var context = _contextFactory();
-            return await context.Set<MenuItemEntity>().OrderBy(m => m.Order).ToListAsync();
+            return await context.Set<MenuItemEntity>()
+                .OrderBy(m => m.Order).ToListAsync();
         }
     }
 }

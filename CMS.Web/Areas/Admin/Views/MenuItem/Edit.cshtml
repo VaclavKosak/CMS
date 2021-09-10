@@ -8,6 +8,7 @@
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
     <input type="hidden" asp-for="Id" />
     <input type="hidden" asp-for="Order" />
+    <input type="hidden" asp-for="ParentId" />
     <div class="col-md-12">
         <label asp-for="Title" class="form-label">@_localizer["menuitem_title"]</label>
         <input asp-for="Title" class="form-control" id="sourceUrl">
