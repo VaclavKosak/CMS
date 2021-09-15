@@ -25,7 +25,9 @@
 
 $breakpoints: (
         'medium': (min-width: 800px),
+        'medium-r': (max-width: 800px),
         'large': (min-width: 1000px),
+        'large-r': (max-width: 1000px),
         'huge': (min-width: 1200px),
 );
 
@@ -47,7 +49,11 @@ html {
   height: 100%;
   width: 100%;
   display: grid;
-  grid-template-columns: 17% 83%;
+  grid-template-columns: 100%;
+  
+  @include respond-to('large'){
+    grid-template-columns: 17% 83%;
+  }
 }
 
 .bi {
@@ -58,10 +64,38 @@ html {
 
 
 
-.navigation {
-  position: sticky;
-  top: 0;
-  height: 100vh;
+.navigation {  
+  @include respond-to('large') {
+    top: 0;
+    height: 100vh;
+    position: sticky;
+  }
+  
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+
+    @include respond-to('large') {
+      button {
+        display: none;
+      }
+    }
+
+    @include respond-to('large-r') {
+      .mb-3 {
+        margin-bottom: 0!important;
+      }
+    }
+  }
+  .collapse, .navbar-collapse {
+    align-items: stretch;
+  }
+  @include respond-to('large-r') {
+    .collapse:not(.show) {
+      display: none!important;
+    }
+  }
 }
 
 .content {
