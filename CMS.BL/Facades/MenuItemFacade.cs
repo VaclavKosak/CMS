@@ -32,7 +32,18 @@ namespace CMS.BL.Facades
 
         public override async Task<Guid> Create(MenuItemNewModel newModel)
         {
-            newModel.Order = (await Repository.GetAll()).Max(m => m.Order) + 1;
+            var order = 0;
+            var items = await Repository.GetAll();
+            if (items.Count == 0)
+            {
+                order = 1;
+            }
+            else
+            {
+                order = items.Max(m => m.Order) + 1;
+            }
+
+            newModel.Order = order;
             var entity = Mapper.Map<MenuItemEntity>(newModel);
             return await Repository.Insert(entity);
         }
