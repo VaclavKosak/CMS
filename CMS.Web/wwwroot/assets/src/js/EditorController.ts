@@ -19,6 +19,7 @@ namespace web {
             let options = {
                 modules: {
                     toolbar: [
+                        [{ header: [1, 2, false] }],
                         ['bold', 'italic'],
                         ['link', 'blockquote', 'code-block'],
                         [{ list: 'ordered' }, { list: 'bullet' }]
