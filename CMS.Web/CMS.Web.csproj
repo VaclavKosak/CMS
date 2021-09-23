@@ -7,8 +7,6 @@
     <ItemGroup>
       <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
       <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-      <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="8.3.0" />
-      <PackageReference Include="Magick.NET.Core" Version="8.3.0" />
       <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.9" />
       <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.9" />
@@ -31,7 +29,6 @@
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Views\Event\Details.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Event\Index.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Components\MenuComponent\Default.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -107,6 +104,38 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Index.cs.Designer.cs</LastGenOutput>
       </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\ResetPasswordConfirmation.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ResetPasswordConfirmation.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Error.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Error.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\AccessDenied.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>AccessDenied.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\ResetPassword.en.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ResetPassword.en.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Login.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Login.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\ForgotPassword.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ForgotPassword.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\ForgotPasswordConfirmation.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ForgotPasswordConfirmation.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Logout.cs.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>Logout.cs.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
       <EmbeddedResource Update="Resources\Areas\Admin\Views\Calendar\Create.cs.resx">
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Create.cs.Designer.cs</LastGenOutput>
@@ -180,7 +209,6 @@
     <ItemGroup>
       <Folder Include="Migrations" />
       <Folder Include="Resources\Views" />
-      <Folder Include="wwwroot\upload" />
     </ItemGroup>
 
 </Project>

@@ -21,7 +21,7 @@
     <data name="register_button" xml:space="preserve">
         <value>Registrovat se</value>
     </data>
-    <data name="register" xml:space="preserve">
+    <data name="title" xml:space="preserve">
         <value>Registrovat se</value>
     </data>
     <data name="email" xml:space="preserve">

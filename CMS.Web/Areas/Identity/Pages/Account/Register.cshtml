@@ -1,12 +1,12 @@
 @page
 @model RegisterModel
 @{
-    ViewData["Title"] = "Register";
+    ViewData["Title"] = @_localizer["title"];
 }
 
 <form asp-route-returnUrl="@Model.ReturnUrl" method="post">
     <div class="row g-3">
-        <h1 class="h3 mb-3 display-6 fw-bold">@_localizer["register"]</h1>
+        <h1 class="h3 mb-3 display-6 fw-bold">@ViewData["Title"]</h1>
         <div class="col-12">
             <div asp-validation-summary="All" class="invalid-feedback"></div>
         </div>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 
 <root>
     <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
@@ -18,28 +18,43 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="register_button" xml:space="preserve">
-        <value>Register</value>
-    </data>
     <data name="title" xml:space="preserve">
-        <value>Register</value>
+        <value>Přihlášení</value>
+        <comment>title</comment>
     </data>
     <data name="email" xml:space="preserve">
         <value>Email</value>
+        <comment>email</comment>
     </data>
     <data name="email_invalid" xml:space="preserve">
-        <value>Invalid format</value>
+        <value>Nesprávný formát</value>
+        <comment>email_invalid</comment>
     </data>
     <data name="password" xml:space="preserve">
-        <value>Password</value>
+        <value>Heslo</value>
+        <comment>password</comment>
     </data>
     <data name="password_invalid" xml:space="preserve">
-        <value>Invalid format</value>
+        <value>Nesprávný formát</value>
+        <comment>password_invalid</comment>
     </data>
-    <data name="confirm_password" xml:space="preserve">
-        <value>Confirm password</value>
+    <data name="login_button" xml:space="preserve">
+        <value>Přihlásit se</value>
+        <comment>login_button</comment>
     </data>
-    <data name="confirm_password_invalid" xml:space="preserve">
-        <value>Invalid format</value>
+    <data name="forgot_password" xml:space="preserve">
+        <value>Zapomenuté heslo</value>
+        <comment>forgot_password</comment>
+    </data>
+    <data name="register" xml:space="preserve">
+        <value>Registrovat se</value>
+        <comment>register</comment>
+    </data>
+    <data name="resend_email_confirmation" xml:space="preserve">
+        <value>Znovu poslat potvrzovací email</value>
+        <comment>resend_email_confirmation</comment>
+    </data>
+    <data name="remember_me" xml:space="preserve">
+        <value>Zapamatovat si mě</value>
     </data>
 </root>

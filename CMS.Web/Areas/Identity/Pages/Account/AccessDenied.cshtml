@@ -1,10 +1,11 @@
 ﻿@page
 @model AccessDeniedModel
 @{
-    ViewData["Title"] = "Access denied";
+    ViewData["Title"] = @_localizer["title"];
 }
 
-<header>
-    <h1 class="text-danger">@ViewData["Title"]</h1>
-    <p class="text-danger">You do not have access to this resource.</p>
-</header>
+
+<div class="col-lg-6 mx-auto">
+    <h1 class="display-5 fw-bold">@ViewData["Title"]</h1>
+    <p class="lead mb-4">@_localizer["access_message"]</p>
+</div>
