@@ -228,3 +228,18 @@ input[type="color"] {
      }
   }
 }
+
+.gallery {
+  &__link {
+    max-height: 240px;
+    max-width: 500px;
+    display: inline-block;
+    margin: 5px;
+    &__image {
+      max-width: inherit;
+      max-height: inherit;
+      height: 100%;
+      width: auto;
+    }
+  }
+}

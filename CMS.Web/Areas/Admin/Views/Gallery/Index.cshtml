@@ -1,114 +1,78 @@
-@model IEnumerable<CMS.Models.Gallery.GalleryListModel>
-@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model CMS.Web.Models.GalleryViewModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = @_localizer["title"];
 }
 
-<h1>Index</h1>
+@section Button {
+    <a asp-action="Create" class="btn btn-dark btn-custom-big">@_localizer["create_button"]</a>
+}
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
+<div class="table-responsive">
+    <table class="table table-bordered table-hover bg-white table-striped">
+        <thead class="table-dark">
         <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.ParentId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Title)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PreviewImg)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Url)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DateTime)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.SortBy)
-            </th>
+            <th>@_localizer["gallery_title"]</th>
+            <th>@_localizer["description"]</th>
+            <th>@_localizer["url"]</th>
             <th></th>
         </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.ParentId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Title)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PreviewImg)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Url)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DateTime)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.SortBy)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-url="@item.Url">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        @foreach (var item in Model.GalleryList)
+            {
+                <tr>
+                    <th scope="row">@item.Title</th>
+                    <th>@item.Description</th>
+                    <th>@item.Url</th>
+                    <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id" class="link-dark text-decoration-none me-2" title="@_localizer["edit"]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
+                            </svg>
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="link-dark text-decoration-none me-2" title="@_localizer["detail"]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search me-2" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+                            </svg>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id" class="link-dark text-decoration-none me-2" title="@_localizer["delete"]">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                                <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                            </svg>
+                        </a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
 
 
-<form asp-area="Admin" asp-controller="FileUpload" asp-action="UploadLargeFile" enctype="multipart/form-data" onsubmit="AJAXSubmit(this);return false;" 
-      method="post">
-    <dl>
-        <dt>
-            <label for="FileUpload_FormFile">File</label>
-        </dt>
-        <dd>
-            <input id="FileUpload_FormFile" type="file" name="FileUpload.FormFile" multiple="multiple"/>
-        </dd>
-    </dl>
-
-    <input class="btn" type="submit" value="Upload" />
-
-    <div style="margin-top:15px">
-        <output name="result"></output>
+<h2 class="display-6 fw-bold pt-2">Nahrat fotky</h2>
+<form class="row g-3 needs-validation mb-3" asp-area="Admin" asp-controller="File" asp-action="UploadLargeFile" enctype="multipart/form-data" id="imageForm" method="post">
+    <div class="col-md-12">
+        <label asp-for="Files.FileUpload" class="form-label">@_localizer["select_file"]</label>
+        <input class="form-control" type="file" asp-for="Files.FileUpload" multiple="multiple" />
+    </div>
+    <div class="col-12">
+        <input class="btn btn-dark" type="submit" value=@_localizer["upload"] />
     </div>
 </form>
 
-<script>
-  async function AJAXSubmit (oFormElement) {
-    let resultElement = oFormElement.elements.namedItem("result");
-    const formData = new FormData(oFormElement);
+<input type="hidden" value="@ViewData["parentUrl"]" id="url"/>
 
-    try {
-    const response = await fetch(oFormElement.action, {
-      method: 'POST',
-      body: formData
-    });
-
-    if (response.ok) {
-      // window.location.href = '/';
+<div class="gallery">
+    @foreach (var item in Model.FilesPath)
+    {
+        <a href="~/@ViewData["imageFolder"]/details/@item" class="gallery__link"><img src="~/@ViewData["imageFolder"]/thumbnails/@item" alt="img" class="gallery__link__image"/></a>
     }
+</div>
 
-    resultElement.value = 'Result: ' + response.status + ' ' + 
-      response.statusText;
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  }
-</script>
+@section Scripts
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", () => { new web.GalleryController("imageForm", "url"); });
+    </script>
+}

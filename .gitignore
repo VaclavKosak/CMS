@@ -4,6 +4,7 @@ obj/
 riderModule.iml
 /_ReSharper.Caches/
 /CMS.Web/appsettings.Development.json
+/CMS.Web/appsettings.Production.json
 /.idea/
 /.vs/
 /CMS.Web/wwwroot/assets/dist/

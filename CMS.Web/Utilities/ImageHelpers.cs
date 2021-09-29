@@ -15,9 +15,7 @@ namespace CMS.Web.Utilities
 
         public static void ResizeImg(object data)
         {
-            var objectData = (ValueTuple<string, string>)data;
-            string path = objectData.Item1;
-            string fileName = objectData.Item2;
+            var (path, fileName) = (ValueTuple<string, string>)data;
             if (!Directory.Exists(path + "/thumbnails"))
             {
                 Directory.CreateDirectory(Path.Combine(path, "thumbnails"));
@@ -38,18 +36,18 @@ namespace CMS.Web.Utilities
                 if (image.Height > image.Width)
                 {
                     // Thumbnail
-                    thumbWidth = 0;
+                    thumbWidth = Convert.ToInt32(image.Width * ThumbnailSizeHeight / (double)image.Height);;
                     thumbHeight = ThumbnailSizeHeight;
                 }
                 else
                 {
                     // Thumbnail
-                    thumbWidth = DetailSizeWidth;
-                    thumbHeight = 0;
+                    thumbWidth = ThumbnailSizeWidth;
+                    thumbHeight = Convert.ToInt32(image.Height * ThumbnailSizeWidth / (double)image.Width);;
                 }
 
                 // Thumbnail
-                string thumbPath = path + "/thumbnails";
+                var thumbPath = path + "/thumbnails";
 
                 image.Resize(thumbWidth, thumbHeight);
                 //image.Strip();
