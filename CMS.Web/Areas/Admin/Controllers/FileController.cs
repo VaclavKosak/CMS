@@ -33,7 +33,7 @@ namespace CMS.Web.Areas.Admin.Controllers
             _targetFilePath = configuration.GetValue<string>("StoredFilesPath");
         }
 
-        [HttpPost("{url?}")]
+        [HttpPost("{**url}")]
         [DisableFormValueModelBinding]
         // [ValidateAntiForgeryToken]
         // [RequestSizeLimit(MaxFileSize)]

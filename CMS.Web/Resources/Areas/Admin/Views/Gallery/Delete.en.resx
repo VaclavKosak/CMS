@@ -22,44 +22,16 @@
         <value>Gallery</value>
         <comment>title</comment>
     </data>
-    <data name="create_button" xml:space="preserve">
-        <value>Create item</value>
-        <comment>create_button</comment>
-    </data>
     <data name="gallery_title" xml:space="preserve">
-        <value>Title</value>
+        <value>Gallery</value>
         <comment>gallery_title</comment>
     </data>
     <data name="description" xml:space="preserve">
         <value>Description</value>
         <comment>description</comment>
     </data>
-    <data name="url" xml:space="preserve">
-        <value>URL</value>
-        <comment>url</comment>
-    </data>
-    <data name="edit" xml:space="preserve">
-        <value>Edit</value>
-        <comment>edit</comment>
-    </data>
-    <data name="detail" xml:space="preserve">
-        <value>Detail</value>
-        <comment>detail</comment>
-    </data>
     <data name="delete" xml:space="preserve">
         <value>Delete</value>
         <comment>delete</comment>
-    </data>
-    <data name="select_file" xml:space="preserve">
-        <value>Select file for upload</value>
-        <comment>select_file</comment>
-    </data>
-    <data name="upload" xml:space="preserve">
-        <value>Upload</value>
-        <comment>upload</comment>
-    </data>
-    <data name="delete_file" xml:space="preserve">
-        <value>Delete file</value>
-        <comment>delete_file</comment>
     </data>
 </root>

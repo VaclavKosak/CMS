@@ -230,16 +230,27 @@ input[type="color"] {
 }
 
 .gallery {
-  &__link {
-    max-height: 240px;
-    max-width: 500px;
+  &__block {
     display: inline-block;
-    margin: 5px;
-    &__image {
-      max-width: inherit;
-      max-height: inherit;
-      height: 100%;
-      width: auto;
+    text-align: center;
+    &__link {
+      max-height: 240px;
+      max-width: 500px;
+      display: block;
+      margin: 5px;
+      &__image {
+        max-width: inherit;
+        max-height: inherit;
+        height: 100%;
+        width: auto;
+      }
+    }
+    &__delete {
+      color: #212529;
+      text-decoration: none;
+      &:hover {
+        color: inherit;
+      }
     }
   }
 }

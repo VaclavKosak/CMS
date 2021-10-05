@@ -2,61 +2,56 @@
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewBag.Title = @_localizer["title"];
 }
 
-<h1>Edit</h1>
-
-<h4>GalleryEntity</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="ParentId" class="control-label"></label>
-                <input asp-for="ParentId" class="form-control" />
-                <span asp-validation-for="ParentId" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Description" class="control-label"></label>
-                <input asp-for="Description" class="form-control" />
-                <span asp-validation-for="Description" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="PreviewImg" class="control-label"></label>
-                <input asp-for="PreviewImg" class="form-control" />
-                <span asp-validation-for="PreviewImg" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Url" class="control-label"></label>
-                <input asp-for="Url" class="form-control" />
-                <span asp-validation-for="Url" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="DateTime" class="control-label"></label>
-                <input asp-for="DateTime" class="form-control" />
-                <span asp-validation-for="DateTime" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="SortBy" class="control-label"></label>
-                <select asp-for="SortBy" class="form-control"></select>
-                <span asp-validation-for="SortBy" class="text-danger"></span>
-            </div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+<form asp-action="Edit" class="row g-3 needs-validation" novalidate>
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="ParentId" />
+    <div class="col-md-12">
+        <label asp-for="Title" class="form-label">@_localizer["gallery_title"]</label>
+        <input asp-for="Title" class="form-control"  id="sourceUrl">
+        <span asp-validation-for="Title" class="invalid-feedback">@_localizer["gallery_title_invalid"]</span>
     </div>
-</div>
+    <div class="col-md-12">
+        <label asp-for="Description" class="form-label">@_localizer["description"]</label>
+        <input asp-for="Description" class="form-control">
+        <span asp-validation-for="Description" class="invalid-feedback">@_localizer["description_invalid"]</span>
+    </div>
+    <div class="col-md-12">
+        <label asp-for="Url" class="form-label">@_localizer["url"]</label>
+        <div class="input-group mb-3">
+            <span class="input-group-text" id="url">@ViewBag.Domain/</span>
+            <input asp-for="Url" class="form-control" aria-describedby="url" id="destUrl">
+            <button class="btn btn-outline-secondary" type="button" id="generate_url">@_localizer["generate_url"]</button>
+        </div>
+        <span asp-validation-for="Url" class="invalid-feedback">@_localizer["url_invalid"]</span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="PreviewImg" class="form-label">@_localizer["preview_img"]</label>
+        <input asp-for="PreviewImg" class="form-control">
+        <span asp-validation-for="PreviewImg" class="invalid-feedback">@_localizer["preview_img_invalid"]</span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="DateTime" class="form-label">@_localizer["datetime"]</label>
+        <input asp-for="DateTime" class="form-control">
+        <span asp-validation-for="DateTime" class="invalid-feedback">@_localizer["datetime_invalid"]</span>
+    </div>
+    <div class="col-md-6">
+        <label asp-for="SortBy" class="form-label">@_localizer["sort_by"]</label>
+        <select asp-for="SortBy" class="form-control"></select>
+        <span asp-validation-for="SortBy" class="invalid-feedback">@_localizer["sort_by_invalid"]</span>
+    </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div class="col-12">
+        <input class="btn btn-dark" type="submit" value="@_localizer["edit_button"]" />
+    </div>
+</form>
 
+@section Scripts
+{
+    <script>
+        document.addEventListener("DOMContentLoaded", () => { new web.UrlController("sourceUrl", "destUrl", "generate_url"); });
+    </script>
+}

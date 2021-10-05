@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CMS.DAL.Entities;
@@ -43,6 +45,29 @@ namespace CMS.BL.Facades
             detailData.GalleryList = await GetAll(detailData.Id);
             detailData.ParentUrl = cleanUrl;
             return detailData;
+        }
+
+        public async Task<(string, string[])> GetParentUrl(Guid id)
+        {
+            var item = await Repository.GetById(id);
+            var urlList = new List<string>();
+            if (item == null)
+            {
+                return ("", urlList.ToArray());
+            }
+            
+            var url = item.Url;
+            urlList.Add(url);
+            while (item.ParentId != Guid.Empty)
+            {
+                item = await Repository.GetById(item.ParentId);
+                url = Path.Combine(item.Url, url);
+                urlList.Add(url);
+            }
+
+            urlList.Reverse();
+
+            return (url.Replace("\\", "/"), urlList.ToArray());
         }
     }
 }
