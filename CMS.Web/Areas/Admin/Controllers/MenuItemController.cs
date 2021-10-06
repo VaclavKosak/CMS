@@ -4,6 +4,7 @@ using System.Xml.XPath;
 using AutoMapper;
 using CMS.BL.Facades;
 using CMS.Models.MenuItem;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 namespace CMS.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Policy = "MenuItem")]
     public class MenuItemController : Controller
     {
         private readonly MenuItemFacade _menuItemFacade;

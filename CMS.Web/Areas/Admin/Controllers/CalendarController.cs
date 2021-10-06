@@ -3,12 +3,14 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CMS.BL.Facades;
 using CMS.Models.Calendar;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
 namespace CMS.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Policy = "Calendar")]
     public class CalendarController : Controller
     {
         private readonly CalendarFacade _calendarFacade;

@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CMS.Web.Areas.Admin.Controllers
 {
-    // [Authorize(Policy = "UserControls")]
     [Area("Admin")]
+    [Authorize(Policy = "UserControls")]
     public class UserController : Controller
     {
         private readonly UserFacade _userFacade;

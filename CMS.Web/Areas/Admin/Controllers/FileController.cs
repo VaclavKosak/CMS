@@ -9,11 +9,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 using CMS.Web.Filters;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CMS.Web.Areas.Admin.Controllers
 {
     [ApiController]
     [Area("Admin")]
+    [Authorize(Policy = "File")]
     [Route("[area]/[controller]/[action]")]
     [RequestFormLimits(MultipartBodyLengthLimit = long.MaxValue)]
     public class FileController : ControllerBase

@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CMS.BL.Facades;
 using CMS.Models.Article;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 namespace CMS.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Policy = "Article")]
     public class ArticleController : Controller
     {
         private readonly ArticleFacade _articleFacade;

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CMS.Web.Areas.Admin.Controllers
 {
-    // [Authorize(Policy = "UserControls")]
     [Area("Admin")]
+    [Authorize(Policy = "UserRole")]
     public class UserRoleController : Controller
     {
         private readonly UserFacade _userFacade;

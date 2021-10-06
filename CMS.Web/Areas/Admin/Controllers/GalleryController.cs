@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using CMS.BL.Facades;
 using CMS.Models.Gallery;
 using CMS.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -12,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 namespace CMS.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Policy = "Gallery")]
     [Route("[area]/[controller]")]
     public class GalleryController : Controller
     {

@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 namespace CMS.Web.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Policy = "Category")]
     public class CategoryController : Controller
     {
         private readonly CategoryFacade _categoryFacade;

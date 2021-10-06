@@ -83,7 +83,15 @@ namespace CMS.Web
             
             services.AddAuthorization(options =>
             {
-                // options.AddPolicy("", policy => policy.RequireRole("?"));
+                options.AddPolicy("Home", policy => policy.RequireRole("Admin", "Editor", "User"));
+                options.AddPolicy("Article", policy => policy.RequireRole("Admin", "Editor"));
+                options.AddPolicy("Calendar", policy => policy.RequireRole("Admin", "Editor"));
+                options.AddPolicy("Category", policy => policy.RequireRole("Admin", "Editor"));
+                options.AddPolicy("File", policy => policy.RequireRole("Admin", "Editor"));
+                options.AddPolicy("Gallery", policy => policy.RequireRole("Admin", "Editor"));
+                options.AddPolicy("MenuItem", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("UserControls", policy => policy.RequireRole("Admin"));
+                options.AddPolicy("UserRole", policy => policy.RequireRole("Admin"));
             });
 
             services.Configure<KestrelServerOptions>(options =>
