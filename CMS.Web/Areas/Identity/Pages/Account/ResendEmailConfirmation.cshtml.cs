@@ -4,13 +4,13 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
 using CMS.DAL.Entities;
+using CMS.Web.Services;
 using Microsoft.AspNetCore.Authorization;
-
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 
 namespace CMS.Web.Areas.Identity.Pages.Account
 {
@@ -19,11 +19,13 @@ namespace CMS.Web.Areas.Identity.Pages.Account
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly IConfiguration _configuration;
 
-        public ResendEmailConfirmationModel(UserManager<AppUser> userManager, IEmailSender emailSender)
+        public ResendEmailConfirmationModel(UserManager<AppUser> userManager, IEmailSender emailSender, IConfiguration configuration)
         {
             _userManager = userManager;
             _emailSender = emailSender;
+            _configuration = configuration;
         }
 
         [BindProperty]
@@ -61,6 +63,7 @@ namespace CMS.Web.Areas.Identity.Pages.Account
                 "/Account/ConfirmEmail",
                 pageHandler: null,
                 values: new { userId = userId, code = code },
+                host: _configuration["Domain"],
                 protocol: Request.Scheme);
             await _emailSender.SendEmailAsync(
                 Input.Email,

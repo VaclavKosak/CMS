@@ -2,11 +2,12 @@ using Microsoft.AspNetCore.Authorization;
 using System.Text;
 using System.Threading.Tasks;
 using CMS.DAL.Entities;
+using CMS.Web.Services;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 
 namespace CMS.Web.Areas.Identity.Pages.Account
 {
@@ -15,11 +16,13 @@ namespace CMS.Web.Areas.Identity.Pages.Account
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly IEmailSender _sender;
+        private readonly IConfiguration _configuration;
 
-        public RegisterConfirmationModel(UserManager<AppUser> userManager, IEmailSender sender)
+        public RegisterConfirmationModel(UserManager<AppUser> userManager, IEmailSender sender, IConfiguration configuration)
         {
             _userManager = userManager;
             _sender = sender;
+            _configuration = configuration;
         }
 
         public string Email { get; set; }
@@ -53,6 +56,7 @@ namespace CMS.Web.Areas.Identity.Pages.Account
                     "/Account/ConfirmEmail",
                     pageHandler: null,
                     values: new { area = "Identity", userId = userId, code = code, returnUrl = returnUrl },
+                    host: _configuration["Domain"],
                     protocol: Request.Scheme);
             }
 
