@@ -4,6 +4,7 @@ using CMS.BL.Installers;
 using CMS.DAL;
 using CMS.DAL.Entities;
 using CMS.DAL.Installers;
+using CMS.Web.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http.Features;
@@ -48,6 +49,8 @@ namespace CMS.Web
                         .AllowAnyHeader()
                         .AllowAnyMethod());
             });
+            
+            services.AddSingleton<IEmailSender, EmailSender>();
             
             services.AddIdentity<AppUser, AppRole>()
                 .AddEntityFrameworkStores<WebDataContext>()
