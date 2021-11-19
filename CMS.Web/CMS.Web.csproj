@@ -1,27 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net5.0</TargetFramework>
+        <TargetFramework>net6.0</TargetFramework>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
+      <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.2.0" />
       <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="8.1.1" />
-      <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="8.3.3" />
-      <PackageReference Include="MailKit" Version="2.15.0" />
+      <PackageReference Include="Magick.NET-Q16-AnyCPU" Version="8.4.0" />
+      <PackageReference Include="Magick.NET.Core" Version="8.4.0" />
       <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
-      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.11" />
-      <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.11" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.11" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.11">
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.0">
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
-      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.11" />
-      <PackageReference Include="Microsoft.Extensions.Hosting" Version="5.0.0" />
-      <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="5.0.2" />
-      <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
-      <PackageReference Include="System.Drawing.Common" Version="5.0.2" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.0" />
+      <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.0" />
+      <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="6.0.0" />
+      <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -32,6 +31,7 @@
     <ItemGroup>
       <_ContentIncludedByDefault Remove="Views\Event\Details.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Event\Index.cshtml" />
+      <_ContentIncludedByDefault Remove="Views\Components\MenuComponent\Default.cshtml" />
     </ItemGroup>
 
     <ItemGroup>
@@ -107,38 +107,6 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Index.cs.Designer.cs</LastGenOutput>
       </EmbeddedResource>
-      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\ResetPasswordConfirmation.cs.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>ResetPasswordConfirmation.cs.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Error.cs.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Error.cs.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\AccessDenied.cs.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>AccessDenied.cs.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\ResetPassword.en.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>ResetPassword.en.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Login.cs.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Login.cs.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\ForgotPassword.cs.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>ForgotPassword.cs.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\ForgotPasswordConfirmation.cs.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>ForgotPasswordConfirmation.cs.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-      <EmbeddedResource Update="Resources\Areas\Identity\Pages\Account\Logout.cs.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Logout.cs.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
       <EmbeddedResource Update="Resources\Areas\Admin\Views\Calendar\Create.cs.resx">
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Create.cs.Designer.cs</LastGenOutput>
@@ -207,23 +175,12 @@
         <Generator>ResXFileCodeGenerator</Generator>
         <LastGenOutput>Index.cs.Designer.cs</LastGenOutput>
       </EmbeddedResource>
-      <EmbeddedResource Update="Resources\Areas\Admin\Views\Gallery\Index.en.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Index.en.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-      <EmbeddedResource Update="Resources\Areas\Admin\Views\Gallery\Create.en.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Create.en.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-      <EmbeddedResource Update="Resources\Areas\Admin\Views\Gallery\Delete.en.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>Delete.en.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
       <Folder Include="Migrations" />
       <Folder Include="Resources\Views" />
+      <Folder Include="wwwroot\upload" />
     </ItemGroup>
 
 </Project>
