@@ -44,4 +44,8 @@
     <data name="delete_file" xml:space="preserve">
         <value>Smazat soubor</value>
     </data>
+    <data name="re_render_files" xml:space="preserve">
+        <value>Znovu vygenerovat fotky</value>
+        <comment>re_render_files</comment>
+    </data>
 </root>

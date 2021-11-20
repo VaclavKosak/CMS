@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using CMS.BL.Facades;
 using CMS.Models.Gallery;
 using CMS.Web.Models;
+using CMS.Web.Utilities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -200,6 +203,50 @@ namespace CMS.Web.Areas.Admin.Controllers
             // Redirect to back to image page
             return RedirectToAction("Details", new { url = url });
         }
+
+        [HttpGet("ReRenderImg")]
+        public IActionResult ReRenderImg(string filePath, string url)
+        {
+            var savePath = Path.Combine(_webHostEnvironment.WebRootPath, filePath);
+            
+            // Remove old files
+            var fileThumbnails = Path.Combine(savePath, "thumbnails");
+            var fileDetails = Path.Combine(savePath, "details");
+
+            if (string.IsNullOrEmpty(url))
+            {
+                url = "";
+            }
+
+            var thumbFiles = GetFilesPath(Path.Combine(url, "thumbnails"));
+            var detailFiles = GetFilesPath(Path.Combine(url, "details"));
+            
+            RemoveFiles(thumbFiles, fileThumbnails);
+            RemoveFiles(detailFiles, fileDetails);
+
+            // Generate new files
+            var files = GetFilesPath(url);
+            foreach (var file in files)
+            {
+                var imageProcess = new Thread(ImageHelpers.ResizeImg);
+                imageProcess.Start((savePath, file));
+            }
+
+            return RedirectToAction("Details", new { url = url });
+        }
+
+        private static void RemoveFiles(IEnumerable<string> files, string filePath)
+        {
+            foreach (var fileName in files)
+            {
+                var file =  new FileInfo(Path.Combine(filePath, fileName));
+                if (!file.Exists)
+                {
+                    continue;
+                }
+                file.Delete();
+            }
+        }
         
         private string[] GetFilesPath(string url)
         {
@@ -208,6 +255,12 @@ namespace CMS.Web.Areas.Admin.Controllers
             url ??= "";
 
             saveToPath = Path.Combine(saveToPath, url);
+            
+            if (!Directory.Exists(saveToPath))
+            {
+                return Array.Empty<string>();
+            } 
+            
             var files = Directory.GetFiles(saveToPath)
                 .Select(m => m.Remove(0, m.LastIndexOf('\\')+1)).ToArray();
 

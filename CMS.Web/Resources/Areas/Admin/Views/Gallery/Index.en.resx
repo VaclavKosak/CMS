@@ -62,4 +62,7 @@
         <value>Delete file</value>
         <comment>delete_file</comment>
     </data>
+    <data name="re_render_files" xml:space="preserve">
+        <value>Re render files</value>
+    </data>
 </root>
