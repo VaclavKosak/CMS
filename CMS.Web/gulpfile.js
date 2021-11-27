@@ -30,6 +30,9 @@ let paths = {
     },
     lib: {
         src: "wwwroot/assets/vendor"
+    },
+    node: {
+        src: "node_modules"
     }
 };
 
@@ -82,7 +85,8 @@ function libAdminCss() {
         paths.lib.src + '/bootstrap/scss/bootstrap-grid.scss',
         paths.lib.src + '/bootstrap/scss/bootstrap-reboot.scss',
         paths.lib.src + '/bootstrap/scss/bootstrap-utilities.scss',
-        paths.lib.src + '/quilljs/quill.snow.css'
+        paths.lib.src + '/quilljs/quill.snow.css',
+        paths.lib.src + '/quilljs/quill-resize-module/resize.css'
     ])
         .pipe(sourcemaps.init())
         .pipe(sass({ outputStyle: "expanded" }))
@@ -96,7 +100,7 @@ function libAdminCss() {
 
 function libJavascript() {
     return gulp.src([
-        paths.lib.src + '/bootstrap/js/bootstrap.bundle.min.js'
+        paths.lib.src + '/bootstrap/js/bootstrap.bundle.min.js',
     ])
         .pipe(tsProject())
         .pipe(concat('lib-bundle.js'))
@@ -110,9 +114,13 @@ function libJavascript() {
 function libAdminJavascript() {
     return gulp.src([
         paths.lib.src + '/bootstrap/js/bootstrap.bundle.min.js',
-        paths.lib.src + '/quilljs/quill.min.js'
+        paths.lib.src + '/quilljs/quill.min.js',
+        paths.lib.src + '/quilljs/quill-resize-module/resize.js',
+        // paths.lib.src + '/quilljs/quill.imageUploader.min.js',
+        // paths.lib.src + '/quilljs/quill.imageCompressor.min.js'
     ])
         .pipe(tsProject())
+        //.pipe(ts({noImplicitAny: true, out: "output.js"}))
         .pipe(concat('lib-admin-bundle.js'))
         .pipe(rename({ suffix: ".min" }))
         .pipe(sourcemaps.init({ loadMaps: true }))

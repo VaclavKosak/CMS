@@ -4,7 +4,8 @@
     "target": "ES6",
     "sourceMap": true,
     "allowJs": true,
-    "rootDir": "wwwroot/assets"
+    "rootDir": "wwwroot/assets",
+    "esModuleInterop": true
   },
   "exclude": [
     "node_modules"
