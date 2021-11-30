@@ -1,3 +1,6 @@
+// @ts-ignore
+Quill.register("modules/htmlEditButton", htmlEditButton);
+
 namespace web {
     // TODO: Support more than one editor per page
     // TODO: upload photo to folder
@@ -32,6 +35,9 @@ namespace web {
 
                         ['clean']
                     ],
+                    resize: {},
+                    htmlEditButton: { debug: true, syntax: true },
+                    
                     // Upload image to folder - ideal variant
                     // imageUploader: {
                     //     upload: (file:any) => {
@@ -58,7 +64,6 @@ namespace web {
                     //         });
                     //     }
                     // },
-                    resize: {},
                     // Compress base64 variation
                     // imageCompressor: {
                     //     quality: 0.9,
