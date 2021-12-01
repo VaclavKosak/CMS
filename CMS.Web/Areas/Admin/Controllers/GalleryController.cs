@@ -30,7 +30,7 @@ namespace CMS.Web.Areas.Admin.Controllers
             _galleryFacade = galleryFacade;
             _webHostEnvironment = webHostEnvironment;
 
-            _targetFilePath = configuration.GetValue<string>("StoredFilesPath");
+            _targetFilePath = configuration.GetValue<string>("GalleryPath");
         }
         
         [Route("")]

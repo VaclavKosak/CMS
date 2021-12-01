@@ -182,7 +182,7 @@
     <ItemGroup>
       <Folder Include="Migrations" />
       <Folder Include="Resources\Views" />
-      <Folder Include="wwwroot\upload" />
+      <Folder Include="wwwroot\gallery" />
     </ItemGroup>
 
 </Project>
