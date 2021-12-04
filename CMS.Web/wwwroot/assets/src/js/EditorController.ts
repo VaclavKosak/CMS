@@ -1,5 +1,7 @@
 // @ts-ignore
 Quill.register("modules/htmlEditButton", htmlEditButton);
+// @ts-ignore
+Quill.register("modules/imageUploader", ImageUploader);
 
 namespace web {
     // TODO: Support more than one editor per page
@@ -37,33 +39,32 @@ namespace web {
                     ],
                     resize: {},
                     htmlEditButton: { debug: true, syntax: true },
-                    
                     // Upload image to folder - ideal variant
-                    // imageUploader: {
-                    //     upload: (file:any) => {
-                    //         return new Promise((resolve:any, reject:any) => {
-                    //             const formData = new FormData();
-                    //             formData.append("image", file);
-                    //
-                    //             fetch(
-                    //                 "https://api.imgbb.com/1/upload?key=d36eb6591370ae7f9089d85875e56b22",
-                    //                 {
-                    //                     method: "POST",
-                    //                     body: formData
-                    //                 }
-                    //             )
-                    //             .then(response => response.json())
-                    //             .then(result => {
-                    //                 console.log(result);
-                    //                 resolve(result.data.url);
-                    //             })
-                    //             .catch(error => {
-                    //                 reject("Upload failed");
-                    //                 console.error("Error:", error);
-                    //             });
-                    //         });
-                    //     }
-                    // },
+                    imageUploader: {
+                        upload: (file:any) => {
+                            return new Promise((resolve:any, reject:any) => {
+                                const formData = new FormData();
+                                formData.append("image", file);
+
+                                fetch(
+                                    "/admin/File/UploadFile",
+                                    {
+                                        method: "POST",
+                                        body: formData
+                                    }
+                                )
+                                .then(response => response.json())
+                                .then(result => {
+                                    console.log(result);
+                                    resolve(result.data.url);
+                                })
+                                .catch(error => {
+                                    reject("Upload failed");
+                                    console.error("Error:", error);
+                                });
+                            });
+                        }
+                    },
                     // Compress base64 variation
                     // imageCompressor: {
                     //     quality: 0.9,

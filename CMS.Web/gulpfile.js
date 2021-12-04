@@ -118,7 +118,7 @@ function libAdminJavascript() {
         paths.lib.src + '/quilljs/quill-resize-module/resize.js',
         paths.lib.src + '/quilljs/htmlEdit/highlight.min.js',
         paths.lib.src + '/quilljs/htmlEdit/quill.htmlEditButton.min.js',
-        // paths.lib.src + '/quilljs/quill.imageUploader.min.js',
+        paths.lib.src + '/quilljs/quill.imageUploader.min.js',
         // paths.lib.src + '/quilljs/quill.imageCompressor.min.js'
     ])
         .pipe(tsProject())
