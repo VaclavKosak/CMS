@@ -283,6 +283,12 @@ namespace CMS.Web.Areas.Admin.Controllers
 
         private bool RenameFolder(string urlOld, string urlNew)
         {
+            // If old url is same as new url
+            if (urlOld == urlNew)
+            {
+                return true;
+            }
+            
             // Old folder path - old name
             var folderPathOld = Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath, urlOld);
             // New folder path - new name
