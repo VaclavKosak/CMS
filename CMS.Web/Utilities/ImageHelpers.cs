@@ -1,7 +1,6 @@
 using System;
 using System.IO;
-using System.Threading.Tasks;
-using ImageMagick;
+using SkiaSharp;
 
 namespace CMS.Web.Utilities
 {
@@ -24,70 +23,114 @@ namespace CMS.Web.Utilities
             {
                 Directory.CreateDirectory(Path.Combine(path, "details"));
             }
-           
-
-            // THUMBNAIL
-            using (var image = new MagickImage(Path.Combine(path, fileName)))
+            
+            const int quality = 75;
+            
+            using var input = File.OpenRead(Path.Combine(path, fileName));
+            using var inputStream = new SKManagedStream(input);
+            using var encodingOriginal = SKCodec.Create(inputStream);
+            using var originalBitmap = SKBitmap.Decode(encodingOriginal);
+            var original = AutoOrient(originalBitmap, encodingOriginal.EncodedOrigin);
+            
+            /*
+             * THUMBNAIL
+             */
+            int thumbWidth;
+            int thumbHeight;
+            
+            if (original.Height > original.Width)
             {
                 // Thumbnail
-                int thumbWidth;
-                int thumbHeight;
-                
-                if (image.Height > image.Width)
-                {
-                    // Thumbnail
-                    thumbWidth = Convert.ToInt32(image.Width * ThumbnailSizeHeight / (double)image.Height);;
-                    thumbHeight = ThumbnailSizeHeight;
-                }
-                else
-                {
-                    // Thumbnail
-                    thumbWidth = ThumbnailSizeWidth;
-                    thumbHeight = Convert.ToInt32(image.Height * ThumbnailSizeWidth / (double)image.Width);;
-                }
-
-                // Thumbnail
-                var thumbPath = path + "/thumbnails";
-
-                image.Resize(thumbWidth, thumbHeight);
-                //image.Strip();
-                image.Quality = 90;
-                image.ColorSpace = ColorSpace.sRGB;
-                image.Write(Path.Combine(thumbPath, fileName));
+                thumbWidth = Convert.ToInt32(original.Width * ThumbnailSizeHeight / (double)original.Height);
+                thumbHeight = ThumbnailSizeHeight;
             }
-
-            // DETAIL
-            using (var image = new MagickImage(Path.Combine(path, fileName)))
+            else
             {
-                int detailWidth;
-                int detailHeight;
-                if (image.Height > image.Width)
-                {
-                    // Detail
-                    detailWidth = 0;
-                    detailHeight = DetailSizeHeight;
-                }
-                else
-                {
-                    // Detail
-                    detailWidth = DetailSizeWidth;
-                    detailHeight = 0;
-                }
-                // If image is small than define size
-                if (image.Height < DetailSizeHeight && image.Width < DetailSizeWidth)
-                {
-                    detailWidth = image.Width;
-                    detailHeight = image.Height;
-                }
-
+                // Thumbnail
+                thumbWidth = ThumbnailSizeWidth;
+                thumbHeight = Convert.ToInt32(original.Height * ThumbnailSizeWidth / (double)original.Width);
+            }
+            
+            // Thumbnail
+            var thumbPath = Path.Combine(path, "thumbnails");
+            using var resizedToThumb = original.Resize(new SKImageInfo(thumbWidth, thumbHeight), SKFilterQuality.Medium);
+            if (resizedToThumb == null) return;
+            
+            using var thumbImage = SKImage.FromBitmap(resizedToThumb);
+            using var output = File.OpenWrite(Path.Combine(thumbPath, fileName));
+            thumbImage.Encode(SKEncodedImageFormat.Jpeg, quality).SaveTo(output);
+            
+            /*
+             * DETAIL
+             */
+            int detailWidth;
+            int detailHeight;
+            if (original.Height > original.Width)
+            {
                 // Detail
-                string detailPath = path + "/details";
-
-                image.Resize(detailWidth, detailHeight);
-                //image.Strip();
-                image.Quality = 100;
-                image.ColorSpace = ColorSpace.sRGB;
-                image.Write(Path.Combine(detailPath, fileName));
+                detailWidth = Convert.ToInt32(original.Width * DetailSizeHeight / (double)original.Height);
+                detailHeight = DetailSizeHeight;
+            }
+            else
+            {
+                // Detail
+                detailWidth = DetailSizeWidth;
+                detailHeight = Convert.ToInt32(original.Height * DetailSizeWidth / (double)original.Width);
+            }
+            // If image is small than define size
+            if (original.Height < DetailSizeHeight && original.Width < DetailSizeWidth)
+            {
+                detailWidth = original.Width;
+                detailHeight = original.Height;
+            }
+            
+            // Detail
+            var detailPath = Path.Combine(path, "details");
+            using var resizedToDetail = original.Resize(new SKImageInfo(detailWidth, detailHeight), SKFilterQuality.Medium);
+            if (resizedToDetail == null) return;
+            
+            using var detailImage = SKImage.FromBitmap(resizedToDetail);
+            using var detailOutput = File.OpenWrite(Path.Combine(detailPath, fileName));
+            detailImage.Encode(SKEncodedImageFormat.Jpeg, quality).SaveTo(detailOutput);
+        }
+        
+        private static SKBitmap AutoOrient(SKBitmap bitmap, SKEncodedOrigin origin)
+        {
+            SKBitmap rotated;
+            switch (origin)
+            {
+                case SKEncodedOrigin.BottomRight:
+                    using (var surface = new SKCanvas(bitmap))
+                    {
+                        surface.RotateDegrees(180, bitmap.Width / 2, bitmap.Height / 2);
+                        surface.DrawBitmap(bitmap.Copy(), 0, 0);
+                    }
+                    return bitmap;
+                case SKEncodedOrigin.RightTop:
+                    rotated = new SKBitmap(bitmap.Height, bitmap.Width);
+                    using (var surface = new SKCanvas(rotated))
+                    {
+                        surface.Translate(rotated.Width, 0);
+                        surface.RotateDegrees(90);
+                        surface.DrawBitmap(bitmap, 0, 0);
+                    }
+                    return rotated;
+                case SKEncodedOrigin.LeftBottom:
+                    rotated = new SKBitmap(bitmap.Height, bitmap.Width);
+                    using (var surface = new SKCanvas(rotated))
+                    {
+                        surface.Translate(0, rotated.Height);
+                        surface.RotateDegrees(270);
+                        surface.DrawBitmap(bitmap, 0, 0);
+                    }
+                    return rotated;
+                case SKEncodedOrigin.TopLeft:
+                case SKEncodedOrigin.TopRight:
+                case SKEncodedOrigin.BottomLeft:
+                case SKEncodedOrigin.LeftTop:
+                case SKEncodedOrigin.RightBottom:
+                default:
+                    return bitmap;
             }
         }
     }
