@@ -263,6 +263,15 @@ namespace CMS.Web.Areas.Admin.Controllers
             
             var files = Directory.GetFiles(saveToPath)
                 .Select(m => m.Remove(0, m.LastIndexOf('\\')+1)).ToArray();
+            
+            for (var i = 0; i < files.Length; i++)
+            {
+                var oldString = files[i];
+                if (oldString.Contains('/'))
+                {
+                    files[i] = oldString[oldString.LastIndexOf("/", StringComparison.Ordinal)..].Replace("/", "");
+                }
+            }
 
             return files;
         }
