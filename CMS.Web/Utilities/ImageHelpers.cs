@@ -28,9 +28,11 @@ namespace CMS.Web.Utilities
             
             using var input = File.OpenRead(Path.Combine(path, fileName));
             using var inputStream = new SKManagedStream(input);
-            using var encodingOriginal = SKCodec.Create(inputStream);
-            using var originalBitmap = SKBitmap.Decode(encodingOriginal);
-            var original = AutoOrient(originalBitmap, encodingOriginal.EncodedOrigin);
+            using var imgStream = new SKManagedStream(input);
+            using var skData = SKData.Create(input);
+            using var codec = SKCodec.Create(skData);
+            using var originalBitmap = SKBitmap.Decode(codec);
+            var original = AutoOrient(originalBitmap, codec.EncodedOrigin);
             
             /*
              * THUMBNAIL
