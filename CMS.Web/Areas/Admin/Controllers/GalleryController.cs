@@ -228,8 +228,9 @@ namespace CMS.Web.Areas.Admin.Controllers
             var files = GetFilesPath(url);
             foreach (var file in files)
             {
-                var imageProcess = new Thread(ImageHelpers.ResizeImg);
-                imageProcess.Start((savePath, file));
+                // var imageProcess = new Thread(ImageHelpers.ResizeImg);
+                // imageProcess.Start((savePath, file));
+                ImageHelpers.ResizeImg((savePath, file));
             }
 
             return RedirectToAction("Details", new { url = url });

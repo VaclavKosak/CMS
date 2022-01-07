@@ -163,8 +163,9 @@ namespace CMS.Web.Areas.Admin.Controllers
                         Directory.CreateDirectory(saveToPath);
                     }
 
-                    var imageProcess = new Thread(ImageHelpers.ResizeImg);
-                    imageProcess.Start((saveToPath, fileName));
+                    // var imageProcess = new Thread(ImageHelpers.ResizeImg);
+                    // imageProcess.Start((saveToPath, fileName));
+                    ImageHelpers.ResizeImg((saveToPath, fileName));
                 }
 
                 section = await reader.ReadNextSectionAsync();
