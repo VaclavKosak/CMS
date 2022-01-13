@@ -58,7 +58,7 @@ namespace CMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             await _userFacade.Remove(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { area = "Admin" });
         }
     }
 }

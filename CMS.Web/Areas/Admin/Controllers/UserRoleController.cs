@@ -100,7 +100,7 @@ namespace CMS.Web.Areas.Admin.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), "UserRole", new { area = "Admin" });
             }
             ViewData["RoleId"] = new SelectList(await _roleFacade.GetAll(), "Id", "Name", applicationUserRole.RoleId);
             ViewData["UserId"] = new SelectList(await _userFacade.GetAll(), "Id", "UserName", applicationUserRole.UserId);

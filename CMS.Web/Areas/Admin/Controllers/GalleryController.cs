@@ -95,8 +95,6 @@ namespace CMS.Web.Areas.Admin.Controllers
         {
             if (ModelState.IsValid)
             {
-                
-
                 var (parentUrl, urlTree) = await _galleryFacade.GetParentUrl(gallery.ParentId);
                 var url = Path.Combine(parentUrl, gallery.Url).Replace('\\', '/');
                 
@@ -107,7 +105,9 @@ namespace CMS.Web.Areas.Admin.Controllers
                 
                 await _galleryFacade.Create(gallery);
                 
-                return gallery.ParentId != Guid.Empty ? RedirectToAction("Details", new { url = $"{url}" }) : RedirectToAction(nameof(Index));
+                return gallery.ParentId != Guid.Empty ? 
+                    RedirectToAction("Details", new { url = url, admin="Admin" }) : 
+                    RedirectToAction(nameof(Index), new { admin="Admin" });
             }
             return View(gallery);
         }
@@ -150,7 +150,9 @@ namespace CMS.Web.Areas.Admin.Controllers
                 }
                 var updatedItem = await _galleryFacade.Update(gallery);
 
-                return gallery.ParentId != Guid.Empty ? RedirectToAction("Details", new { url = newUrl }) : RedirectToAction(nameof(Index));
+                return gallery.ParentId != Guid.Empty ? 
+                    RedirectToAction("Details", new { url = newUrl, admin="Admin" }) : 
+                    RedirectToAction(nameof(Index), new { admin="Admin" });
             }
             return View(gallery);
         }
@@ -181,7 +183,7 @@ namespace CMS.Web.Areas.Admin.Controllers
             var url = Path.Combine(parentUrl, item.Url).Replace('\\', '/');
             Directory.Delete(Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath, url));
             await _galleryFacade.Remove(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { area = "Admin" });
         }
 
         [HttpGet("RemoveFile")]
@@ -201,7 +203,7 @@ namespace CMS.Web.Areas.Admin.Controllers
             fileThumbnails.Delete();
             fileDetail.Delete();
             // Redirect to back to image page
-            return RedirectToAction("Details", new { url = url });
+            return RedirectToAction(nameof(Details), new { url = url, area="Admin" });
         }
 
         [HttpGet("ReRenderImg")]
@@ -233,7 +235,7 @@ namespace CMS.Web.Areas.Admin.Controllers
                 ImageHelpers.ResizeImg((savePath, file));
             }
 
-            return RedirectToAction("Details", new { url = url });
+            return RedirectToAction(nameof(Details), new { url = url, area="Admin" });
         }
 
         private static void RemoveFiles(IEnumerable<string> files, string filePath)

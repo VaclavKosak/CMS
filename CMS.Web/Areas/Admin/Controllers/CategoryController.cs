@@ -41,7 +41,7 @@ namespace CMS.Web.Areas.Admin.Controllers
             if (ModelState.IsValid)
             {
                 Guid id = await _categoryFacade.Create(item);
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { area = "Admin" });
             }
             return View(item);
         }
@@ -77,10 +77,10 @@ namespace CMS.Web.Areas.Admin.Controllers
                 {
                     return View(item);
                 }
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index), new { area = "Admin" });
             }
             
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { area = "Admin" });
         }
         
         public async Task<IActionResult> Delete(Guid? id)
@@ -99,7 +99,7 @@ namespace CMS.Web.Areas.Admin.Controllers
         public async Task<IActionResult> DeleteConfirmed(Guid id)
         {
             await _categoryFacade.Remove(id);
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(Index), new { area = "Admin" });
         }
     }
 }
