@@ -48,4 +48,7 @@
         <value>Znovu vygenerovat fotky</value>
         <comment>re_render_files</comment>
     </data>
+    <data name="edit_album" xml:space="preserve">
+        <value>Upravit album</value>
+    </data>
 </root>

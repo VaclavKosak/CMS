@@ -51,6 +51,8 @@
 
 <a asp-action="ReRenderImg" class="btn btn-dark" asp-route-filePath="@ViewData["imageFolder"]" asp-route-url="@ViewData["parentUrl"]">@_localizer["re_render_files"]</a>
 
+<a asp-action="Edit" class="btn btn-dark" asp-route-id="@Model.GalleryDetail.Id">@_localizer["edit_album"]</a>
+
 <h2 class="display-6 fw-bold pt-2">Nahrat fotky</h2>
 <form class="row g-3 needs-validation mb-3" asp-area="Admin" asp-controller="File" asp-action="UploadLargeFile" enctype="multipart/form-data" id="imageForm" method="post">
     <div class="col-md-12">

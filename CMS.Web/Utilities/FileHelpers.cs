@@ -5,7 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Reflection;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using CMS.Common.Enums;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.WebUtilities;
@@ -265,6 +267,76 @@ namespace CMS.Web.Utilities
                 return signatures.Any(signature => 
                     headerBytes.Take(signature.Length).SequenceEqual(signature));
             }
+        }
+        
+        public static IEnumerable<string> SortFilesByName(IEnumerable<string> list)
+        {
+            var enumerable = list as string[] ?? list.ToArray();
+            var maxLen = enumerable.Select(s => s.Length).Max();
+            char PaddingChar(string s) => char.IsDigit(s[0]) ? ' ' : char.MaxValue;
+
+            return enumerable
+                .Select(s =>
+                    new
+                    {
+                        OrgStr = s,
+                        SortStr = Regex.Replace(s, @"(\d+)|(\D+)", m => m.Value.PadLeft(maxLen, PaddingChar(m.Value)))
+                    })
+                .OrderBy(x => x.SortStr)
+                .Select(x => x.OrgStr);
+        }
+        
+        public static IEnumerable<string> SortFilesByDate(IEnumerable<string> list)
+        {
+            // TODO: Use taken time of file - not creation time
+            var enumerable = list as string[] ?? list.ToArray();
+
+            return enumerable
+                .Select(s =>
+                    new
+                    {
+                        OrgStr = s,
+                        Date = new FileInfo(s).CreationTime
+                    })
+                .OrderByDescending(x => x.Date)
+                .Select(x => x.OrgStr);
+        }
+        
+        public static string[] GetFilesFromPath(string path, string url, SortByType sortByType)
+        {
+            url ??= "";
+
+            var saveToPath = Path.Combine(path, url);
+            
+            if (!Directory.Exists(saveToPath))
+            {
+                return Array.Empty<string>();
+            } 
+            
+            // Get all files
+            var files = Directory.GetFiles(saveToPath).Select(s => s);
+
+            if (!files.Any())
+            {
+                return Array.Empty<string>();
+            }
+
+            // Filter files by
+            files = sortByType == SortByType.Name ? FileHelpers.SortFilesByName(files) : FileHelpers.SortFilesByDate(files);
+            
+            // Filtered files to array
+            var filteredFiles = files.Select(m => m.Remove(0, m.LastIndexOf('\\')+1)).ToArray();
+            
+            for (var i = 0; i < filteredFiles.Length; i++)
+            {
+                var oldString = filteredFiles[i];
+                if (oldString.Contains('/'))
+                {
+                    filteredFiles[i] = oldString[oldString.LastIndexOf("/", StringComparison.Ordinal)..].Replace("/", "");
+                }
+            }
+
+            return filteredFiles;
         }
     }
 }

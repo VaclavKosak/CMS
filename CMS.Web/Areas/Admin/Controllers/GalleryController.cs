@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using CMS.BL.Facades;
+using CMS.Common.Enums;
 using CMS.Models.Gallery;
 using CMS.Web.Models;
 using CMS.Web.Utilities;
@@ -40,10 +40,12 @@ namespace CMS.Web.Areas.Admin.Controllers
             ViewData["parentUrl"] = "";
             ViewData["imageFolder"] = _targetFilePath;
             
+            var path = Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath);
+            
             var galleryView = new GalleryViewModel()
             {
                 GalleryList = await _galleryFacade.GetAll(Guid.Empty),
-                FilesPath = GetFilesPath("")
+                FilesPath = FileHelpers.GetFilesFromPath(path, "", SortByType.Name)
             };
             return View(galleryView);
         }
@@ -67,11 +69,13 @@ namespace CMS.Web.Areas.Admin.Controllers
             ViewData["imageFolder"] = Path.Combine(_targetFilePath, parentUrl);
             ViewData["urlTree"] = urlTree;
             
+            var path = Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath);
+            
             var galleryView = new GalleryViewModel()
             {
                 GalleryDetail = gallery,
                 GalleryList = await _galleryFacade.GetAll(gallery.Id),
-                FilesPath = GetFilesPath(parentUrl)
+                FilesPath = FileHelpers.GetFilesFromPath(path, parentUrl, gallery.SortBy)
             };
 
             return View(galleryView);
@@ -219,15 +223,17 @@ namespace CMS.Web.Areas.Admin.Controllers
             {
                 url = "";
             }
-
-            var thumbFiles = GetFilesPath(Path.Combine(url, "thumbnails"));
-            var detailFiles = GetFilesPath(Path.Combine(url, "details"));
+            
+            var path = Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath);
+            
+            var thumbFiles = FileHelpers.GetFilesFromPath(path, Path.Combine(url, "thumbnails"), SortByType.Name);
+            var detailFiles = FileHelpers.GetFilesFromPath(path, Path.Combine(url, "details"), SortByType.Name);
             
             RemoveFiles(thumbFiles, fileThumbnails);
             RemoveFiles(detailFiles, fileDetails);
 
             // Generate new files
-            var files = GetFilesPath(url);
+            var files = FileHelpers.GetFilesFromPath(path, url, SortByType.Name);
             foreach (var file in files)
             {
                 // var imageProcess = new Thread(ImageHelpers.ResizeImg);
@@ -249,34 +255,6 @@ namespace CMS.Web.Areas.Admin.Controllers
                 }
                 file.Delete();
             }
-        }
-        
-        private string[] GetFilesPath(string url)
-        {
-            var saveToPath = Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath);
-
-            url ??= "";
-
-            saveToPath = Path.Combine(saveToPath, url);
-            
-            if (!Directory.Exists(saveToPath))
-            {
-                return Array.Empty<string>();
-            } 
-            
-            var files = Directory.GetFiles(saveToPath)
-                .Select(m => m.Remove(0, m.LastIndexOf('\\')+1)).ToArray();
-            
-            for (var i = 0; i < files.Length; i++)
-            {
-                var oldString = files[i];
-                if (oldString.Contains('/'))
-                {
-                    files[i] = oldString[oldString.LastIndexOf("/", StringComparison.Ordinal)..].Replace("/", "");
-                }
-            }
-
-            return files;
         }
 
         private bool CreateFolder(string url)

@@ -65,4 +65,8 @@
     <data name="re_render_files" xml:space="preserve">
         <value>Re render files</value>
     </data>
+    <data name="edit_album" xml:space="preserve">
+        <value>Edit album</value>
+        <comment>edit_album</comment>
+    </data>
 </root>
