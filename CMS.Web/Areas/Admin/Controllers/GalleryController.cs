@@ -45,7 +45,7 @@ namespace CMS.Web.Areas.Admin.Controllers
             var galleryView = new GalleryViewModel()
             {
                 GalleryList = await _galleryFacade.GetAll(Guid.Empty),
-                FilesPath = FileHelpers.GetFilesFromPath(path, "", SortByType.Name)
+                FilesPath = FileHelpers.GetImagesFromPath(path, "", SortByType.Name)
             };
             return View(galleryView);
         }
@@ -75,7 +75,7 @@ namespace CMS.Web.Areas.Admin.Controllers
             {
                 GalleryDetail = gallery,
                 GalleryList = await _galleryFacade.GetAll(gallery.Id),
-                FilesPath = FileHelpers.GetFilesFromPath(path, parentUrl, gallery.SortBy)
+                FilesPath = FileHelpers.GetImagesFromPath(path, parentUrl, gallery.SortBy)
             };
 
             return View(galleryView);
@@ -226,14 +226,14 @@ namespace CMS.Web.Areas.Admin.Controllers
             
             var path = Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath);
             
-            var thumbFiles = FileHelpers.GetFilesFromPath(path, Path.Combine(url, "thumbnails"), SortByType.Name);
-            var detailFiles = FileHelpers.GetFilesFromPath(path, Path.Combine(url, "details"), SortByType.Name);
+            var thumbFiles = FileHelpers.GetImagesFromPath(path, Path.Combine(url, "thumbnails"), SortByType.Name);
+            var detailFiles = FileHelpers.GetImagesFromPath(path, Path.Combine(url, "details"), SortByType.Name);
             
             RemoveFiles(thumbFiles, fileThumbnails);
             RemoveFiles(detailFiles, fileDetails);
 
             // Generate new files
-            var files = FileHelpers.GetFilesFromPath(path, url, SortByType.Name);
+            var files = FileHelpers.GetImagesFromPath(path, url, SortByType.Name);
             foreach (var file in files)
             {
                 // var imageProcess = new Thread(ImageHelpers.ResizeImg);

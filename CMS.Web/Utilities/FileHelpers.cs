@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -8,6 +9,7 @@ using System.Reflection;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using CMS.Common.Enums;
+using ImageMagick;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.WebUtilities;
@@ -288,7 +290,7 @@ namespace CMS.Web.Utilities
         
         public static IEnumerable<string> SortFilesByDate(IEnumerable<string> list)
         {
-            // TODO: Use taken time of file - not creation time
+            // TODO: Problem with PERFORMANCE
             var enumerable = list as string[] ?? list.ToArray();
 
             return enumerable
@@ -296,13 +298,22 @@ namespace CMS.Web.Utilities
                     new
                     {
                         OrgStr = s,
-                        Date = new FileInfo(s).CreationTime
+                        Date = DateTime.TryParseExact(
+                            new MagickImage(s).GetExifProfile()?.GetValue(ExifTag.DateTimeOriginal)?.Value,
+                            "yyyy:MM:dd HH:mm:ss", 
+                            CultureInfo.InvariantCulture,
+                            DateTimeStyles.None,
+                            out var tempDate) 
+                            ?
+                            tempDate
+                            : 
+                            DateTime.Now
                     })
-                .OrderByDescending(x => x.Date)
+                .OrderBy(x => x.Date)
                 .Select(x => x.OrgStr);
         }
         
-        public static string[] GetFilesFromPath(string path, string url, SortByType sortByType)
+        public static string[] GetImagesFromPath(string path, string url, SortByType sortByType)
         {
             url ??= "";
 
@@ -320,6 +331,9 @@ namespace CMS.Web.Utilities
             {
                 return Array.Empty<string>();
             }
+
+            var imageExtension = new string[] { ".jpg", ".png", ".gif" };
+            files = files.Where(w => imageExtension.Contains(new FileInfo(w).Extension.ToLower()));
 
             // Filter files by
             files = sortByType == SortByType.Name ? FileHelpers.SortFilesByName(files) : FileHelpers.SortFilesByDate(files);
