@@ -18,7 +18,7 @@ namespace CMS.DAL.Reporitories
         public async Task<IList<GalleryEntity>> GetAll(Guid parentId)
         {
             await using var context = _contextFactory();
-            return await context.Set<GalleryEntity>().Where(m => m.ParentId == parentId).ToListAsync();
+            return await context.Set<GalleryEntity>().Where(m => m.ParentId == parentId).OrderBy(o => o.DateTime).ToListAsync();
         }
         
         public async Task<GalleryEntity> GetByUrl(string url, Guid? parentId)
