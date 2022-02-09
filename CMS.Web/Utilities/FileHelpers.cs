@@ -273,19 +273,9 @@ namespace CMS.Web.Utilities
         
         public static IEnumerable<string> SortFilesByName(IEnumerable<string> list)
         {
-            var enumerable = list as string[] ?? list.ToArray();
-            var maxLen = enumerable.Select(s => s.Length).Max();
-            char PaddingChar(string s) => char.IsDigit(s[0]) ? ' ' : char.MaxValue;
-
-            return enumerable
-                .Select(s =>
-                    new
-                    {
-                        OrgStr = s,
-                        SortStr = Regex.Replace(s, @"(\d+)|(\D+)", m => m.Value.PadLeft(maxLen, PaddingChar(m.Value)))
-                    })
-                .OrderBy(x => x.SortStr)
-                .Select(x => x.OrgStr);
+            var items = list.ToArray();
+            Array.Sort(items, new AlphanumComparator());
+            return items;
         }
         
         public static IEnumerable<string> SortFilesByDate(IEnumerable<string> list)
