@@ -280,27 +280,9 @@ namespace CMS.Web.Utilities
         
         public static IEnumerable<string> SortFilesByDate(IEnumerable<string> list)
         {
-            // TODO: Problem with PERFORMANCE
-            var enumerable = list as string[] ?? list.ToArray();
-
-            return enumerable
-                .Select(s =>
-                    new
-                    {
-                        OrgStr = s,
-                        Date = DateTime.TryParseExact(
-                            new MagickImage(s).GetExifProfile()?.GetValue(ExifTag.DateTimeOriginal)?.Value,
-                            "yyyy:MM:dd HH:mm:ss", 
-                            CultureInfo.InvariantCulture,
-                            DateTimeStyles.None,
-                            out var tempDate) 
-                            ?
-                            tempDate
-                            : 
-                            DateTime.Now
-                    })
-                .OrderBy(x => x.Date)
-                .Select(x => x.OrgStr);
+            var items = list.ToArray();
+            Array.Sort(items, new DateComparator());
+            return items;
         }
         
         public static string[] GetImagesFromPath(string path, string url, SortByType sortByType)
