@@ -59,6 +59,11 @@
         <label asp-for="Files.FileUpload" class="form-label">@_localizer["select_file"]</label>
         <input class="form-control" type="file" asp-for="Files.FileUpload" multiple="multiple" />
     </div>
+    <div class="col-md-12">
+        <div class="progress">
+          <div class="progress-bar bg-black" id="progress-bar" role="progressbar" style="width: 0%;" aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+    </div>
     <div class="col-12">
         <input class="btn btn-dark" type="submit" value=@_localizer["upload"] />
     </div>
