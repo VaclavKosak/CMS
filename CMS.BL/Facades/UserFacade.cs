@@ -1,7 +1,7 @@
 using System;
 using AutoMapper;
 using CMS.DAL.Entities;
-using CMS.DAL.Reporitories;
+using CMS.DAL.Repositories;
 using CMS.Models.User;
 
 namespace CMS.BL.Facades

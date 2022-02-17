@@ -1,9 +1,9 @@
 ﻿using System;
 using AutoMapper;
 using CMS.DAL.Entities;
-using CMS.DAL.Reporitories.Interfaces;
+using CMS.DAL.Repositories.Interfaces;
 
-namespace CMS.DAL.Reporitories
+namespace CMS.DAL.Repositories
 {
     public class CalendarRepository : RepositoryBase<CalendarEntity, Guid>, IAppRepository<CalendarEntity, Guid>
     {

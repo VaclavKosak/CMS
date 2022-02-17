@@ -1,5 +1,5 @@
 ﻿using CMS.Common.Installers;
-using CMS.DAL.Reporitories.Interfaces;
+using CMS.DAL.Repositories.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMS.DAL.Installers

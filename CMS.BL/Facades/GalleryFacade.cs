@@ -5,7 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CMS.DAL.Entities;
-using CMS.DAL.Reporitories;
+using CMS.DAL.Repositories;
 using CMS.Models.Gallery;
 
 namespace CMS.BL.Facades

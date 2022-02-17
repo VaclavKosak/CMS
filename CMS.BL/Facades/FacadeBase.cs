@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CMS.BL.Facades.Interfaces;
 using CMS.DAL.Entities.Interfaces;
-using CMS.DAL.Reporitories;
+using CMS.DAL.Repositories;
 
 namespace CMS.BL.Facades
 {

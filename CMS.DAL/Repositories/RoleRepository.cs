@@ -1,10 +1,10 @@
 using System;
 using AutoMapper;
 using CMS.DAL.Entities;
-using CMS.DAL.Reporitories.Interfaces;
+using CMS.DAL.Repositories.Interfaces;
 using Microsoft.AspNetCore.Identity;
 
-namespace CMS.DAL.Reporitories
+namespace CMS.DAL.Repositories
 {
     public class RoleRepository : RepositoryBase<AppRole, Guid>, IAppRepository<AppRole, Guid>
     {

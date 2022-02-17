@@ -4,10 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CMS.DAL.Entities;
-using CMS.DAL.Reporitories.Interfaces;
+using CMS.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CMS.DAL.Reporitories
+namespace CMS.DAL.Repositories
 {
     public class CategoryRepository : RepositoryBase<CategoryEntity, Guid>, IAppRepository<CategoryEntity, Guid>
     {

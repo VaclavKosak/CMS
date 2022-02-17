@@ -7,7 +7,7 @@ using CMS.DAL.Entities;
 using CMS.DAL.Entities.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CMS.DAL.Reporitories
+namespace CMS.DAL.Repositories
 {
     public class RepositoryBase<TEntity, TId> 
         where TEntity : class, IEntity<TId>
