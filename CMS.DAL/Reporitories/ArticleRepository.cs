@@ -1,7 +1,11 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using AutoMapper;
 using CMS.DAL.Entities;
 using CMS.DAL.Reporitories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace CMS.DAL.Reporitories
 {
@@ -10,6 +14,45 @@ namespace CMS.DAL.Reporitories
         public ArticleRepository(Func<WebDataContext> contextFactory, IMapper mapper) 
             : base(contextFactory, mapper)
         {
+        }
+        
+        public override async Task<ArticleEntity> GetById(Guid id)
+        {
+            await using var context = _contextFactory();
+            return await context.Set<ArticleEntity>().Include(i => i.Category).AsNoTracking().FirstOrDefaultAsync(entity => entity.Id.Equals(id));
+        }
+        
+        public async Task<Guid> Update(ArticleEntity entity, IList<CategoryEntity> categoriesList)
+        {
+            await using var context = _contextFactory();
+            
+            var entityExists = await context.Article.Include(i => i.Category).FirstOrDefaultAsync(s => s.Id == entity.Id);
+            if (entityExists == null) return default;
+
+            for (var i = 0; i < context.Category.Count(); i++)
+            {
+                var category = context.Category/*.Include(i => i.Article)*/.Skip(i).First();
+                if (categoriesList.Any(i => i.Id == category.Id))
+                {
+                    if (!entityExists.Category.Any(i => i.Id == category.Id))
+                    {
+                        entityExists.Category.Add(category);
+                    }
+                }
+                else
+                {
+                    if (entityExists.Category.Any(i => i.Id == category.Id))
+                    {
+                        var categoryToRemove = entityExists.Category.Single(c => c.Id == category.Id);
+                        entityExists.Category.Remove(categoryToRemove);
+                    }
+                }
+            }
+            
+            context.Set<ArticleEntity>().Update(entityExists);
+            await context.SaveChangesAsync();
+
+            return entityExists.Id;
         }
     }
 }

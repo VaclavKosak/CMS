@@ -14,6 +14,6 @@ namespace CMS.DAL.Entities
         public bool Draft { get; set; }
         public PageType PageType { get; set; }
         
-        public ICollection<CategoryEntity> Categories { get; set; }
+        public ICollection<CategoryEntity> Category { get; set; }
     }
 }

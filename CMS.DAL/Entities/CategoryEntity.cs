@@ -7,6 +7,6 @@ namespace CMS.DAL.Entities
     {
         public string Name { get; set; }
         
-        public ICollection<ArticleEntity> Articles { get; set; }
+        public ICollection<ArticleEntity> Article { get; set; }
     }
 }

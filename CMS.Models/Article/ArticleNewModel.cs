@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using CMS.Common.Enums;
 
 namespace CMS.Models.Article
@@ -12,5 +13,7 @@ namespace CMS.Models.Article
         public string Text { get; set; }
         public bool Draft { get; set; }
         public PageType PageType { get; set; }
+        
+        public ICollection<Guid> CategoriesList { get; set; }
     }
 }

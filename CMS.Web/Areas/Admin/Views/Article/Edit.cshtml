@@ -46,6 +46,11 @@
         <span asp-validation-for="PageType" class="invalid-feedback">@_localizer["page_type_invalid"]</span>
     </div>
     <div class="col-md-12">
+        <label asp-for="CategoriesList" class="form-label">Categories</label>
+        <select asp-for="CategoriesList" asp-items="ViewBag.Category" class="form-control" multiple="multiple"></select>
+        <span asp-validation-for="CategoriesList" class="invalid-feedback">@_localizer["page_type_invalid"]</span>
+    </div>
+    <div class="col-md-12">
         <div class="form-check">
             <input asp-for="Draft" type="checkbox" class="form-check-input">
             <label asp-for="Draft" class="form-check-label">@_localizer["draft"]</label>

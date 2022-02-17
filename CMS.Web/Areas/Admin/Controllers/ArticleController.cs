@@ -1,10 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CMS.BL.Facades;
 using CMS.Models.Article;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -15,14 +18,16 @@ namespace CMS.Web.Areas.Admin.Controllers
     public class ArticleController : Controller
     {
         private readonly ArticleFacade _articleFacade;
+        private readonly CategoryFacade _categoryFacade;
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
-        
-        public ArticleController(IMapper mapper, ArticleFacade articleFacade, IConfiguration configuration)
+
+        public ArticleController(IMapper mapper, ArticleFacade articleFacade, IConfiguration configuration, CategoryFacade categoryFacade)
         {
             _mapper = mapper;
             _articleFacade = articleFacade;
             _configuration = configuration;
+            _categoryFacade = categoryFacade;
         }
         
         public async Task<IActionResult> Index()
@@ -31,8 +36,9 @@ namespace CMS.Web.Areas.Admin.Controllers
             return View(items);
         }
 
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            ViewBag.Category = new SelectList(await _categoryFacade.GetAll(), "Id", "Name");
             ViewBag.Domain = _configuration["Domain"];
             return View();
         }
@@ -47,6 +53,7 @@ namespace CMS.Web.Areas.Admin.Controllers
                 Guid id = await _articleFacade.Create(item);
                 return RedirectToAction(nameof(Index), new { area = "Admin" });
             }
+            ViewBag.Category = new SelectList(await _categoryFacade.GetAll(), "Id", "Name");
             return View(item);
         }
         
@@ -59,6 +66,10 @@ namespace CMS.Web.Areas.Admin.Controllers
             }
 
             var item = await _articleFacade.GetById(id.Value);
+            
+            var categoryListIds = item.Category.Select(categoryEntity => categoryEntity.Id).ToList();
+            
+            ViewBag.Category = new MultiSelectList(await _categoryFacade.GetAll(), "Id", "Name", categoryListIds);
             
             return View(_mapper.Map<ArticleUpdateModel>(item));
         }
