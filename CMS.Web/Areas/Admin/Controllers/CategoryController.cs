@@ -28,6 +28,18 @@ namespace CMS.Web.Areas.Admin.Controllers
             var items = await _categoryFacade.GetAll();
             return View(items);
         }
+        
+        public async Task<IActionResult> Details(Guid? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var item = await _categoryFacade.GetById(id.Value);
+
+            return View(item);
+        }
 
         public IActionResult Create()
         {

@@ -30,4 +30,8 @@
         <value>Delete</value>
         <comment>delete</comment>
     </data>
+    <data name="detail" xml:space="preserve">
+        <value>Detail</value>
+        <comment>detail</comment>
+    </data>
 </root>

@@ -10,6 +10,6 @@ namespace CMS.Models.Category
         public Guid Id { get; set; }
         public string Name { get; set; }
         
-        public ICollection<ArticleListModel> Articles { get; set; }
+        public ICollection<ArticleListModel> Article { get; set; }
     }
 }

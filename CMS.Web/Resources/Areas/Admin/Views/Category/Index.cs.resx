@@ -34,4 +34,7 @@
     <data name="name" xml:space="preserve">
         <value>Název kategorie</value>
     </data>
+    <data name="detail" xml:space="preserve">
+        <value>Detail</value>
+    </data>
 </root>
