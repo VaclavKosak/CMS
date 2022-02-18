@@ -185,7 +185,21 @@ namespace CMS.Web.Areas.Admin.Controllers
             var item = await _galleryFacade.GetById(id);
             var (parentUrl, urlTree) = await _galleryFacade.GetParentUrl(item.ParentId);
             var url = Path.Combine(parentUrl, item.Url).Replace('\\', '/');
+            
+            // Check if album have no child
+            var items = await _galleryFacade.GetAll(item.Id);
+            if (items == null || items.Count > 0)
+            {
+                return NotFound();
+            }
+            
+            // Remove all files in directory
+            ClearFolder(url, true);
+            
+            // Remove folder
             Directory.Delete(Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath, url));
+            
+            // Remove record from DB
             await _galleryFacade.Remove(id);
             return RedirectToAction(nameof(Index), new { area = "Admin" });
         }
@@ -213,35 +227,61 @@ namespace CMS.Web.Areas.Admin.Controllers
         [HttpGet("ReRenderImg")]
         public IActionResult ReRenderImg(string filePath, string url)
         {
-            var savePath = Path.Combine(_webHostEnvironment.WebRootPath, filePath);
-            
-            // Remove old files
-            var fileThumbnails = Path.Combine(savePath, "thumbnails");
-            var fileDetails = Path.Combine(savePath, "details");
-
             if (string.IsNullOrEmpty(url))
             {
                 url = "";
             }
             
+            ClearFolder(url);
+
             var path = Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath);
             
-            var thumbFiles = FileHelpers.GetImagesFromPath(path, Path.Combine(url, "thumbnails"), SortByType.Name);
-            var detailFiles = FileHelpers.GetImagesFromPath(path, Path.Combine(url, "details"), SortByType.Name);
-            
-            RemoveFiles(thumbFiles, fileThumbnails);
-            RemoveFiles(detailFiles, fileDetails);
-
             // Generate new files
             var files = FileHelpers.GetImagesFromPath(path, url, SortByType.Name);
             foreach (var file in files)
             {
                 // var imageProcess = new Thread(ImageHelpers.ResizeImg);
                 // imageProcess.Start((savePath, file));
-                ImageHelpers.ResizeImg((savePath, file));
+                ImageHelpers.ResizeImg((Path.Combine(path, url), file));
             }
 
             return RedirectToAction(nameof(Details), new { url = url, area="Admin" });
+        }
+        
+        private void ClearFolder(string url, bool withOriginal=false)
+        {
+            var path = Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath);
+            if (string.IsNullOrEmpty(url))
+            {
+                url = "";
+            }
+            
+            var fileThumbnails = Path.Combine(path, url, "thumbnails");
+            if (Directory.Exists(fileThumbnails))
+            {
+                var thumbFiles = Directory.GetFiles(fileThumbnails).Select(s => s);
+                RemoveFiles(thumbFiles, fileThumbnails);
+                Directory.Delete(fileThumbnails);
+            }
+
+            var fileDetails = Path.Combine(path, url, "details");
+            if (Directory.Exists(fileDetails))
+            {
+                var detailFiles = Directory.GetFiles(fileDetails).Select(s => s);
+                RemoveFiles(detailFiles, fileDetails);
+                Directory.Delete(fileDetails);
+            }
+
+            // Remove orginal files
+            if (withOriginal)
+            {
+                var fileOriginal = Path.Combine(path, url);
+                if (Directory.Exists(fileOriginal))
+                {
+                    var originalFiles = Directory.GetFiles(fileOriginal).Select(s => s);
+                    RemoveFiles(originalFiles, fileOriginal);
+                }
+            }
         }
 
         private static void RemoveFiles(IEnumerable<string> files, string filePath)
