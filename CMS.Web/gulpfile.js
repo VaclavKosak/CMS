@@ -1,6 +1,6 @@
 const { series, parallel } = require('gulp');
 const gulp = require('gulp');
-const sass = require('gulp-sass')
+const sass = require('gulp-sass')(require('sass'));
 const postcss = require("gulp-postcss");
 const autoprefixer = require("autoprefixer");
 const cssnano = require("cssnano");
@@ -40,7 +40,7 @@ function clean() {
     return del(['wwwroot/assets/dist']);
 }
 
-function css() {    
+function css() {
     return gulp
         .src(paths.css.src)
         .pipe(sourcemaps.init())
@@ -62,7 +62,7 @@ function javascript() {
         .pipe(terser())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(paths.js.dest));
-    
+
 }
 
 function libCss() {
