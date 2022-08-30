@@ -49,5 +49,11 @@ namespace CMS.BL.Facades
 
             return await Repository.Update(entity, categories);
         }
+        
+        public async Task<ArticleDetailModel> GetByUrl(string url)
+        {
+            var entity = await Repository.GetByUrl(url);
+            return Mapper.Map<ArticleDetailModel>(entity);
+        }
     }
 }

@@ -54,5 +54,11 @@ namespace CMS.DAL.Repositories
 
             return entityExists.Id;
         }
+        
+        public async Task<ArticleEntity> GetByUrl(string url)
+        {
+            await using var context = _contextFactory();
+            return await context.Set<ArticleEntity>().FirstOrDefaultAsync(entity => entity.Url.Equals(url));
+        }
     }
 }
