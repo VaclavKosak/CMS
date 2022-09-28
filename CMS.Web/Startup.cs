@@ -154,7 +154,7 @@ namespace CMS.Web
                 endpoints.MapControllerRoute(
                     name: "Gallery",
                     pattern: "{controller=Gallery}/{*url}",
-                    defaults: new { action = "Details" });
+                    defaults: new { action = "Details", controller = "Gallery" });
                 
                 endpoints.MapRazorPages();
             });
