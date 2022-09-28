@@ -199,6 +199,15 @@ input[type="color"] {
   font-weight: 400;
 }
 
+form {
+  .field-validation-error {
+    display: block;
+  }
+  .validation-summary-errors {
+    display: block;
+  }
+}
+
 // comp - half
 .half {
   display: grid;
