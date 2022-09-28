@@ -16,6 +16,12 @@ namespace CMS.DAL.Repositories
         {
         }
         
+        public override async Task<IList<ArticleEntity>> GetAll()
+        {
+            await using var context = _contextFactory();
+            return await context.Set<ArticleEntity>().OrderByDescending(o => o.PublicationDateTime).ToListAsync();
+        }
+        
         public override async Task<ArticleEntity> GetById(Guid id)
         {
             await using var context = _contextFactory();
