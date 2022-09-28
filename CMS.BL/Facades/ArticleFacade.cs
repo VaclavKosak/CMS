@@ -26,6 +26,7 @@ namespace CMS.BL.Facades
             var itemId = await Repository.Insert(entity);
             
             // insert category
+            newModel.CategoriesList ??= new List<Guid>();
             entity.Category = await _categoryRepository.GetAllByIds(newModel.CategoriesList.ToArray());
             await Repository.Update(entity);
             
