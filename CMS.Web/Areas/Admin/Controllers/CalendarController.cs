@@ -90,7 +90,7 @@ namespace CMS.Web.Areas.Admin.Controllers
                 }
                 return RedirectToAction(nameof(Index), new { area = "Admin" });
             }
-            return RedirectToAction(nameof(Index), new { area = "Admin" });
+            return View(item);
         }
         
         public async Task<IActionResult> Delete(Guid? id)
