@@ -25,11 +25,11 @@
                 <tr>
                     <th scope="row">@item.Title</th>
                     <td>@item.Description</td>
-                    <td>@item.DateTimeFrom</td>
+                    <td>@item.DateTimeFrom.ToString("dd.MM.yyyy HH:mm")</td>
                     <td>
                         @if (item.DateTimeTo > item.DateTimeFrom)
                         {
-                            @item.DateTimeTo
+                            @item.DateTimeTo.ToString("dd.MM.yyyy HH:mm")
                         }
                         else
                         {
