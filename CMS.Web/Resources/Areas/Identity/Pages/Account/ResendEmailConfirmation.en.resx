@@ -11,7 +11,13 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="email_subject" xml:space="preserve">
-        <value>Nothing</value>
+    <data name="email" xml:space="preserve">
+        <value>Email</value>
+    </data>
+    <data name="email_invalid" xml:space="preserve">
+        <value>Invalid email</value>
+    </data>
+    <data name="resend_button" xml:space="preserve">
+        <value>Resend</value>
     </data>
 </root>
