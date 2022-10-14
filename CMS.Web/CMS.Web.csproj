@@ -185,6 +185,7 @@
     <ItemGroup>
       <Folder Include="Migrations" />
       <Folder Include="Resources\Views" />
+      <Folder Include="wwwroot\assets\src\js\web" />
       <Folder Include="wwwroot\gallery" />
     </ItemGroup>
 

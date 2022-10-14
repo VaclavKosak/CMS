@@ -21,8 +21,13 @@ let paths = {
         dest: "wwwroot/assets/dist/css"
     },
     js: {
-        src: "wwwroot/assets/src/js/**/*.ts",
         dest: "wwwroot/assets/dist/js"
+    },
+    web_js: {
+        src: "wwwroot/assets/src/js/web/**/*.ts"
+    },
+    admin_js: {
+        src: "wwwroot/assets/src/js/admin/**/*.ts",
     },
     img: {
         src: "wwwroot/assets/src/images/**/*",
@@ -54,7 +59,7 @@ function css() {
 
 function javascript() {
     return gulp
-        .src(paths.js.src)
+        .src(paths.web_js.src)
         .pipe(tsProject())
         .pipe(concat('web-bundle.js'))
         .pipe(rename({ suffix: ".min" }))
@@ -62,7 +67,18 @@ function javascript() {
         .pipe(terser())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(paths.js.dest));
+}
 
+function adminJavascript() {
+    return gulp
+        .src(paths.admin_js.src)
+        .pipe(tsProject())
+        .pipe(concat('admin-bundle.js'))
+        .pipe(rename({ suffix: ".min" }))
+        .pipe(sourcemaps.init({ loadMaps: true }))
+        .pipe(terser())
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(paths.js.dest));
 }
 
 function libCss() {
@@ -163,5 +179,5 @@ function watch() {
 exports.images = images;
 exports.watch = watch;
 exports.css = series(css, libCss, libAdminCss);
-exports.js = series(javascript, libJavascript, libAdminJavascript);
-exports.build = series(clean, series(series(css, javascript), series(libCss, libJavascript, libAdminCss, libAdminJavascript)), images);
+exports.js = series(javascript, libJavascript, adminJavascript, libAdminJavascript);
+exports.build = series(clean, series(series(css, javascript, adminJavascript), series(libCss, libJavascript, libAdminCss, libAdminJavascript)), images);
