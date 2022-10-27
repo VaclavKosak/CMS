@@ -27,8 +27,8 @@ namespace CMS.BL.Facades
             
             // insert category
             newModel.CategoriesList ??= new List<Guid>();
-            entity.Category = await _categoryRepository.GetAllByIds(newModel.CategoriesList.ToArray());
-            await Repository.Update(entity);
+            var categories = await _categoryRepository.GetAllByIds(newModel.CategoriesList.ToArray());
+            await Repository.Update(entity, categories);
             
             return itemId;
         }
