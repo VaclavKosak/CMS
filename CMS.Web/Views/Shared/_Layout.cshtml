@@ -43,6 +43,9 @@
         &copy; 2021 - CMS.Web - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
     </div>
 </footer>
+
+@await Component.InvokeAsync("AnalyticsComponent", ViewData["special-analytics"])
+
 <script src="~/assets/dist/js/lib-bundle.min.js"></script>
 <script src="~/assets/dist/js/web-bundle.min.js" asp-append-version="true"></script>
 @await RenderSectionAsync("Scripts", required: false)
