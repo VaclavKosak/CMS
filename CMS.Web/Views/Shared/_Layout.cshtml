@@ -44,10 +44,15 @@
     </div>
 </footer>
 
-@await Component.InvokeAsync("AnalyticsComponent", ViewData["special-analytics"])
+<span data-cookiecategory="analytics">
+    @await Component.InvokeAsync("AnalyticsComponent", ViewData["special-analytics"])
+</span>
 
 <script src="~/assets/dist/js/lib-bundle.min.js"></script>
 <script src="~/assets/dist/js/web-bundle.min.js" asp-append-version="true"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", () => { new web.MainController(); });
+</script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
