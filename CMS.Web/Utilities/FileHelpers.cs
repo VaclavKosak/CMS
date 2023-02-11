@@ -304,7 +304,7 @@ namespace CMS.Web.Utilities
                 return Array.Empty<string>();
             }
 
-            var imageExtension = new string[] { ".jpg", ".png", ".gif" };
+            var imageExtension = new string[] { ".jpg", ".png", ".gif", ".webp", ".avif" };
             files = files.Where(w => imageExtension.Contains(new FileInfo(w).Extension.ToLower()));
 
             // Filter files by
