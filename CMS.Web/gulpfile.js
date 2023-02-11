@@ -83,7 +83,8 @@ function adminJavascript() {
 
 function libCss() {
     return gulp.src([
-        paths.lib.src + '/bootstrap/scss/bootstrap.scss'
+        paths.lib.src + '/bootstrap/scss/bootstrap.scss', 
+        paths.lib.src + '/cookieconsent/cookieconsent.css'
     ])
         .pipe(sourcemaps.init())
         .pipe(sass({ outputStyle: "expanded" }))
@@ -117,6 +118,7 @@ function libAdminCss() {
 function libJavascript() {
     return gulp.src([
         paths.lib.src + '/bootstrap/js/bootstrap.bundle.min.js',
+        paths.lib.src + '/cookieconsent/cookieconsent.umd.js',
     ])
         .pipe(tsProject())
         .pipe(concat('lib-bundle.js'))
