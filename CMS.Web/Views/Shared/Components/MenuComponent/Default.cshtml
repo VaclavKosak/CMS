@@ -6,7 +6,7 @@
     {
         <li class="menu__list__item">
             <a class="menu__list__item__link" href="~/@item.Url">@item.Title</a>
-            @if (Model.Where(f => f.ParentId == item.Id).Count() > 0)
+            @if (Model.Any(f => f.ParentId == item.Id))
             {
                 <ul class="menu__list__item__submenuList">
                     @foreach (var subItem in Model)
