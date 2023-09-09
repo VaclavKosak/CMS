@@ -119,7 +119,7 @@ namespace web {
                     }
                 }
             };
-
+            
             // @ts-ignore
             CookieConsent.run(config);
         }

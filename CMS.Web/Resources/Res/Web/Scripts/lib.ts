@@ -1,0 +1,1 @@
+import "./../../Vendor/cookieconsent/cookieconsent.umd";

@@ -10,8 +10,8 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] -  ADMIN</title>
-    <link rel="stylesheet" href="~/assets/dist/css/lib-admin-bundle.min.css"/>
-    <link rel="stylesheet" href="~/assets/dist/css/admin.min.css"/>
+    <link rel="stylesheet" href="~/Resources/Res/Admin/Styles/lib.css"/>
+    <link rel="stylesheet" href="~/Resources/Res/Admin/Styles/style.css"/>
 </head>
 <body>
 
@@ -147,7 +147,7 @@
                     }
                     else
                     {
-                        <img src="~/assets/dist/images/profile-img.png" alt="Profile image" width="32" height="32" class="rounded-circle me-2">
+                        <img src="~/Images/profile-img.png" alt="Profile image" width="32" height="32" class="rounded-circle me-2">
                     }
                     <strong>@UserManager.GetUserName(User)</strong>
                 </a>
@@ -220,10 +220,10 @@
 
 </main>
 
-<script src="~/assets/dist/js/lib-admin-bundle.min.js" asp-append-version="true"></script>
-<script src="~/assets/dist/js/admin-bundle.min.js" asp-append-version="true"></script>
+<script src="~/Resources/Res/Admin/Scripts/lib.js" asp-append-version="true"></script>
+<script src="~/Resources/Res/Admin/Scripts/bundle.js" asp-append-version="true"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", () => { new web.MainController(); });
+    document.addEventListener("DOMContentLoaded", () => { new admin.MainController(); });
 </script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>

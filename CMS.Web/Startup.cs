@@ -35,7 +35,7 @@ namespace CMS.Web
             services.AddControllersWithViews();
             services.AddOptions();
             
-            services.AddDbContext<WebDataContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), m => m.MigrationsAssembly("CMS.Web")), ServiceLifetime.Transient);
+            services.AddDbContext<WebDataContext>(options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"), m => m.MigrationsAssembly("CMS.Web")), ServiceLifetime.Transient);
 
             new DALInstaller().Install(services);
             new BLInstaller().Install(services);

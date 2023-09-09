@@ -3,7 +3,7 @@ Quill.register("modules/htmlEditButton", htmlEditButton);
 // @ts-ignore
 Quill.register("modules/imageUploader", ImageUploader);
 
-namespace web {
+namespace admin {
     // TODO: Support more than one editor per page
     // TODO: upload photo to folder
     export class EditorController{

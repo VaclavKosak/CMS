@@ -1,4 +1,4 @@
-namespace web {
+namespace admin {
     export class MainController{
         constructor() {
             this.init();

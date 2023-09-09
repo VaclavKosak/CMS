@@ -1,4 +1,4 @@
-namespace web  {
+namespace admin  {
     export class UrlController {
         private readonly sourceId : string;
         private readonly destId : string;

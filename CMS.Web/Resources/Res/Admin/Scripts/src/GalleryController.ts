@@ -1,4 +1,4 @@
-﻿namespace web {
+﻿namespace admin {
     export class GalleryController {
         private readonly imageFormId:string;
         private readonly urlElementId:string;
@@ -41,7 +41,7 @@
             let valueCounter = 0;
             
             for (const file of formData.getAll("Files.FileUpload")) {
-                await web.GalleryController.SendRequest(url, file).then(() => this.UpdateProgressBarValue(maxValue, valueCounter));
+                await admin.GalleryController.SendRequest(url, file).then(() => this.UpdateProgressBarValue(maxValue, valueCounter));
                 valueCounter++;
             }
 

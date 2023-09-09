@@ -10,3 +10,4 @@ riderModule.iml
 /CMS.Web/wwwroot/assets/dist/
 /CMS.Web/node_modules/
 /CMS.Web/package-lock.json
+/CMS.Web/wwwroot/Resources

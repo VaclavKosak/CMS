@@ -24,6 +24,7 @@
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="6.0.8" />
       <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.8" />
       <PackageReference Include="MimeKit" Version="3.4.0" />
+      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="6.0.2" />
       <PackageReference Include="SkiaSharp" Version="2.88.1" />
       <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.1" />
     </ItemGroup>
@@ -37,6 +38,36 @@
       <_ContentIncludedByDefault Remove="Views\Event\Details.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Event\Index.cshtml" />
       <_ContentIncludedByDefault Remove="Views\Components\MenuComponent\Default.cshtml" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\cookieconsent\cookieconsent.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\cookieconsent\cookieconsent.umd.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\quilljs\htmlEdit\highlight.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\quilljs\htmlEdit\quill.htmlEditButton.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\quilljs\image-resize.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\quilljs\quill-resize-module\resize.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\quilljs\quill-resize-module\resize.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\quilljs\quill.bubble.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\quilljs\quill.core.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\quilljs\quill.core.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\quilljs\quill.imageCompressor.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\quilljs\quill.imageUploader.min.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\quilljs\quill.imageUploader.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\quilljs\quill.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\quilljs\quill.min.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\quilljs\quill.min.js.map" />
+      <_ContentIncludedByDefault Remove="wwwroot\assets\vendor\quilljs\quill.snow.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\Resources\Res\Admin\Scripts\bundle.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\Resources\Res\Admin\Scripts\lib.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\Resources\Res\Admin\Scripts\src\EditorController.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\Resources\Res\Admin\Scripts\src\GalleryController.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\Resources\Res\Admin\Scripts\src\MainController.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\Resources\Res\Admin\Scripts\src\UrlController.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\Resources\Res\Admin\Styles\lib.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\Resources\Res\Admin\Styles\style.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\Resources\Res\Web\Scripts\bundle.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\Resources\Res\Web\Scripts\lib.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\Resources\Res\Web\Scripts\src\MainController.js" />
+      <_ContentIncludedByDefault Remove="wwwroot\Resources\Res\Web\Styles\lib.css" />
+      <_ContentIncludedByDefault Remove="wwwroot\Resources\Res\Web\Styles\style.css" />
     </ItemGroup>
 
     <ItemGroup>
@@ -184,9 +215,38 @@
 
     <ItemGroup>
       <Folder Include="Migrations" />
+      <Folder Include="Resources\Res\Vendor\" />
       <Folder Include="Resources\Views" />
+      <Folder Include="wwwroot\assets\src\images\" />
+      <Folder Include="wwwroot\assets\src\js\admin\" />
       <Folder Include="wwwroot\assets\src\js\web" />
+      <Folder Include="wwwroot\assets\vendor\" />
       <Folder Include="wwwroot\gallery" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Update="Resources\Res\Admin\Styles\style.scss">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Resources\Res\Images\login-bg-1.jpg">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Resources\Res\Images\login-bg-2.jpg">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+      <Content Update="Resources\Res\Images\profile-img.png">
+        <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+        <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+      </Content>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Include="wwwroot\Images\login-bg-1.jpg" />
+      <None Include="wwwroot\Images\login-bg-2.jpg" />
+      <None Include="wwwroot\Images\profile-img.png" />
     </ItemGroup>
 
 </Project>
