@@ -1,13 +1,16 @@
-import Quill from "quill";
+import Quill from 'quill';
+import ImageUploader from "quill-image-uploader";
+
+import 'quill-image-uploader/dist/quill.imageUploader.min.css';
+Quill.register("modules/imageUploader", ImageUploader);
 
 namespace admin {
     // TODO: Support more than one editor per page
     // TODO: upload photo to folder
-    export class EditorController extends HTMLElement{
+    export class EditorController {
         private editor: Quill;
 
         constructor() {
-            super();
             this.init();
 
             document.querySelectorAll("input[type=submit]")[0]
@@ -32,7 +35,7 @@ namespace admin {
 
                         ['clean']
                     ],
-                    resize: {},
+                    //resize: {},
                     //htmlEditButton: { debug: true, syntax: true },
                     // Upload image to folder - ideal variant
                     //imageUploader: {
