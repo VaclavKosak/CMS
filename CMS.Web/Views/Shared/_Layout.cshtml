@@ -49,11 +49,8 @@
 </span>
 
 <script src="~/Resources/Res/Web/Scripts/lib.js" asp-append-version="true"></script>
-<script src="~/Resources/Res/Web/Scripts/bundle.js" asp-append-version="true"></script>
+<script src="~/Resources/Res/Web/Scripts/src/MainController.js" asp-append-version="true"></script>
 
-<script>
-    document.addEventListener("DOMContentLoaded", () => { new web.MainController(); });
-</script>
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

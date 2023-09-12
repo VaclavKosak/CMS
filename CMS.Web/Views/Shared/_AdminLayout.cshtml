@@ -220,11 +220,8 @@
 
 </main>
 
-<script src="~/Resources/Res/Admin/Scripts/lib.js" asp-append-version="true"></script>
-<script src="~/Resources/Res/Admin/Scripts/bundle.js" asp-append-version="true"></script>
-<script>
-    document.addEventListener("DOMContentLoaded", () => { new admin.MainController(); });
-</script>
+<script src="~/Resources/Res/Admin/Scripts/src/MainController.js" asp-append-version="true"></script>
+
 @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

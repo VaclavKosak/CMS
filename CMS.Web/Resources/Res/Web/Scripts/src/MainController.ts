@@ -125,3 +125,4 @@ namespace web {
         }
     }
 }
+new web.MainController();

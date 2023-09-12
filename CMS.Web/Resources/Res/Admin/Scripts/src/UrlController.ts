@@ -58,3 +58,4 @@ namespace admin  {
         }
     }
 }
+new admin.UrlController("sourceUrl", "destUrl", "generate_url");

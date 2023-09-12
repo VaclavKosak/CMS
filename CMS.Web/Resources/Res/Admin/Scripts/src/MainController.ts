@@ -1,3 +1,4 @@
+import * as bootstrap from 'bootstrap';
 namespace admin {
     export class MainController{
         constructor() {
@@ -11,8 +12,7 @@ namespace admin {
 
         private tooltip(){
             let tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-            tooltipTriggerList.forEach(function (tooltipTriggerEl:any) {
-                // @ts-ignore
+            tooltipTriggerList.forEach(function (tooltipTriggerEl:HTMLElement) {
                 new bootstrap.Tooltip(tooltipTriggerEl)
             });
         }
@@ -35,3 +35,4 @@ namespace admin {
         }
     }
 }
+new admin.MainController();

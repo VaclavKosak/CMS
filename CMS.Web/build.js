@@ -88,7 +88,7 @@ async function main(inputPaths) {
                 ],
                 sourcemap: false,
                 treeShaking: false,
-                minify: false,
+                minify: true,
                 mangleProps: /^_/,
                 plugins: [
                     sassPlugin({

@@ -75,3 +75,4 @@
         }
     }
 }
+new admin.GalleryController("imageForm", "url");
