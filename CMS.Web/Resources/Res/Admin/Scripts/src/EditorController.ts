@@ -1,13 +1,11 @@
-import Quill from 'quill';
-import ImageUploader from "quill-image-uploader";
+import '../../../Vendor/quilljs/quill.imageUploader.min'
 
-import 'quill-image-uploader/dist/quill.imageUploader.min.css';
+// @ts-ignore
 Quill.register("modules/imageUploader", ImageUploader);
 
 namespace admin {
-    // TODO: Support more than one editor per page
-    // TODO: upload photo to folder
     export class EditorController {
+        //@ts-ignore
         private editor: Quill;
 
         constructor() {
@@ -38,32 +36,31 @@ namespace admin {
                     //resize: {},
                     //htmlEditButton: { debug: true, syntax: true },
                     // Upload image to folder - ideal variant
-                    //imageUploader: {
-                    //    upload: (file:any) => {
-                    //        return new Promise((resolve:any, reject:any) => {
-                    //            const formData = new FormData();
-                    //            formData.append("image", file);
+                    imageUploader: {
+                       upload: (file:any) => {
+                           return new Promise((resolve:any, reject:any) => {
+                               const formData = new FormData();
+                               formData.append("image", file);
 
-                    //            fetch(
-                    //                "/admin/File/UploadFile",
-                    //                {
-                    //                    method: "POST",
-                    //                    body: formData
-                    //                }
-                    //            )
-                    //                .then(response => response.json())
-                    //                .then(result => {
-                    //                    console.log(result);
-                    //                    resolve(result.data.url);
-                    //                })
-                    //                .catch(error => {
-                    //                    reject("Upload failed");
-                    //                    console.error("Error:", error);
-                    //                });
-                    //            });
-                    //        }
-                    //    },
-                    //},
+                               fetch(
+                                   "/admin/File/UploadFile",
+                                   {
+                                       method: "POST",
+                                       body: formData
+                                   }
+                               )
+                                   .then(response => response.json())
+                                   .then(result => {
+                                       console.log(result);
+                                       resolve(result.data.url);
+                                   })
+                                   .catch(error => {
+                                       reject("Upload failed");
+                                       console.error("Error:", error);
+                                   });
+                               });
+                           }
+                       },
                     // Compress base64 variation
                     // imageCompressor: {
                     //     quality: 0.9,
@@ -78,6 +75,7 @@ namespace admin {
                 placeholder: '...',
                 theme: 'snow'
             }
+            //@ts-ignore
             this.editor = new Quill('#editor', options);
         }
 
