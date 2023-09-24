@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CMS.BL.Facades;
 using CMS.Models.Article;
+using CMS.Web.Areas.Admin.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -34,6 +35,32 @@ namespace CMS.Web.Areas.Admin.Controllers
         {
             var items = await _articleFacade.GetAll();
             return View(items);
+        }
+        
+        public async Task<IActionResult> PageParts()
+        {
+            var pageParts = new PagePartsViewModel();
+            pageParts.Parts = new List<PagePartsItemModel>()
+            {
+                new()
+                {
+                    PartName = "ABC",
+                    Articles = new List<ArticleDetailModel>()
+                    {
+                        //await _articleFacade.GetByUrl("abc-art"), 
+                    }
+                },
+                new()
+                {
+                    PartName = "DEF",
+                    Articles = new List<ArticleDetailModel>()
+                    {
+                        //await _articleFacade.GetByUrl("def-art"), 
+                    }
+                }
+            };
+
+            return View(pageParts);
         }
 
         public async Task<IActionResult> Create()
