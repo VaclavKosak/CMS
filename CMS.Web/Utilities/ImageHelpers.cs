@@ -28,7 +28,7 @@ namespace CMS.Web.Utilities
             const int thumbnailQuality = 75;
             const int detailQuality = 90;
             
-            var thumbnailImageFormat = SKEncodedImageFormat.Jpeg;
+            var thumbnailImageFormat = SKEncodedImageFormat.Webp;
             var detailImageFormat = SKEncodedImageFormat.Webp;
             var exportFileName = fileName.Split('.').First();
             
