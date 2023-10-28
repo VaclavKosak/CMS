@@ -45,7 +45,7 @@ namespace CMS.Web.Areas.Admin.Controllers
             var galleryView = new GalleryViewModel()
             {
                 GalleryList = await _galleryFacade.GetAll(Guid.Empty),
-                FilesPath = FileHelpers.GetImagesFromPath(path, "", SortByType.Name)
+                FilesPath = FileHelpers.GetImagesFiles(path, "", SortByType.Name)
             };
             return View(galleryView);
         }
@@ -75,7 +75,7 @@ namespace CMS.Web.Areas.Admin.Controllers
             {
                 GalleryDetail = gallery,
                 GalleryList = await _galleryFacade.GetAll(gallery.Id),
-                FilesPath = FileHelpers.GetImagesFromPath(path, parentUrl, gallery.SortBy)
+                FilesPath = FileHelpers.GetImagesFiles(path, parentUrl, gallery.SortBy)
             };
 
             return View(galleryView);

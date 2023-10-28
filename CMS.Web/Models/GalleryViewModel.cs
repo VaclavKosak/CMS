@@ -8,6 +8,6 @@ namespace CMS.Web.Models
         public IEnumerable<GalleryListModel> GalleryList { get; set; }
         public GalleryDetailModel GalleryDetail { get; set; } 
         public FileUploadModel Files { get; set; }
-        public string[] FilesPath { get; set; }
+        public List<(string, string, string)> FilesPath { get; set; }
     }
 }

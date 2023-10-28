@@ -73,8 +73,8 @@
     @foreach (var item in Model.FilesPath)
     {
         <div class="gallery__block">
-            <a href="~/@ViewData["imageFolder"]/details/@item" class="gallery__block__link"><img src="~/@ViewData["imageFolder"]/thumbnails/@item" alt="img" class="gallery__block__link__image"/></a>
-            <a class="gallery__block__delete" asp-action="RemoveFile" asp-route-filePath="@ViewData["imageFolder"]" asp-route-url="@ViewData["parentUrl"]" asp-route-fileName="@item">@_localizer["delete_file"]</a>
+            <a href="~/@ViewData["imageFolder"]/details/@item.Item2" class="gallery__block__link"><img src="~/@ViewData["imageFolder"]/thumbnails/@item.Item3" alt="img" class="gallery__block__link__image"/></a>
+            <a class="gallery__block__delete" asp-action="RemoveFile" asp-route-filePath="@ViewData["imageFolder"]" asp-route-url="@ViewData["parentUrl"]" asp-route-fileName="@item.Item1">@_localizer["delete_file"]</a>
         </div>
     }
 </div>
