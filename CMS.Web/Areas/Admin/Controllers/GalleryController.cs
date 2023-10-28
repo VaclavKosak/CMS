@@ -45,7 +45,7 @@ namespace CMS.Web.Areas.Admin.Controllers
             var galleryView = new GalleryViewModel()
             {
                 GalleryList = await _galleryFacade.GetAll(Guid.Empty),
-                FilesPath = FileHelpers.GetImagesFromPath(path, "", SortByType.Name)
+                FilesPath = FileHelpers.GetImagesFiles(path, "", SortByType.Name)
             };
             return View(galleryView);
         }
@@ -75,7 +75,7 @@ namespace CMS.Web.Areas.Admin.Controllers
             {
                 GalleryDetail = gallery,
                 GalleryList = await _galleryFacade.GetAll(gallery.Id),
-                FilesPath = FileHelpers.GetImagesFromPath(path, parentUrl, gallery.SortBy)
+                FilesPath = FileHelpers.GetImagesFiles(path, parentUrl, gallery.SortBy)
             };
 
             return View(galleryView);
@@ -205,12 +205,12 @@ namespace CMS.Web.Areas.Admin.Controllers
         }
 
         [HttpGet("RemoveFile")]
-        public IActionResult RemoveFile(string filePath, string url, string fileName)
+        public IActionResult RemoveFile(string filePath, string url, string fileName, string thumbnailFileName, string detailFileName)
         {
             // Load all files for detele
             var file = new FileInfo(Path.Combine(_webHostEnvironment.WebRootPath, filePath, fileName));
-            var fileThumbnails = new FileInfo(Path.Combine(_webHostEnvironment.WebRootPath, filePath, "thumbnails", fileName));
-            var fileDetail = new FileInfo(Path.Combine(_webHostEnvironment.WebRootPath, filePath, "details", fileName));
+            var fileThumbnails = new FileInfo(Path.Combine(_webHostEnvironment.WebRootPath, filePath, "thumbnails", thumbnailFileName));
+            var fileDetail = new FileInfo(Path.Combine(_webHostEnvironment.WebRootPath, filePath, "details", detailFileName));
             // Check if all files exists
             if (!file.Exists || !fileThumbnails.Exists || !fileDetail.Exists)
             {

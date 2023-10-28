@@ -304,7 +304,7 @@ namespace CMS.Web.Utilities
                 return Array.Empty<string>();
             }
 
-            var imageExtension = new string[] { ".jpg", ".png", ".gif", ".webp", ".avif" };
+            var imageExtension = new string[] { ".jpg", ".png", ".gif", ".webp", ".avif", ".jpeg" };
             files = files.Where(w => imageExtension.Contains(new FileInfo(w).Extension.ToLower()));
 
             // Filter files by
@@ -323,6 +323,34 @@ namespace CMS.Web.Utilities
             }
 
             return filteredFiles;
+        }
+
+        public static List<(string, string, string)> GetImagesFiles(string path, string url, SortByType sortByType)
+        {
+            var images = GetImagesFromPath(path, url, sortByType);
+            Dictionary<string, (string, string, string)> imagesFiles = new Dictionary<string, (string, string, string)>();
+            foreach (var image in images)
+            {
+                imagesFiles.Add(image.Split('.').First(), (image, "", ""));
+            }
+            
+            var detailImages = GetImagesFromPath(path + "/details", url, sortByType);
+            foreach (var image in detailImages)
+            {
+                var key = image.Split('.').First();
+                var row = imagesFiles[key];
+                imagesFiles[key] = (row.Item1, image, "");
+            }
+            
+            var thumbnailImages = GetImagesFromPath(path + "/thumbnails", url, sortByType);
+            foreach (var image in thumbnailImages)
+            {
+                var key = image.Split('.').First();
+                var row = imagesFiles[key];
+                imagesFiles[key] = (row.Item1, row.Item2, image);
+            }
+            
+            return imagesFiles.Values.ToList();
         }
     }
 }
