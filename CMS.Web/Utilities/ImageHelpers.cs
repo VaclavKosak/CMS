@@ -1,13 +1,14 @@
 using System;
 using System.IO;
+using System.Linq;
 using SkiaSharp;
 
 namespace CMS.Web.Utilities
 {
     public static class ImageHelpers
     {
-        private const int DetailSizeWidth = 1280; // width
-        private const int DetailSizeHeight = 1024; // height
+        private const int DetailSizeWidth = 2048; // width
+        private const int DetailSizeHeight = 1536; // height
 
         private const int ThumbnailSizeWidth = 320; // width
         private const int ThumbnailSizeHeight = 240; // height
@@ -24,7 +25,12 @@ namespace CMS.Web.Utilities
                 Directory.CreateDirectory(Path.Combine(path, "details"));
             }
             
-            const int quality = 75;
+            const int thumbnailQuality = 75;
+            const int detailQuality = 90;
+            
+            var thumbnailImageFormat = SKEncodedImageFormat.Jpeg;
+            var detailImageFormat = SKEncodedImageFormat.Webp;
+            var exportFileName = fileName.Split('.').First();
             
             using var input = File.OpenRead(Path.Combine(path, fileName));
             using var inputStream = new SKManagedStream(input);
@@ -59,8 +65,8 @@ namespace CMS.Web.Utilities
             if (resizedToThumb == null) return;
             
             using var thumbImage = SKImage.FromBitmap(resizedToThumb);
-            using var output = File.OpenWrite(Path.Combine(thumbPath, fileName));
-            thumbImage.Encode(SKEncodedImageFormat.Jpeg, quality).SaveTo(output);
+            using var output = File.OpenWrite(Path.Combine(thumbPath, exportFileName + "." + thumbnailImageFormat.ToString().ToLower()));
+            thumbImage.Encode(thumbnailImageFormat, thumbnailQuality).SaveTo(output);
             
             /*
              * DETAIL
@@ -88,12 +94,12 @@ namespace CMS.Web.Utilities
             
             // Detail
             var detailPath = Path.Combine(path, "details");
-            using var resizedToDetail = original.Resize(new SKImageInfo(detailWidth, detailHeight), SKFilterQuality.Medium);
+            using var resizedToDetail = original.Resize(new SKImageInfo(detailWidth, detailHeight), SKFilterQuality.High);
             if (resizedToDetail == null) return;
             
             using var detailImage = SKImage.FromBitmap(resizedToDetail);
-            using var detailOutput = File.OpenWrite(Path.Combine(detailPath, fileName));
-            detailImage.Encode(SKEncodedImageFormat.Jpeg, quality).SaveTo(detailOutput);
+            using var detailOutput = File.OpenWrite(Path.Combine(detailPath, exportFileName + "." + detailImageFormat.ToString().ToLower()));
+            detailImage.Encode(detailImageFormat, detailQuality).SaveTo(detailOutput);
         }
         
         private static SKBitmap AutoOrient(SKBitmap bitmap, SKEncodedOrigin origin)
