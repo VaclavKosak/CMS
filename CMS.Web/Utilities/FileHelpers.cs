@@ -334,7 +334,7 @@ namespace CMS.Web.Utilities
                 imagesFiles.Add(image.Split('.').First(), (image, "", ""));
             }
             
-            var detailImages = GetImagesFromPath(path + "/details", url, sortByType);
+            var detailImages = GetImagesFromPath(path, Path.Combine(url, "details"), sortByType);
             foreach (var image in detailImages)
             {
                 var key = image.Split('.').First();
@@ -342,7 +342,7 @@ namespace CMS.Web.Utilities
                 imagesFiles[key] = (row.Item1, image, "");
             }
             
-            var thumbnailImages = GetImagesFromPath(path + "/thumbnails", url, sortByType);
+            var thumbnailImages = GetImagesFromPath(path, Path.Combine(url, "thumbnails"), sortByType);
             foreach (var image in thumbnailImages)
             {
                 var key = image.Split('.').First();
