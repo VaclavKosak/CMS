@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CMS.DAL.Entities
 {
@@ -6,7 +7,9 @@ namespace CMS.DAL.Entities
     {
         public string Title { get; set; }
         public string Description { get; set; }
+        [Column(TypeName="timestamp without time zone")]
         public DateTime DateTimeFrom { get; set; }
+        [Column(TypeName="timestamp without time zone")]
         public DateTime DateTimeTo { get; set; }
     }
 }
