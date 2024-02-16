@@ -1,11 +1,16 @@
 @model System.Collections.Generic.IList<CMS.Models.MenuItem.MenuItemListModel>
+@using System.Linq
+
+@{
+    string[] linkParts = { "https://", "http://" };
+}
 
 @foreach (var item in Model)
 {
     @if (item.ParentId == Guid.Empty)
     {
         <li class="menu__list__item">
-            <a class="menu__list__item__link" href="~/@item.Url">@item.Title</a>
+            <a class="menu__list__item__link" href="@( linkParts.Any(i => item.Url.Contains(i)) ? item.Url : $"/{item.Url}" )">@item.Title</a>
             @if (Model.Any(f => f.ParentId == item.Id))
             {
                 <ul class="menu__list__item__submenuList">
@@ -14,7 +19,7 @@
                         if (subItem.ParentId == item.Id)
                         {
                             <li class="menu__list__item__submenuList__item">
-                                <a class="menu__list__item__submenuList__item__link" href="~/@subItem.Url">@subItem.Title</a>
+                                <a class="menu__list__item__submenuList__item__link" href="@( linkParts.Any(i => subItem.Url.Contains(i)) ? subItem.Url : $"/{subItem.Url}" )">@subItem.Title</a>
                             </li>
                         }
                     }
