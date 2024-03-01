@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using CMS.BL.Facades;
+using CMS.Common.Enums;
 using CMS.Models.Article;
 using CMS.Web.Areas.Admin.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -33,7 +34,11 @@ namespace CMS.Web.Areas.Admin.Controllers
         
         public async Task<IActionResult> Index()
         {
-            var items = await _articleFacade.GetAll();
+            var items = await _articleFacade
+                .GetAll();
+
+            items = items.Where(p => p.PageType != PageType.PagePart).ToList();
+
             return View(items);
         }
         

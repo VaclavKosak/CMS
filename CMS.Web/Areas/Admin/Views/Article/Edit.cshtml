@@ -22,8 +22,8 @@
             <label asp-for="Url" class="form-label">@_localizer["url"]</label>
             <div class="input-group mb-3">
                 <span class="input-group-text" id="url">@ViewBag.Domain/</span>
-                <input asp-for="Url" class="form-control" aria-describedby="url" id="destUrl">
-                <button class="btn btn-outline-secondary" type="button" id="generate_url">@_localizer["generate_url"]</button>
+                <input asp-for="Url" class="form-control" aria-describedby="url" id="destUrl" disabled="@(Model.PageType == PageType.PagePart)" />
+                <button class="btn btn-outline-secondary" type="button" id="generate_url" disabled="@(Model.PageType == PageType.PagePart)" >@_localizer["generate_url"]</button>
             </div>
             <span asp-validation-for="Url" class="invalid-feedback">@_localizer["url_invalid"]</span>
         </div>
