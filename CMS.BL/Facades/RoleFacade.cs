@@ -4,12 +4,7 @@ using CMS.DAL.Entities;
 using CMS.DAL.Repositories;
 using CMS.Models.Role;
 
-namespace CMS.BL.Facades
-{
-    public class RoleFacade : FacadeBase<RoleModel, RoleModel, RoleModel, RoleModel, RoleRepository, AppRole, Guid>
-    {
-        public RoleFacade(RoleRepository repository, IMapper mapper) : base(repository, mapper)
-        {
-        }
-    }
-}
+namespace CMS.BL.Facades;
+
+public class RoleFacade(RoleRepository repository, IMapper mapper)
+    : FacadeBase<RoleModel, RoleModel, RoleModel, RoleModel, RoleRepository, AppRole, Guid>(repository, mapper);

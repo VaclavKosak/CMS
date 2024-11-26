@@ -16,7 +16,7 @@ namespace admin {
         }
 
         private init() {
-            if (document.getElementById('editor-value') == null){
+            if (document.getElementById('editor-value') == null) {
                 return;
             }
 
@@ -24,11 +24,11 @@ namespace admin {
             let options = {
                 modules: {
                     toolbar: [
-                        [{ header: [1, 2, 3, false] }],
+                        [{header: [1, 2, 3, false]}],
                         ['bold', 'italic', 'strike'],
-                        [{ align: [] }],
+                        [{align: []}],
                         ['link', 'blockquote', 'code-block'],
-                        [{ list: 'ordered' }, { list: 'bullet' }],
+                        [{list: 'ordered'}, {list: 'bullet'}],
                         ["image"],
 
                         ['clean']
@@ -37,30 +37,30 @@ namespace admin {
                     //htmlEditButton: { debug: true, syntax: true },
                     // Upload image to folder - ideal variant
                     imageUploader: {
-                       upload: (file:any) => {
-                           return new Promise((resolve:any, reject:any) => {
-                               const formData = new FormData();
-                               formData.append("image", file);
+                        upload: (file: any) => {
+                            return new Promise((resolve: any, reject: any) => {
+                                const formData = new FormData();
+                                formData.append("image", file);
 
-                               fetch(
-                                   "/admin/File/UploadFile",
-                                   {
-                                       method: "POST",
-                                       body: formData
-                                   }
-                               )
-                                   .then(response => response.json())
-                                   .then(result => {
-                                       console.log(result);
-                                       resolve(result.data.url);
-                                   })
-                                   .catch(error => {
-                                       reject("Upload failed");
-                                       console.error("Error:", error);
-                                   });
-                               });
-                           }
-                       },
+                                fetch(
+                                    "/admin/File/UploadFile",
+                                    {
+                                        method: "POST",
+                                        body: formData
+                                    }
+                                )
+                                    .then(response => response.json())
+                                    .then(result => {
+                                        console.log(result);
+                                        resolve(result.data.url);
+                                    })
+                                    .catch(error => {
+                                        reject("Upload failed");
+                                        console.error("Error:", error);
+                                    });
+                            });
+                        }
+                    },
                     // Compress base64 variation
                     // imageCompressor: {
                     //     quality: 0.9,

@@ -2,18 +2,17 @@
 using CMS.DAL.Repositories.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace CMS.DAL.Installers
+namespace CMS.DAL.Installers;
+
+public class DALInstaller : IInstaller
 {
-    public class DALInstaller : IInstaller
+    public void Install(IServiceCollection serviceCollection)
     {
-        public void Install(IServiceCollection serviceCollection)
-        {
-            serviceCollection.Scan(selector =>
-                selector.FromCallingAssembly()
-                    .AddClasses(classes => classes.AssignableTo(typeof(IAppRepository<,>)))
-                    .AsSelfWithInterfaces()
-                    .WithTransientLifetime()
-            );
-        }
+        serviceCollection.Scan(selector =>
+            selector.FromCallingAssembly()
+                .AddClasses(classes => classes.AssignableTo(typeof(IAppRepository<,>)))
+                .AsSelfWithInterfaces()
+                .WithTransientLifetime()
+        );
     }
 }

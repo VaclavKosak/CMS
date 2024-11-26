@@ -1,8 +1,7 @@
-namespace CMS.Common.Enums
+namespace CMS.Common.Enums;
+
+public enum SortByType
 {
-    public enum SortByType
-    {
-        Name = 1,
-        Date = 2,
-    }
+    Name = 1,
+    Date = 2
 }

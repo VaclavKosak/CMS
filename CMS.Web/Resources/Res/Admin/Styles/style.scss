@@ -38,7 +38,7 @@ $font: 'Roboto', sans-serif;
 body {
   min-height: 100vh;
   height: 100%;
-  font-family: $font!important;
+  font-family: $font !important;
 }
 
 html {
@@ -50,8 +50,8 @@ html {
   width: 100%;
   display: grid;
   grid-template-columns: 100%;
-  
-  @include respond-to('large'){
+
+  @include respond-to('large') {
     grid-template-columns: 17% 83%;
   }
 }
@@ -63,14 +63,13 @@ html {
 }
 
 
-
-.navigation {  
+.navigation {
   @include respond-to('large') {
     top: 0;
     height: 100vh;
     position: sticky;
   }
-  
+
   &__header {
     display: flex;
     justify-content: space-between;
@@ -84,16 +83,18 @@ html {
 
     @include respond-to('large-r') {
       .mb-3 {
-        margin-bottom: 0!important;
+        margin-bottom: 0 !important;
       }
     }
   }
+
   .collapse, .navbar-collapse {
     align-items: stretch;
   }
+
   @include respond-to('large-r') {
     .collapse:not(.show) {
-      display: none!important;
+      display: none !important;
     }
   }
 }
@@ -122,16 +123,18 @@ html {
 }
 
 input {
-  border-radius: 0.15rem!important;
+  border-radius: 0.15rem !important;
 }
 
 input[type="color"] {
   width: 100%;
 }
 
-.fw-semibold { font-weight: 600; }
+.fw-semibold {
+  font-weight: 600;
+}
 
-.nav-pills .nav-link.active, .nav-pills .show>.nav-link, .nav-pills .nav-link:hover {
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link, .nav-pills .nav-link:hover {
   background-color: #212529;
   color: white;
 }
@@ -155,7 +158,7 @@ input[type="color"] {
     font-size: 25px;
     padding: 10px 20px;
     font-weight: 600;
-    border-radius: .2rem!important;
+    border-radius: .2rem !important;
   }
 }
 
@@ -176,7 +179,7 @@ input[type="color"] {
   padding: 15px;
   margin: auto;
 
-  .row, .row>* {
+  .row, .row > * {
     padding-right: 0;
     padding-left: 0;
   }
@@ -203,6 +206,7 @@ form {
   .field-validation-error {
     display: block;
   }
+
   .validation-summary-errors {
     display: block;
   }
@@ -217,24 +221,26 @@ form {
     grid-template-columns: 50% 50%;
     grid-template-rows: none;
   }
-  
+
   width: 100vw;
   height: 100vh;
+
   &__part {
     width: 100%;
     height: 100%;
     display: grid;
+
     &--bg {
       background-size: cover;
       background-position: center;
       overflow: hidden;
-      will-change: transform,opacity,filter;
+      will-change: transform, opacity, filter;
       backface-visibility: hidden;
       background-repeat: no-repeat;
       background-color: black;
       background-image: url(../../../../Images/login-bg-1.jpg);
       //background-image: url(../images/login-bg-2.jpg);
-     }
+    }
   }
 }
 
@@ -242,11 +248,13 @@ form {
   &__block {
     display: inline-block;
     text-align: center;
+
     &__link {
       max-height: 240px;
       max-width: 500px;
       display: block;
       margin: 5px;
+
       &__image {
         max-width: inherit;
         max-height: inherit;
@@ -254,9 +262,11 @@ form {
         width: auto;
       }
     }
+
     &__delete {
       color: #212529;
       text-decoration: none;
+
       &:hover {
         color: inherit;
       }

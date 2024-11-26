@@ -2,19 +2,13 @@ using System.Threading.Tasks;
 using CMS.BL.Facades;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CMS.Web.Components
+namespace CMS.Web.Components;
+
+public class MenuComponent(MenuItemFacade menuItemFacade) : ViewComponent
 {
-    public class MenuComponent : ViewComponent
+    public async Task<IViewComponentResult> InvokeAsync()
     {
-        private readonly MenuItemFacade _menuItemFacade;
-        public MenuComponent(MenuItemFacade menuItemFacade)
-        {
-            _menuItemFacade = menuItemFacade;
-        }
-        public async Task<IViewComponentResult> InvokeAsync()
-        {
-            var menuItems = await _menuItemFacade.GetAll();
-            return View(menuItems);
-        }
+        var menuItems = await menuItemFacade.GetAll();
+        return View(menuItems);
     }
 }

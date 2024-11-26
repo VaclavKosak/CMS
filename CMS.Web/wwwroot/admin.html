@@ -2,63 +2,79 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
+    <meta content="width=device-width, initial-scale=1" name="viewport">
+
     <title>Admin</title>
 
-    <link rel="stylesheet" href="/assets/dist/css/lib-admin-bundle.min.css" />
-    <link rel="stylesheet" href="/assets/dist/css/admin.min.css" />
+    <link href="/assets/dist/css/lib-admin-bundle.min.css" rel="stylesheet"/>
+    <link href="/assets/dist/css/admin.min.css" rel="stylesheet"/>
 </head>
 <body>
 <main class="main">
     <div class="d-flex flex-column flex-shrink-0 p-3 bg-light navigation">
         <div class="navigation__header">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none">
-                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-heptagon-fill me-2" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M7.779.052a.5.5 0 0 1 .442 0l6.015 2.97a.5.5 0 0 1 .267.34l1.485 6.676a.5.5 0 0 1-.093.415l-4.162 5.354a.5.5 0 0 1-.395.193H4.662a.5.5 0 0 1-.395-.193L.105 10.453a.5.5 0 0 1-.093-.415l1.485-6.676a.5.5 0 0 1 .267-.34L7.779.053z"/>
+            <a class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-dark text-decoration-none" href="/">
+                <svg class="bi bi-heptagon-fill me-2" fill="currentColor" height="32" viewBox="0 0 16 16"
+                     width="32" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M7.779.052a.5.5 0 0 1 .442 0l6.015 2.97a.5.5 0 0 1 .267.34l1.485 6.676a.5.5 0 0 1-.093.415l-4.162 5.354a.5.5 0 0 1-.395.193H4.662a.5.5 0 0 1-.395-.193L.105 10.453a.5.5 0 0 1-.093-.415l1.485-6.676a.5.5 0 0 1 .267-.34L7.779.053z"
+                          fill-rule="evenodd"/>
                 </svg>
                 <span class="fs-5 fw-semibold">Admin</span>
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="currentColor" class="bi bi-list" viewBox="0 0 16 16">
-                    <path fill-rule="evenodd" d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"/>
+            <button aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                    data-bs-target="#navbarNavDropdown" data-bs-toggle="collapse" type="button">
+                <svg class="bi bi-list" fill="currentColor" height="30" viewBox="0 0 16 16" width="30"
+                     xmlns="http://www.w3.org/2000/svg">
+                    <path d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
+                          fill-rule="evenodd"/>
                 </svg>
             </button>
         </div>
-        
+
         <div class="collapse navbar-collapse d-flex flex-column" id="navbarNavDropdown">
             <hr>
             <ul class="nav nav-pills flex-column">
                 <li class="nav-item">
-                    <a href="#" class="nav-link active" aria-current="page">
-                        <svg class="bi bi-house me-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"  viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
-                            <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                    <a aria-current="page" class="nav-link active" href="#">
+                        <svg class="bi bi-house me-2" fill="currentColor" height="16" viewBox="0 0 16 16"
+                             width="16" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
+                                  fill-rule="evenodd"/>
+                            <path d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
+                                  fill-rule="evenodd"/>
                         </svg>
                         Home
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link link-dark">
-                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+                    <a class="nav-link link-dark" href="#">
+                        <svg class="bi me-2" height="16" width="16">
+                            <use xlink:href="#speedometer2"/>
+                        </svg>
                         Dashboard
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link link-dark">
-                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
+                    <a class="nav-link link-dark" href="#">
+                        <svg class="bi me-2" height="16" width="16">
+                            <use xlink:href="#table"/>
+                        </svg>
                         Orders
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link link-dark">
-                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
+                    <a class="nav-link link-dark" href="#">
+                        <svg class="bi me-2" height="16" width="16">
+                            <use xlink:href="#grid"/>
+                        </svg>
                         Products
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link link-dark">
-                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+                    <a class="nav-link link-dark" href="#">
+                        <svg class="bi me-2" height="16" width="16">
+                            <use xlink:href="#people-circle"/>
+                        </svg>
                         Customers
                     </a>
                 </li>
@@ -66,49 +82,63 @@
             <hr>
             <ul class="nav nav-pills flex-column mb-auto">
                 <li class="nav-item">
-                    <a href="#" class="nav-link active" aria-current="page">
-                        <svg class="bi bi-house me-2" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"  viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
-                            <path fill-rule="evenodd" d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"/>
+                    <a aria-current="page" class="nav-link active" href="#">
+                        <svg class="bi bi-house me-2" fill="currentColor" height="16" viewBox="0 0 16 16"
+                             width="16" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
+                                  fill-rule="evenodd"/>
+                            <path d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
+                                  fill-rule="evenodd"/>
                         </svg>
                         Home
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link link-dark">
-                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#speedometer2"/></svg>
+                    <a class="nav-link link-dark" href="#">
+                        <svg class="bi me-2" height="16" width="16">
+                            <use xlink:href="#speedometer2"/>
+                        </svg>
                         Dashboard
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link link-dark">
-                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"/></svg>
+                    <a class="nav-link link-dark" href="#">
+                        <svg class="bi me-2" height="16" width="16">
+                            <use xlink:href="#table"/>
+                        </svg>
                         Orders
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link link-dark">
-                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"/></svg>
+                    <a class="nav-link link-dark" href="#">
+                        <svg class="bi me-2" height="16" width="16">
+                            <use xlink:href="#grid"/>
+                        </svg>
                         Products
                     </a>
                 </li>
                 <li>
-                    <a href="#" class="nav-link link-dark">
-                        <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"/></svg>
+                    <a class="nav-link link-dark" href="#">
+                        <svg class="bi me-2" height="16" width="16">
+                            <use xlink:href="#people-circle"/>
+                        </svg>
                         Customers
                     </a>
                 </li>
             </ul>
             <hr>
             <div class="dropdown">
-                <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="assets/dist/images/profile-img.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                <a aria-expanded="false" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle"
+                   data-bs-toggle="dropdown" href="#" id="dropdownUser2">
+                    <img alt="" class="rounded-circle me-2" height="32" src="assets/dist/images/profile-img.png"
+                         width="32">
                     <strong>User Name</strong>
                 </a>
-                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                <ul aria-labelledby="dropdownUser2" class="dropdown-menu text-small shadow">
                     <li>
                         <a class="dropdown-item" href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chat-dots me-2" viewBox="0 0 16 16">
+                            <svg class="bi bi-chat-dots me-2" fill="currentColor" height="16" viewBox="0 0 16 16"
+                                 width="16" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
                                 <path d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z"/>
                             </svg>
@@ -117,16 +147,20 @@
                     </li>
                     <li>
                         <a class="dropdown-item" href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person me-2" viewBox="0 0 16 16">
+                            <svg class="bi bi-person me-2" fill="currentColor" height="16" viewBox="0 0 16 16"
+                                 width="16" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
                             </svg>
                             Profile
                         </a>
                     </li>
-                    <li><hr class="dropdown-divider"></li>
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
                     <li>
                         <a class="dropdown-item" href="#">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-door-open me-2" viewBox="0 0 16 16">
+                            <svg class="bi bi-door-open me-2" fill="currentColor" height="16" viewBox="0 0 16 16"
+                                 width="16" xmlns="http://www.w3.org/2000/svg">
                                 <path d="M8.5 10c-.276 0-.5-.448-.5-1s.224-1 .5-1 .5.448.5 1-.224 1-.5 1z"/>
                                 <path d="M10.828.122A.5.5 0 0 1 11 .5V1h.5A1.5 1.5 0 0 1 13 2.5V15h1.5a.5.5 0 0 1 0 1h-13a.5.5 0 0 1 0-1H3V1.5a.5.5 0 0 1 .43-.495l7-1a.5.5 0 0 1 .398.117zM11.5 2H11v13h1V2.5a.5.5 0 0 0-.5-.5zM4 1.934V15h6V1.077l-6 .857z"/>
                             </svg>
@@ -136,34 +170,34 @@
                 </ul>
             </div>
         </div>
-        
+
     </div>
     <div class="content">
         <div class="container--custom">
 
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="#" class="text-muted">Home</a></li>
-                    <li class="breadcrumb-item"><a href="#" class="text-muted">Library</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Data</li>
+                    <li class="breadcrumb-item"><a class="text-muted" href="#">Home</a></li>
+                    <li class="breadcrumb-item"><a class="text-muted" href="#">Library</a></li>
+                    <li aria-current="page" class="breadcrumb-item active">Data</li>
                 </ol>
             </nav>
-            
+
             <div class="row">
                 <div class="col-md-6">
                     <h1 class="content__title display-5 fw-bold">Title</h1>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <a href="" class="btn btn-dark btn-custom-big">Vytvořit článek</a>
+                    <a class="btn btn-dark btn-custom-big" href="">Vytvořit článek</a>
                 </div>
             </div>
-            
-            
+
+
             <div class="content__block bg-light rounded-3">
                 <form class="row g-3 needs-validation" novalidate>
                     <div class="col-md-4">
-                        <label for="validationCustom01" class="form-label">First name</label>
-                        <input type="text" class="form-control" id="validationCustom01" value="" required>
+                        <label class="form-label" for="validationCustom01">First name</label>
+                        <input class="form-control" id="validationCustom01" required type="text" value="">
                         <div class="valid-feedback">
                             Looks good!
                         </div>
@@ -172,33 +206,34 @@
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <label for="validationCustom02" class="form-label">Last name</label>
-                        <input type="text" class="form-control" id="validationCustom02" value="Otto" required>
+                        <label class="form-label" for="validationCustom02">Last name</label>
+                        <input class="form-control" id="validationCustom02" required type="text" value="Otto">
                         <div class="valid-feedback">
                             Looks good!
                         </div>
                     </div>
                     <div class="col-md-4">
-                        <label for="validationCustomUsername" class="form-label">Username</label>
+                        <label class="form-label" for="validationCustomUsername">Username</label>
                         <div class="input-group has-validation">
                             <span class="input-group-text" id="inputGroupPrepend">@</span>
-                            <input type="text" class="form-control" id="validationCustomUsername" aria-describedby="inputGroupPrepend" required>
+                            <input aria-describedby="inputGroupPrepend" class="form-control" id="validationCustomUsername"
+                                   required type="text">
                             <div class="invalid-feedback">
                                 Please choose a username.
                             </div>
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="validationCustom03" class="form-label">City</label>
-                        <input type="text" class="form-control" id="validationCustom03" required>
+                        <label class="form-label" for="validationCustom03">City</label>
+                        <input class="form-control" id="validationCustom03" required type="text">
                         <div class="invalid-feedback">
                             Please provide a valid city.
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <label for="validationCustom04" class="form-label">State</label>
+                        <label class="form-label" for="validationCustom04">State</label>
                         <select class="form-select" id="validationCustom04" required>
-                            <option selected disabled value="">Choose...</option>
+                            <option disabled selected value="">Choose...</option>
                             <option>...</option>
                         </select>
                         <div class="invalid-feedback">
@@ -206,23 +241,24 @@
                         </div>
                     </div>
                     <div class="col-md-3">
-                        <label for="validationCustom05" class="form-label">Zip</label>
-                        <input type="text" class="form-control" id="validationCustom05" required>
+                        <label class="form-label" for="validationCustom05">Zip</label>
+                        <input class="form-control" id="validationCustom05" required type="text">
                         <div class="invalid-feedback">
                             Please provide a valid zip.
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label for="formFileMultiple" class="form-label">Multiple files input example</label>
-                        <input class="form-control" type="file" id="formFileMultiple" multiple>
+                        <label class="form-label" for="formFileMultiple">Multiple files input example</label>
+                        <input class="form-control" id="formFileMultiple" multiple type="file">
                     </div>
                     <div class="col-md-6">
-                        <label for="formFileMultiple" class="form-label">Multiple files input example</label>
-                        <input type="color" class="form-control form-control-color" id="exampleColorInput" value="#563d7c" title="Choose your color">
+                        <label class="form-label" for="formFileMultiple">Multiple files input example</label>
+                        <input class="form-control form-control-color" id="exampleColorInput" title="Choose your color"
+                               type="color" value="#563d7c">
                     </div>
                     <div class="col-12">
                         <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="invalidCheck" required>
+                            <input class="form-check-input" id="invalidCheck" required type="checkbox" value="">
                             <label class="form-check-label" for="invalidCheck">
                                 Agree to terms and conditions
                             </label>
@@ -238,7 +274,7 @@
             </div>
 
             <div class="content__block bg-light rounded-3">
-                
+
                 <div class="table-responsive">
                     <table class="table table-bordered table-hover bg-white table-striped">
                         <thead class="table-dark">
@@ -257,21 +293,25 @@
                             <td>Otto</td>
                             <td>@mdo</td>
                             <td>
-                                <a href="" class="link-dark text-decoration-none me-2" title="Upravit">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pen" viewBox="0 0 16 16">
+                                <a class="link-dark text-decoration-none me-2" href="" title="Upravit">
+                                    <svg class="bi bi-pen" fill="currentColor" height="16" viewBox="0 0 16 16"
+                                         width="16" xmlns="http://www.w3.org/2000/svg">
                                         <path d="m13.498.795.149-.149a1.207 1.207 0 1 1 1.707 1.708l-.149.148a1.5 1.5 0 0 1-.059 2.059L4.854 14.854a.5.5 0 0 1-.233.131l-4 1a.5.5 0 0 1-.606-.606l1-4a.5.5 0 0 1 .131-.232l9.642-9.642a.5.5 0 0 0-.642.056L6.854 4.854a.5.5 0 1 1-.708-.708L9.44.854A1.5 1.5 0 0 1 11.5.796a1.5 1.5 0 0 1 1.998-.001zm-.644.766a.5.5 0 0 0-.707 0L1.95 11.756l-.764 3.057 3.057-.764L14.44 3.854a.5.5 0 0 0 0-.708l-1.585-1.585z"/>
                                     </svg>
                                 </a>
-                                <a href="" class="link-dark text-decoration-none me-2" title="Detail">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <a class="link-dark text-decoration-none me-2" href="" title="Detail">
+                                    <svg class="bi bi-search" fill="currentColor" height="16" viewBox="0 0 16 16"
+                                         width="16" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
                                     </svg>
 
                                 </a>
-                                <a href="" class="link-dark text-decoration-none me-2" title="Smazat">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                                <a class="link-dark text-decoration-none me-2" href="" title="Smazat">
+                                    <svg class="bi bi-trash" fill="currentColor" height="16" viewBox="0 0 16 16"
+                                         width="16" xmlns="http://www.w3.org/2000/svg">
                                         <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
-                                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                                        <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"
+                                              fill-rule="evenodd"/>
                                     </svg>
 
                                 </a>
@@ -297,7 +337,7 @@
                     <nav aria-label="Page navigation example">
                         <ul class="pagination justify-content-center">
                             <li class="page-item disabled">
-                                <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+                                <a aria-disabled="true" class="page-link" href="#" tabindex="-1">Previous</a>
                             </li>
                             <li class="page-item active"><span class="page-link">1</span></li>
                             <li class="page-item"><a class="page-link text-black" href="#">2</a></li>
@@ -312,8 +352,8 @@
                 <h2 class="display-5 fw-bold pt-2">Nahrat fotky</h2>
                 <form class="row g-3 needs-validation" novalidate>
                     <div class="col-md-12">
-                        <label for="formFileMultiple" class="form-label">Multiple files input example</label>
-                        <input class="form-control" type="file" id="formFileMultiple2" multiple>
+                        <label class="form-label" for="formFileMultiple">Multiple files input example</label>
+                        <input class="form-control" id="formFileMultiple2" multiple type="file">
                     </div>
                     <div class="col-12">
                         <button class="btn btn-dark" type="submit">Submit form</button>
@@ -335,11 +375,11 @@
                     <p><strong>ABC</strong> CDE</p>
                 </div>
             </div>
-            
+
             <div class="content__block bg-light rounded-3">
                 <div class="row">
                     <div class="col-6">
-                        <img src="~/uploads/@Model.ProfilePhoto" alt="Profile image" />
+                        <img alt="Profile image" src="~/uploads/@Model.ProfilePhoto"/>
                     </div>
                     <div class="col-6">
                         <p><strong>ABC:</strong> CDE</p>
@@ -352,9 +392,11 @@
 
 </main>
 <script src="assets/dist/js/lib-admin-bundle.min.js"></script>
-<script src="assets/dist/js/web-bundle.min.js" ></script>
+<script src="assets/dist/js/web-bundle.min.js"></script>
 <script>
-    document.addEventListener("DOMContentLoaded", () => { new web.MainController(); });
+    document.addEventListener("DOMContentLoaded", () => {
+        new web.MainController();
+    });
 </script>
 </body>
 </html>

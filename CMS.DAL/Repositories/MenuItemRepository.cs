@@ -7,28 +7,23 @@ using CMS.DAL.Entities;
 using CMS.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CMS.DAL.Repositories
+namespace CMS.DAL.Repositories;
+
+public class MenuItemRepository(Func<WebDataContext> contextFactory, IMapper mapper)
+    : RepositoryBase<MenuItemEntity, Guid>(contextFactory, mapper), IAppRepository<MenuItemEntity, Guid>
 {
-    public class MenuItemRepository : RepositoryBase<MenuItemEntity, Guid>, IAppRepository<MenuItemEntity, Guid>
+    public async Task<IList<MenuItemEntity>> GetAll(Guid parentId)
     {
-        public MenuItemRepository(Func<WebDataContext> contextFactory, IMapper mapper)
-            : base(contextFactory, mapper)
-        {
-        }
-        
-        public async Task<IList<MenuItemEntity>> GetAll(Guid parentId)
-        {
-            await using var context = _contextFactory();
-            return await context.Set<MenuItemEntity>()
-                .Where(m => m.ParentId == parentId)
-                .OrderBy(m => m.Order).ToListAsync();
-        }
-        
-        public override async Task<IList<MenuItemEntity>> GetAll()
-        {
-            await using var context = _contextFactory();
-            return await context.Set<MenuItemEntity>()
-                .OrderBy(m => m.Order).ToListAsync();
-        }
+        await using var context = ContextFactory();
+        return await context.Set<MenuItemEntity>()
+            .Where(m => m.ParentId == parentId)
+            .OrderBy(m => m.Order).ToListAsync();
+    }
+
+    public override async Task<IList<MenuItemEntity>> GetAll()
+    {
+        await using var context = ContextFactory();
+        return await context.Set<MenuItemEntity>()
+            .OrderBy(m => m.Order).ToListAsync();
     }
 }

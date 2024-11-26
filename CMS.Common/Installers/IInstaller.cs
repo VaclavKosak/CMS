@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace CMS.Common.Installers
+namespace CMS.Common.Installers;
+
+public interface IInstaller
 {
-    public interface IInstaller
-    {
-        void Install(IServiceCollection serviceCollection);
-    }
+    void Install(IServiceCollection serviceCollection);
 }

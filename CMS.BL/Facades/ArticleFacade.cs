@@ -7,54 +7,44 @@ using CMS.DAL.Entities;
 using CMS.DAL.Repositories;
 using CMS.Models.Article;
 
-namespace CMS.BL.Facades
-{
-    public class ArticleFacade : FacadeBase<ArticleListModel, ArticleDetailModel, ArticleNewModel, ArticleUpdateModel, 
-        ArticleRepository, ArticleEntity, Guid>
-    {
-        private readonly CategoryRepository _categoryRepository;
-        public ArticleFacade(ArticleRepository repository, IMapper mapper, CategoryRepository categoryRepository) 
-            : base(repository, mapper)
-        {
-            _categoryRepository = categoryRepository;
-        }
-        
-        public override async Task<Guid> Create(ArticleNewModel newModel)
-        {
-            // insert article
-            var entity = Mapper.Map<ArticleEntity>(newModel);
-            var itemId = await Repository.Insert(entity);
-            
-            // insert category
-            newModel.CategoriesList ??= new List<Guid>();
-            var categories = await _categoryRepository.GetAllByIds(newModel.CategoriesList.ToArray());
-            await Repository.Update(entity, categories);
-            
-            return itemId;
-        }
-        
-        public override async Task<Guid> Update(ArticleUpdateModel updateModel)
-        {
-            var entity = Mapper.Map<ArticleEntity>(updateModel);
-            await Repository.Update(entity);
-            
-            var originalEntity = await Repository.GetById(updateModel.Id);
-            entity.Category = new List<CategoryEntity>();
-            foreach (var category in originalEntity.Category)
-            {
-                entity.Category.Add(category);
-            }
-            
-            updateModel.CategoriesList ??= new List<Guid>();
-            var categories = await _categoryRepository.GetAllByIds(updateModel.CategoriesList.ToArray());
+namespace CMS.BL.Facades;
 
-            return await Repository.Update(entity, categories);
-        }
-        
-        public async Task<ArticleDetailModel> GetByUrl(string url)
-        {
-            var entity = await Repository.GetByUrl(url);
-            return Mapper.Map<ArticleDetailModel>(entity);
-        }
+public class ArticleFacade(ArticleRepository repository, IMapper mapper, CategoryRepository categoryRepository)
+    : FacadeBase<ArticleModel, ArticleModel, ArticleModel, ArticleModel,
+        ArticleRepository, ArticleEntity, Guid>(repository, mapper)
+{
+    public override async Task<Guid> Create(ArticleModel newModel)
+    {
+        // insert article
+        var entity = Mapper.Map<ArticleEntity>(newModel);
+        var itemId = await Repository.Insert(entity);
+
+        // insert category
+        newModel.CategoriesList ??= new List<Guid>();
+        var categories = await categoryRepository.GetAllByIds(newModel.CategoriesList.ToArray());
+        await Repository.Update(entity, categories);
+
+        return itemId;
+    }
+
+    public override async Task<Guid> Update(ArticleModel model)
+    {
+        var entity = Mapper.Map<ArticleEntity>(model);
+        await Repository.Update(entity);
+
+        var originalEntity = await Repository.GetById(model.Id);
+        entity.Category = new List<CategoryEntity>();
+        foreach (var category in originalEntity.Category) entity.Category.Add(category);
+
+        model.CategoriesList ??= new List<Guid>();
+        var categories = await categoryRepository.GetAllByIds(model.CategoriesList.ToArray());
+
+        return await Repository.Update(entity, categories);
+    }
+
+    public async Task<ArticleModel> GetByUrl(string url)
+    {
+        var entity = await Repository.GetByUrl(url);
+        return Mapper.Map<ArticleModel>(entity);
     }
 }

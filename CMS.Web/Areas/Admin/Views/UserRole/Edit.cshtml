@@ -1,15 +1,15 @@
 @model CMS.Models.UserRole.UserRoleModel
 
 @{
-    ViewBag.Title = @_localizer["title"];
+    ViewBag.Title = _localizer["title"];
 }
 
 <form asp-action="Edit" class="row g-3 needs-validation" novalidate>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="UserId" />
+    <input type="hidden" asp-for="UserId"/>
     <div class="col-md-6">
         <label asp-for="UserId" class="form-label">@_localizer["user"]</label>
-        <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId" disabled="disabled" ></select>
+        <select asp-for="UserId" class="form-control" asp-items="ViewBag.UserId" disabled="disabled"></select>
         <span asp-validation-for="UserId" class="invalid-feedback">@_localizer["user_invalid"]</span>
     </div>
     <div class="col-md-6">
@@ -17,8 +17,8 @@
         <select asp-for="RoleId" class="form-control" asp-items="ViewBag.RoleId"></select>
         <span asp-validation-for="RoleId" class="invalid-feedback">@_localizer["role_invalid"]</span>
     </div>
-    
+
     <div class="col-12">
-        <input class="btn btn-dark" type="submit" value="@_localizer["edit_button"]" />
+        <input class="btn btn-dark" type="submit" value="@_localizer["edit_button"]"/>
     </div>
 </form>

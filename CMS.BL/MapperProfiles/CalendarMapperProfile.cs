@@ -2,19 +2,14 @@ using AutoMapper;
 using CMS.DAL.Entities;
 using CMS.Models.Calendar;
 
-namespace CMS.BL.MapperProfiles
+namespace CMS.BL.MapperProfiles;
+
+public class CalendarMapperProfile : Profile
 {
-    public class CalendarMapperProfile : Profile
+    public CalendarMapperProfile()
     {
-        public CalendarMapperProfile()
-        {
-            CreateMap<CalendarEntity, CalendarListModel>();
-            CreateMap<CalendarNewModel, CalendarEntity>();
-            CreateMap<CalendarEntity, CalendarDetailModel>();
-            CreateMap<CalendarDetailModel, CalendarNewModel>();
-            
-            CreateMap<CalendarUpdateModel, CalendarEntity>();
-            CreateMap<CalendarDetailModel, CalendarUpdateModel>();
-        }
+        CreateMap<CalendarEntity, CalendarModel>();
+        CreateMap<CalendarModel, CalendarEntity>();
+        CreateMap<CalendarModel, CalendarModel>();
     }
 }

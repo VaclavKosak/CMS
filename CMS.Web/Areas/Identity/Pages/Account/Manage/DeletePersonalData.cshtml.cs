@@ -7,78 +7,56 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 
-namespace CMS.Web.Areas.Identity.Pages.Account.Manage
+namespace CMS.Web.Areas.Identity.Pages.Account.Manage;
+
+public class DeletePersonalDataModel(
+    UserManager<AppUser> userManager,
+    SignInManager<AppUser> signInManager,
+    ILogger<DeletePersonalDataModel> logger)
+    : PageModel
 {
-    public class DeletePersonalDataModel : PageModel
+    [BindProperty] public InputModel Input { get; set; }
+
+    public bool RequirePassword { get; set; }
+
+    public async Task<IActionResult> OnGet()
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly SignInManager<AppUser> _signInManager;
-        private readonly ILogger<DeletePersonalDataModel> _logger;
+        var user = await userManager.GetUserAsync(User);
+        if (user == null) return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
 
-        public DeletePersonalDataModel(
-            UserManager<AppUser> userManager,
-            SignInManager<AppUser> signInManager,
-            ILogger<DeletePersonalDataModel> logger)
-        {
-            _userManager = userManager;
-            _signInManager = signInManager;
-            _logger = logger;
-        }
+        RequirePassword = await userManager.HasPasswordAsync(user);
+        return Page();
+    }
 
-        [BindProperty]
-        public InputModel Input { get; set; }
+    public async Task<IActionResult> OnPostAsync()
+    {
+        var user = await userManager.GetUserAsync(User);
+        if (user == null) return NotFound($"Unable to load user with ID '{userManager.GetUserId(User)}'.");
 
-        public class InputModel
-        {
-            [Required]
-            [DataType(DataType.Password)]
-            public string Password { get; set; }
-        }
-
-        public bool RequirePassword { get; set; }
-
-        public async Task<IActionResult> OnGet()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
+        RequirePassword = await userManager.HasPasswordAsync(user);
+        if (RequirePassword)
+            if (!await userManager.CheckPasswordAsync(user, Input.Password))
             {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
+                ModelState.AddModelError(string.Empty, "Incorrect password.");
+                return Page();
             }
 
-            RequirePassword = await _userManager.HasPasswordAsync(user);
-            return Page();
-        }
+        var result = await userManager.DeleteAsync(user);
+        var userId = await userManager.GetUserIdAsync(user);
+        if (!result.Succeeded)
+            throw new InvalidOperationException($"Unexpected error occurred deleting user with ID '{userId}'.");
 
-        public async Task<IActionResult> OnPostAsync()
-        {
-            var user = await _userManager.GetUserAsync(User);
-            if (user == null)
-            {
-                return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
-            }
+        await signInManager.SignOutAsync();
 
-            RequirePassword = await _userManager.HasPasswordAsync(user);
-            if (RequirePassword)
-            {
-                if (!await _userManager.CheckPasswordAsync(user, Input.Password))
-                {
-                    ModelState.AddModelError(string.Empty, "Incorrect password.");
-                    return Page();
-                }
-            }
+        logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
 
-            var result = await _userManager.DeleteAsync(user);
-            var userId = await _userManager.GetUserIdAsync(user);
-            if (!result.Succeeded)
-            {
-                throw new InvalidOperationException($"Unexpected error occurred deleting user with ID '{userId}'.");
-            }
+        return Redirect("~/");
+    }
 
-            await _signInManager.SignOutAsync();
-
-            _logger.LogInformation("User with ID '{UserId}' deleted themselves.", userId);
-
-            return Redirect("~/");
-        }
+    public class InputModel
+    {
+        [Required]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
     }
 }

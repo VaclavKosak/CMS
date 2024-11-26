@@ -2,21 +2,20 @@ using AutoMapper;
 using CMS.DAL.Entities;
 using CMS.Models.Gallery;
 
-namespace CMS.BL.MapperProfiles
+namespace CMS.BL.MapperProfiles;
+
+public class GalleryMapperProfile : Profile
 {
-    public class GalleryMapperProfile : Profile
+    public GalleryMapperProfile()
     {
-        public GalleryMapperProfile()
-        {
-            CreateMap<GalleryEntity, GalleryListModel>();
-            CreateMap<GalleryNewModel, GalleryEntity>();
-            CreateMap<GalleryEntity, GalleryDetailModel>();
-            CreateMap<GalleryDetailModel, GalleryNewModel>();
-            
-            CreateMap<GalleryUpdateModel, GalleryEntity>();
-            CreateMap<GalleryDetailModel, GalleryUpdateModel>();
-            
-            CreateMap<GalleryEntity, GalleryUpdateModel>();
-        }
+        CreateMap<GalleryEntity, GalleryModel>();
+        CreateMap<GalleryModel, GalleryEntity>();
+        CreateMap<GalleryEntity, GalleryModel>();
+        CreateMap<GalleryModel, GalleryModel>();
+
+        CreateMap<GalleryModel, GalleryEntity>();
+        CreateMap<GalleryModel, GalleryModel>();
+
+        CreateMap<GalleryEntity, GalleryModel>();
     }
 }

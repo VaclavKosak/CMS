@@ -27,7 +27,7 @@ namespace web {
                     }
                 },
 
-                onFirstConsent: function(){
+                onFirstConsent: function () {
                     console.log('onFirstAction fired');
                 },
 
@@ -119,7 +119,7 @@ namespace web {
                     }
                 }
             };
-            
+
             // @ts-ignore
             CookieConsent.run(config);
         }

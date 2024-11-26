@@ -7,109 +7,91 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace CMS.Web.Areas.Admin.Controllers
+namespace CMS.Web.Areas.Admin.Controllers;
+
+[Area("Admin")]
+[Authorize(Policy = "Calendar")]
+public class CalendarController(CalendarFacade calendarFacade, IMapper mapper) : Controller
 {
-    [Area("Admin")]
-    [Authorize(Policy = "Calendar")]
-    public class CalendarController : Controller
+    public async Task<IActionResult> Index()
     {
-        private readonly CalendarFacade _calendarFacade;
-        private readonly IMapper _mapper;
-        
-        public CalendarController(CalendarFacade calendarFacade, IMapper mapper)
-        {
-            _calendarFacade = calendarFacade;
-            _mapper = mapper;
-        }
-        
-        public async Task<IActionResult> Index()
-        {
-            var items = await _calendarFacade.GetAll();
-            return View(items);
-        }
-        
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        var items = await calendarFacade.GetAll();
+        return View(items);
+    }
 
-            var item = await _calendarFacade.GetById(id.Value);
+    public async Task<IActionResult> Details(Guid? id)
+    {
+        if (id == null) return NotFound();
 
-            return View(item);
-        }
+        var item = await calendarFacade.GetById(id.Value);
 
-        public IActionResult Create()
-        {
-            return View();
-        }
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CalendarNewModel item)
-        {
-            if (ModelState.IsValid)
-            {
-                Guid id = await _calendarFacade.Create(item);
-                return RedirectToAction(nameof(Index), new { area = "Admin" });
-            }
-            return View(item);
-        }
-        
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        return View(item);
+    }
 
-            var item = await _calendarFacade.GetById(id.Value);
-            
-            return View(_mapper.Map<CalendarUpdateModel>(item));
-        }
+    public IActionResult Create()
+    {
+        return View();
+    }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, CalendarUpdateModel item)
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(CalendarModel item)
+    {
+        if (ModelState.IsValid)
         {
-            if (id != item.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    await _calendarFacade.Update(item);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return View(item);
-                }
-                return RedirectToAction(nameof(Index), new { area = "Admin" });
-            }
-            return View(item);
-        }
-        
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var item = await _calendarFacade.GetById(id.Value);
-            return View(item);
-        }
-        
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            await _calendarFacade.Remove(id);
+            var id = await calendarFacade.Create(item);
             return RedirectToAction(nameof(Index), new { area = "Admin" });
         }
+
+        return View(item);
+    }
+
+    public async Task<IActionResult> Edit(Guid? id)
+    {
+        if (id == null) return NotFound();
+
+        var item = await calendarFacade.GetById(id.Value);
+
+        return View(mapper.Map<CalendarModel>(item));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(Guid id, CalendarModel item)
+    {
+        if (id != item.Id) return NotFound();
+
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                await calendarFacade.Update(item);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return View(item);
+            }
+
+            return RedirectToAction(nameof(Index), new { area = "Admin" });
+        }
+
+        return View(item);
+    }
+
+    public async Task<IActionResult> Delete(Guid? id)
+    {
+        if (id == null) return NotFound();
+
+        var item = await calendarFacade.GetById(id.Value);
+        return View(item);
+    }
+
+    [HttpPost]
+    [ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(Guid id)
+    {
+        await calendarFacade.Remove(id);
+        return RedirectToAction(nameof(Index), new { area = "Admin" });
     }
 }

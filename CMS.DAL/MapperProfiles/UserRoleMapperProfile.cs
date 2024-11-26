@@ -1,13 +1,12 @@
 using AutoMapper;
 using CMS.DAL.Entities;
 
-namespace CMS.DAL.MapperProfiles
+namespace CMS.DAL.MapperProfiles;
+
+public class UserRoleMapperProfile : Profile
 {
-    public class UserRoleMapperProfile : Profile
+    public UserRoleMapperProfile()
     {
-        public UserRoleMapperProfile()
-        {
-            CreateMap<AppUserRole, AppUserRole>();
-        }
+        CreateMap<AppUserRole, AppUserRole>();
     }
 }

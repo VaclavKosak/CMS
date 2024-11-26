@@ -1,13 +1,12 @@
 using AutoMapper;
 using CMS.DAL.Entities;
 
-namespace CMS.DAL.MapperProfiles
+namespace CMS.DAL.MapperProfiles;
+
+public class ArticleMapperProfile : Profile
 {
-    public class ArticleMapperProfile : Profile
+    public ArticleMapperProfile()
     {
-        public ArticleMapperProfile()
-        {
-            CreateMap<ArticleEntity, ArticleEntity>();
-        }
+        CreateMap<ArticleEntity, ArticleEntity>();
     }
 }

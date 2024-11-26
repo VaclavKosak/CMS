@@ -4,7 +4,7 @@
     ViewData["Title"] = "Resend email confirmation";
 }
 
-<form  method="post">
+<form method="post">
     <div class="row g-3">
         <h1 class="h3 mb-3 display-6 fw-bold">@ViewData["Title"]</h1>
         <div class="col-12">
@@ -12,13 +12,13 @@
         </div>
         <div class="col-12">
             <label asp-for="Input.Email" class="form-label">@_localizer["email"]</label>
-            <input asp-for="Input.Email" class="form-control" />
+            <input asp-for="Input.Email" class="form-control"/>
             <span asp-validation-for="Input.Email" class="invalid-feedback">@_localizer["email_invalid"]</span>
         </div>
-        <input class="w-100 btn btn-lg btn-dark" type="submit" value="@_localizer["resend_button"]" />
+        <input class="w-100 btn btn-lg btn-dark" type="submit" value="@_localizer["resend_button"]"/>
     </div>
 </form>
 
 @section Scripts {
-    <partial name="_ValidationScriptsPartial" />
+    <partial name="_ValidationScriptsPartial"/>
 }

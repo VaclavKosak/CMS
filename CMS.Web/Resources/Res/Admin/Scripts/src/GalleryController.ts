@@ -1,11 +1,11 @@
 ﻿namespace admin {
     export class GalleryController {
-        private readonly imageFormId:string;
-        private readonly urlElementId:string;
-        
-        private progressBar:HTMLDivElement;
+        private readonly imageFormId: string;
+        private readonly urlElementId: string;
 
-        constructor(imageFormId:string, urlElementId:string) {
+        private progressBar: HTMLDivElement;
+
+        constructor(imageFormId: string, urlElementId: string) {
             this.imageFormId = imageFormId;
             this.urlElementId = urlElementId;
 
@@ -14,11 +14,11 @@
 
         private init() {
             document.addEventListener('submit', this.UploadImages.bind(this));
-            
+
             this.progressBar = <HTMLDivElement>document.getElementById('progress-bar');
         }
 
-        public async UploadImages(event:any) {
+        public async UploadImages(event: any) {
             event.preventDefault();
             event.stopPropagation();
             event.stopImmediatePropagation();
@@ -30,16 +30,16 @@
 
             // GET URL
             let parentUrlElement = <HTMLInputElement>document.getElementById(this.urlElementId);
-            if (parentUrlElement == null){
+            if (parentUrlElement == null) {
                 return;
             }
             let parentUrl = parentUrlElement.value;
 
             let url = formElement.action + "/" + parentUrl;
-            
+
             let maxValue = formData.getAll("Files.FileUpload").length;
             let valueCounter = 0;
-            
+
             for (const file of formData.getAll("Files.FileUpload")) {
                 await admin.GalleryController.SendRequest(url, file).then(() => this.UpdateProgressBarValue(maxValue, valueCounter));
                 valueCounter++;
@@ -48,8 +48,7 @@
             location.reload();
         }
 
-        private static async SendRequest(url:string, file:any)
-        {
+        private static async SendRequest(url: string, file: any) {
             const formData = new FormData()
             formData.append("file", file);
 
@@ -66,10 +65,9 @@
                 return false;
             }
         }
-        
-        private UpdateProgressBarValue(maxValue:number, actualValue:number)
-        {
-            let value = Math.round(actualValue*100/maxValue);
+
+        private UpdateProgressBarValue(maxValue: number, actualValue: number) {
+            let value = Math.round(actualValue * 100 / maxValue);
             this.progressBar.setAttribute("style", `width:${value}%`);
             this.progressBar.innerText = `${value}%`;
         }

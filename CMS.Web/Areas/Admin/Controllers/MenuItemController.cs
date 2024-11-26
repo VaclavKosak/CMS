@@ -1,6 +1,5 @@
 using System;
 using System.Threading.Tasks;
-using System.Xml.XPath;
 using AutoMapper;
 using CMS.BL.Facades;
 using CMS.Models.MenuItem;
@@ -9,134 +8,105 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace CMS.Web.Areas.Admin.Controllers
+namespace CMS.Web.Areas.Admin.Controllers;
+
+[Area("Admin")]
+[Authorize(Policy = "MenuItem")]
+public class MenuItemController(MenuItemFacade menuItemFacade, IMapper mapper, IConfiguration configuration)
+    : Controller
 {
-    [Area("Admin")]
-    [Authorize(Policy = "MenuItem")]
-    public class MenuItemController : Controller
+    public async Task<IActionResult> Index()
     {
-        private readonly MenuItemFacade _menuItemFacade;
-        private readonly IMapper _mapper;
-        private readonly IConfiguration _configuration;
-        
-        public MenuItemController(MenuItemFacade menuItemFacade, IMapper mapper, IConfiguration configuration)
-        {
-            _menuItemFacade = menuItemFacade;
-            _mapper = mapper;
-            _configuration = configuration;
-        }
-        
-        public async Task<IActionResult> Index()
-        {
-            var items = await _menuItemFacade.GetAll(Guid.Empty);
-            return View(items);
-        }
-        
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+        var items = await menuItemFacade.GetAll(Guid.Empty);
+        return View(items);
+    }
 
-            var item = await _menuItemFacade.GetDetailDataById(id.Value);
+    public async Task<IActionResult> Details(Guid? id)
+    {
+        if (id == null) return NotFound();
 
+        var item = await menuItemFacade.GetDetailDataById(id.Value);
+
+        return View(item);
+    }
+
+    public IActionResult Create(Guid? parentId)
+    {
+        ViewBag.Domain = configuration["Domain"];
+        var newModel = new MenuItemModel
+        {
+            ParentId = parentId ?? Guid.Empty
+        };
+        return View(newModel);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Create(MenuItemModel item)
+    {
+        ViewBag.Domain = configuration["Domain"];
+        if (!ModelState.IsValid) return View(item);
+        await menuItemFacade.Create(item);
+
+        return item.ParentId != Guid.Empty
+            ? RedirectToAction(nameof(Details), new { id = item.ParentId, area = "Admin" })
+            : RedirectToAction(nameof(Index), new { area = "Admin" });
+    }
+
+    public async Task<IActionResult> Edit(Guid? id)
+    {
+        ViewBag.Domain = configuration["Domain"];
+        if (id == null) return NotFound();
+
+        var item = await menuItemFacade.GetById(id.Value);
+
+        return View(mapper.Map<MenuItemModel>(item));
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(Guid id, MenuItemModel item)
+    {
+        ViewBag.Domain = configuration["Domain"];
+        if (id != item.Id) return NotFound();
+
+        if (!ModelState.IsValid) return RedirectToAction(nameof(Index), new { area = "Admin" });
+        try
+        {
+            await menuItemFacade.Update(item);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
             return View(item);
         }
 
-        public IActionResult Create(Guid? parentId)
-        {
-            ViewBag.Domain = _configuration["Domain"];
-            var newModel = new MenuItemNewModel
-            {
-                ParentId = parentId ?? Guid.Empty
-            };
-            return View(newModel);
-        }
-        
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(MenuItemNewModel item)
-        {
-            ViewBag.Domain = _configuration["Domain"];
-            if (ModelState.IsValid)
-            {
-                Guid id = await _menuItemFacade.Create(item);
+        return RedirectToAction(nameof(Index), new { area = "Admin" });
+    }
 
-                return item.ParentId != Guid.Empty ? 
-                    RedirectToAction(nameof(Details), new { id = item.ParentId, area="Admin" }) : 
-                    RedirectToAction(nameof(Index), new { area = "Admin" });
-            }
-            return View(item);
-        }
-        
-        public async Task<IActionResult> Edit(Guid? id)
-        {
-            ViewBag.Domain = _configuration["Domain"];
-            if (id == null)
-            {
-                return NotFound();
-            }
+    public async Task<IActionResult> Delete(Guid? id)
+    {
+        if (id == null) return NotFound();
 
-            var item = await _menuItemFacade.GetById(id.Value);
-            
-            return View(_mapper.Map<MenuItemUpdateModel>(item));
-        }
+        var item = await menuItemFacade.GetById(id.Value);
+        return View(item);
+    }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(Guid id, MenuItemUpdateModel item)
-        {
-            ViewBag.Domain = _configuration["Domain"];
-            if (id != item.Id)
-            {
-                return NotFound();
-            }
+    [HttpPost]
+    [ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(Guid id)
+    {
+        await menuItemFacade.Remove(id);
+        return RedirectToAction(nameof(Index), new { area = "Admin" });
+    }
 
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    await _menuItemFacade.Update(item);
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    return View(item);
-                }
-                
-                return RedirectToAction(nameof(Index), new { area = "Admin" });
-            }
-            
-            return RedirectToAction(nameof(Index), new { area = "Admin" });
-        }
-        
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+    public async Task<IActionResult> ChangeOrder(Guid firstItem, Guid secondItem)
+    {
+        await menuItemFacade.ChangeOrder(firstItem, secondItem);
+        var item = await menuItemFacade.GetById(firstItem);
 
-            var item = await _menuItemFacade.GetById(id.Value);
-            return View(item);
-        }
-        
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            await _menuItemFacade.Remove(id);
-            return RedirectToAction(nameof(Index), new { area = "Admin" });
-        }
-
-        public async Task<IActionResult> ChangeOrder(Guid firstItem, Guid secondItem)
-        {
-            await _menuItemFacade.ChangeOrder(firstItem, secondItem);
-            var item = await _menuItemFacade.GetById(firstItem);
-            
-            return item.ParentId != Guid.Empty ? 
-                RedirectToAction("Details", new { id = item.ParentId, area="Admin" }) : 
-                RedirectToAction(nameof(Index), new { area = "Admin" });
-        }
+        return item.ParentId != Guid.Empty
+            ? RedirectToAction("Details", new { id = item.ParentId, area = "Admin" })
+            : RedirectToAction(nameof(Index), new { area = "Admin" });
     }
 }

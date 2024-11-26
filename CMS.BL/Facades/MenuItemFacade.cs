@@ -7,67 +7,53 @@ using CMS.DAL.Entities;
 using CMS.DAL.Repositories;
 using CMS.Models.MenuItem;
 
-namespace CMS.BL.Facades
+namespace CMS.BL.Facades;
+
+public class MenuItemFacade(MenuItemRepository repository, IMapper mapper)
+    : FacadeBase<MenuItemModel, MenuItemModel, MenuItemModel, MenuItemModel,
+        MenuItemRepository, MenuItemEntity, Guid>(repository, mapper)
 {
-    public class MenuItemFacade: FacadeBase<MenuItemListModel, MenuItemDetailModel, MenuItemNewModel, MenuItemUpdateModel, 
-        MenuItemRepository, MenuItemEntity, Guid>
+    public async Task<List<MenuItemModel>> GetAll(Guid parentId)
     {
-        public MenuItemFacade(MenuItemRepository repository, IMapper mapper) 
-            : base(repository, mapper)
-        {
-        }
-        
-        public async Task<List<MenuItemListModel>> GetAll(Guid parentId)
-        {
-            return Mapper.Map<List<MenuItemListModel>>(await Repository.GetAll(parentId));
-        }
-        
-        public async Task<MenuItemDetailModel> GetDetailDataById(Guid id)
-        {
-            var entity = await Repository.GetById(id);
-            var detailData = Mapper.Map<MenuItemDetailModel>(entity);
-            detailData.MenuList = await GetAll(detailData.Id);
-            return detailData;
-        }
+        return Mapper.Map<List<MenuItemModel>>(await Repository.GetAll(parentId));
+    }
 
-        public override async Task<Guid> Create(MenuItemNewModel newModel)
-        {
-            var order = 0;
-            var items = await Repository.GetAll();
-            if (items.Count == 0)
-            {
-                order = 1;
-            }
-            else
-            {
-                order = items.Max(m => m.Order) + 1;
-            }
+    public async Task<MenuItemModel> GetDetailDataById(Guid id)
+    {
+        var entity = await Repository.GetById(id);
+        var detailData = Mapper.Map<MenuItemModel>(entity);
+        detailData.MenuList = await GetAll(detailData.Id);
+        return detailData;
+    }
 
-            newModel.Order = order;
-            var entity = Mapper.Map<MenuItemEntity>(newModel);
-            return await Repository.Insert(entity);
-        }
+    public override async Task<Guid> Create(MenuItemModel newModel)
+    {
+        int order;
+        var items = await Repository.GetAll();
+        if (items.Count == 0)
+            order = 1;
+        else
+            order = items.Max(m => m.Order) + 1;
 
-        public async Task<bool> ChangeOrder(Guid firstItem, Guid secondItem)
-        {
-            var firstEntity = await Repository.GetById(firstItem);
-            var secondEntity = await Repository.GetById(secondItem);
+        newModel.Order = order;
+        var entity = Mapper.Map<MenuItemEntity>(newModel);
+        return await Repository.Insert(entity);
+    }
 
-            if (firstEntity == null || secondEntity == null)
-            {
-                return false;
-            }
+    public async Task ChangeOrder(Guid firstItem, Guid secondItem)
+    {
+        var firstEntity = await Repository.GetById(firstItem);
+        var secondEntity = await Repository.GetById(secondItem);
 
-            var firstOrder = firstEntity.Order;
-            var secondOrder = secondEntity.Order;
+        if (firstEntity == null || secondEntity == null) return;
 
-            firstEntity.Order = secondOrder;
-            secondEntity.Order = firstOrder;
+        var firstOrder = firstEntity.Order;
+        var secondOrder = secondEntity.Order;
 
-            await Repository.Update(firstEntity);
-            await Repository.Update(secondEntity);
+        firstEntity.Order = secondOrder;
+        secondEntity.Order = firstOrder;
 
-            return true;
-        }
+        await Repository.Update(firstEntity);
+        await Repository.Update(secondEntity);
     }
 }
