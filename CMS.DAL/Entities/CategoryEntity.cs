@@ -6,6 +6,6 @@ namespace CMS.DAL.Entities;
 public class CategoryEntity : EntityBase<Guid>
 {
     public string Name { get; set; }
-        
+
     public ICollection<ArticleEntity> Article { get; set; }
 }

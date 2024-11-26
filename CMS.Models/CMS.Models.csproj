@@ -6,8 +6,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CMS.Common\CMS.Common.csproj" />
-      <ProjectReference Include="..\CMS.DAL\CMS.DAL.csproj" />
+        <ProjectReference Include="..\CMS.Common\CMS.Common.csproj"/>
+        <ProjectReference Include="..\CMS.DAL\CMS.DAL.csproj"/>
     </ItemGroup>
 
 </Project>

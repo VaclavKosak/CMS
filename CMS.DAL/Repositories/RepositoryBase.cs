@@ -7,18 +7,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CMS.DAL.Repositories;
 
-public class RepositoryBase<TEntity, TId> 
+public class RepositoryBase<TEntity, TId>
     where TEntity : class, IEntity<TId>
 {
-    protected readonly Func<WebDataContext> ContextFactory;
     private readonly IMapper _mapper;
+    protected readonly Func<WebDataContext> ContextFactory;
 
     protected RepositoryBase(Func<WebDataContext> contextFactory, IMapper mapper)
     {
         ContextFactory = contextFactory;
         _mapper = mapper;
     }
-        
+
     public virtual async Task<IList<TEntity>> GetAll()
     {
         await using var context = ContextFactory();
@@ -36,23 +36,19 @@ public class RepositoryBase<TEntity, TId>
         await using var context = ContextFactory();
 
         if (entity is IEntity<Guid> guidEntity)
-        {
             guidEntity.Id = Guid.NewGuid();
-        }
         else
-        {
             entity.Id = default;
-        }
-            
+
         await context.Set<TEntity>().AddAsync(entity);
         await context.SaveChangesAsync();
         return entity.Id;
     }
-        
+
     public virtual async Task<TId> Update(TEntity entity)
     {
         await using var context = ContextFactory();
-            
+
         var entityExists = await GetById(entity.Id);
         if (entityExists == null) return default;
         _mapper.Map(entity, entityExists);
@@ -61,11 +57,11 @@ public class RepositoryBase<TEntity, TId>
 
         return entityExists.Id;
     }
-        
+
     public virtual async Task Remove(TId id)
     {
         await using var context = ContextFactory();
-            
+
         var entityExists = await GetById(id);
         context.Set<TEntity>().Remove(entityExists);
         await context.SaveChangesAsync();

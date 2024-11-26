@@ -19,7 +19,7 @@ public class MenuItemRepository(Func<WebDataContext> contextFactory, IMapper map
             .Where(m => m.ParentId == parentId)
             .OrderBy(m => m.Order).ToListAsync();
     }
-        
+
     public override async Task<IList<MenuItemEntity>> GetAll()
     {
         await using var context = ContextFactory();

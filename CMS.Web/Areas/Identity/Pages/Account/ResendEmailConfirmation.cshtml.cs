@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -12,66 +11,60 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 
-namespace CMS.Web.Areas.Identity.Pages.Account
+namespace CMS.Web.Areas.Identity.Pages.Account;
+
+[AllowAnonymous]
+public class ResendEmailConfirmationModel : PageModel
 {
-    [AllowAnonymous]
-    public class ResendEmailConfirmationModel : PageModel
+    private readonly IConfiguration _configuration;
+    private readonly IEmailSender _emailSender;
+    private readonly UserManager<AppUser> _userManager;
+
+    public ResendEmailConfirmationModel(UserManager<AppUser> userManager, IEmailSender emailSender,
+        IConfiguration configuration)
     {
-        private readonly UserManager<AppUser> _userManager;
-        private readonly IEmailSender _emailSender;
-        private readonly IConfiguration _configuration;
+        _userManager = userManager;
+        _emailSender = emailSender;
+        _configuration = configuration;
+    }
 
-        public ResendEmailConfirmationModel(UserManager<AppUser> userManager, IEmailSender emailSender, IConfiguration configuration)
+    [BindProperty] public InputModel Input { get; set; }
+
+    public void OnGet()
+    {
+    }
+
+    public async Task<IActionResult> OnPostAsync()
+    {
+        if (!ModelState.IsValid) return Page();
+
+        var user = await _userManager.FindByEmailAsync(Input.Email);
+        if (user == null)
         {
-            _userManager = userManager;
-            _emailSender = emailSender;
-            _configuration = configuration;
-        }
-
-        [BindProperty]
-        public InputModel Input { get; set; }
-
-        public class InputModel
-        {
-            [Required]
-            [EmailAddress]
-            public string Email { get; set; }
-        }
-
-        public void OnGet()
-        {
-        }
-
-        public async Task<IActionResult> OnPostAsync()
-        {
-            if (!ModelState.IsValid)
-            {
-                return Page();
-            }
-
-            var user = await _userManager.FindByEmailAsync(Input.Email);
-            if (user == null)
-            {
-                ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
-                return Page();
-            }
-
-            var userId = await _userManager.GetUserIdAsync(user);
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Page(
-                "/Account/ConfirmEmail",
-                pageHandler: null,
-                values: new { userId = userId, code = code },
-                host: _configuration["Domain"],
-                protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                Input.Email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
-
             ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
             return Page();
         }
+
+        var userId = await _userManager.GetUserIdAsync(user);
+        var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+        var callbackUrl = Url.Page(
+            "/Account/ConfirmEmail",
+            null,
+            new { userId, code },
+            host: _configuration["Domain"],
+            protocol: Request.Scheme);
+        await _emailSender.SendEmailAsync(
+            Input.Email,
+            "Confirm your email",
+            $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+
+        ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
+        return Page();
+    }
+
+    public class InputModel
+    {
+        [Required] [EmailAddress] public string Email { get; set; }
     }
 }

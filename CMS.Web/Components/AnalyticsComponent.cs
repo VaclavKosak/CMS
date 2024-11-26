@@ -11,21 +11,15 @@ public class AnalyticsComponent(IConfiguration configuration) : ViewComponent
     public Task<IViewComponentResult> InvokeAsync(string extraScript)
     {
         var configValues = new List<string>();
-        
+
         var configValue = configuration["google-analytics"];
-        
+
         // Google analytics
-        if (!string.IsNullOrEmpty(configValue))
-        {
-            configValues.Add(configValue);
-        }
-        
+        if (!string.IsNullOrEmpty(configValue)) configValues.Add(configValue);
+
         // Google ads
         configValue = configuration["google-ads"];
-        if (!string.IsNullOrEmpty(configValue))
-        {
-            configValues.Add(configValue);
-        }
+        if (!string.IsNullOrEmpty(configValue)) configValues.Add(configValue);
 
         var analyticsModel = new AnalyticsViewModel
         {

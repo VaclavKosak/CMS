@@ -8,7 +8,7 @@ public class BLInstaller : IInstaller
 {
     public void Install(IServiceCollection serviceCollection)
     {
-        serviceCollection.Scan(selector => 
+        serviceCollection.Scan(selector =>
             selector.FromCallingAssembly()
                 .AddClasses(classes => classes.AssignableTo<IAppFacade>())
                 .AsSelfWithInterfaces()

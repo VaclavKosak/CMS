@@ -1,12 +1,12 @@
 ﻿@model CMS.Models.Calendar.CalendarUpdateModel
 
 @{
-    ViewBag.Title = @_localizer["title"];
+    ViewBag.Title = _localizer["title"];
 }
 
 <form asp-action="Edit" class="row g-3 needs-validation" novalidate>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="Id"/>
     <div class="col-md-12">
         <label asp-for="Title" class="form-label">@_localizer["event_title"]</label>
         <input asp-for="Title" class="form-control">
@@ -29,6 +29,6 @@
     </div>
 
     <div class="col-12">
-        <input class="btn btn-dark" type="submit" value="@_localizer["edit_button"]" />
+        <input class="btn btn-dark" type="submit" value="@_localizer["edit_button"]"/>
     </div>
 </form>

@@ -15,17 +15,15 @@ public class GalleryRepository(Func<WebDataContext> contextFactory, IMapper mapp
     public async Task<IList<GalleryEntity>> GetAll(Guid parentId)
     {
         await using var context = ContextFactory();
-        return await context.Set<GalleryEntity>().Where(m => m.ParentId == parentId).OrderBy(o => o.DateTime).ToListAsync();
+        return await context.Set<GalleryEntity>().Where(m => m.ParentId == parentId).OrderBy(o => o.DateTime)
+            .ToListAsync();
     }
-        
+
     public async Task<GalleryEntity> GetByUrl(string url, Guid? parentId)
     {
         await using var context = ContextFactory();
         var query = context.Set<GalleryEntity>().AsQueryable();
-        if (parentId != null)
-        {
-            query = query.Where(m => m.ParentId == parentId.Value);
-        }
+        if (parentId != null) query = query.Where(m => m.ParentId == parentId.Value);
         return await query.FirstOrDefaultAsync(entity => entity.Url.Equals(url));
     }
 }

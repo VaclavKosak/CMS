@@ -17,10 +17,11 @@ public class CategoryRepository(Func<WebDataContext> contextFactory, IMapper map
         await using var context = ContextFactory();
         return await context.Set<CategoryEntity>().Where(w => ids.Contains(w.Id)).Include(i => i.Article).ToListAsync();
     }
-        
+
     public override async Task<CategoryEntity> GetById(Guid id)
     {
         await using var context = ContextFactory();
-        return await context.Set<CategoryEntity>().Include(i => i.Article).FirstOrDefaultAsync(entity => entity.Id.Equals(id));
+        return await context.Set<CategoryEntity>().Include(i => i.Article)
+            .FirstOrDefaultAsync(entity => entity.Id.Equals(id));
     }
 }

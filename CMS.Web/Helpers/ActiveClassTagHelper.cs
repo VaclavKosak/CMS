@@ -15,27 +15,18 @@ public class ActiveClassTagHelper(IHtmlGenerator generator) : AnchorTagHelper(ge
         var currentAction = routeData["action"] as string;
         var result = false;
 
-        if (!string.IsNullOrWhiteSpace(Controller) && !String.IsNullOrWhiteSpace(Action))
-        {
+        if (!string.IsNullOrWhiteSpace(Controller) && !string.IsNullOrWhiteSpace(Action))
             // result = string.Equals(Action, currentAction, StringComparison.OrdinalIgnoreCase) && string.Equals(Controller, currentController, StringComparison.OrdinalIgnoreCase);
             result = string.Equals(Controller, currentController, StringComparison.OrdinalIgnoreCase);
-        }
         else if (!string.IsNullOrWhiteSpace(Action))
-        {
             result = string.Equals(Action, currentAction, StringComparison.OrdinalIgnoreCase);
-        }
         else if (!string.IsNullOrWhiteSpace(Controller))
-        {
             result = string.Equals(Controller, currentController, StringComparison.OrdinalIgnoreCase);
-        }
 
         if (result)
         {
             var existingClasses = output.Attributes["class"].Value.ToString();
-            if (output.Attributes["class"] != null)
-            {
-                output.Attributes.Remove(output.Attributes["class"]);
-            }
+            if (output.Attributes["class"] != null) output.Attributes.Remove(output.Attributes["class"]);
 
             output.Attributes.Add("class", $"{existingClasses} active");
         }

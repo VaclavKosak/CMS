@@ -20,7 +20,7 @@ public class UserRoleRepository(Func<WebDataContext> contextFactory, IMapper map
             .ToListAsync();
         return items;
     }
-        
+
     public override async Task<AppUserRole> GetById(Guid id)
     {
         await using var context = ContextFactory();

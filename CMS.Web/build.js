@@ -1,6 +1,6 @@
 ﻿import esbuild from 'esbuild'
 import fs from 'fs'
-import { sassPlugin } from 'esbuild-sass-plugin';
+import {sassPlugin} from 'esbuild-sass-plugin';
 import postcss from 'postcss';
 import autoprefixer from 'autoprefixer';
 import postcssPresetEnv from 'postcss-preset-env';
@@ -12,12 +12,13 @@ const watch = args.includes('--watch')
 const watchPlugin = {
     name: 'watch-plugin',
     setup(build) {
-        build.onStart(() => { console.log('\x1b[0m', 'Build starting') })
+        build.onStart(() => {
+            console.log('\x1b[0m', 'Build starting')
+        })
         build.onEnd((result) => {
             if (result.errors.length > 0) {
                 console.log('\x1b[31m', `[${new Date(Date.now()).toLocaleTimeString()}] Build finished,  with errors: ${result.errors}`)
-            }
-            else {
+            } else {
                 console.log('\x1b[32m', `[${new Date(Date.now()).toLocaleTimeString()}] Build finished successfully!`)
             }
         })
@@ -25,7 +26,7 @@ const watchPlugin = {
 }
 
 // configure project paths for auto-discovery
-const inputWebPaths = [ './Resources/Res/Web/Styles', './Resources/Res/Web/Scripts'];
+const inputWebPaths = ['./Resources/Res/Web/Styles', './Resources/Res/Web/Scripts'];
 const inputAdminPaths = ['./Resources/Res/Admin/Styles', './Resources/Res/Admin/Scripts'];
 const extensions = {
     '.ts': '.js',
@@ -44,7 +45,7 @@ function autoDiscoverFiles(path) {
         if (fs.lstatSync(entryPath).isDirectory()) {
             // recursive browse directory
             const childTargets = autoDiscoverFiles(entryPath);
-            targets = { ...targets, ...childTargets };
+            targets = {...targets, ...childTargets};
 
         } else if (!entry.startsWith("_")
             && !excludedExtensions.some(e => hasExtension(entryPath, e))) {
@@ -69,7 +70,7 @@ async function main(inputPaths) {
     let targets = {};
     for (const path of inputPaths) {
         const foundTargets = autoDiscoverFiles(path);
-        targets = { ...targets, ...foundTargets };
+        targets = {...targets, ...foundTargets};
     }
 
     // build
@@ -93,12 +94,12 @@ async function main(inputPaths) {
                 plugins: [
                     sassPlugin({
                         async transform(source) {
-                            const { css } = await postcss([autoprefixer, postcssPresetEnv({
+                            const {css} = await postcss([autoprefixer, postcssPresetEnv({
                                 stage: 1,
                                 features: {
                                     "cascade-layers": false
                                 }
-                            })]).process(source, { from: undefined })
+                            })]).process(source, {from: undefined})
                             return css
                         }
                     }),
@@ -110,13 +111,11 @@ async function main(inputPaths) {
             if (watch) {
                 await context.watch()
                 console.log('\x1b[33m', 'Watching...')
-            }
-            else {
+            } else {
                 context.rebuild()
                 context.dispose()
             }
-        }
-        catch (err) {
+        } catch (err) {
             console.error('\x1b[32m', `Cannot build ${target}: ${err}`);
         }
     }

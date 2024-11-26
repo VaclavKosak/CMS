@@ -17,29 +17,27 @@ public class ArticleRepository(Func<WebDataContext> contextFactory, IMapper mapp
         await using var context = ContextFactory();
         return await context.Set<ArticleEntity>().OrderByDescending(o => o.PublicationDateTime).ToListAsync();
     }
-        
+
     public override async Task<ArticleEntity> GetById(Guid id)
     {
         await using var context = ContextFactory();
-        return await context.Set<ArticleEntity>().Include(i => i.Category).AsNoTracking().FirstOrDefaultAsync(entity => entity.Id.Equals(id));
+        return await context.Set<ArticleEntity>().Include(i => i.Category).AsNoTracking()
+            .FirstOrDefaultAsync(entity => entity.Id.Equals(id));
     }
-        
+
     public async Task<Guid> Update(ArticleEntity entity, IList<CategoryEntity> categoriesList)
     {
         await using var context = ContextFactory();
-            
+
         var entityExists = await context.Article.Include(i => i.Category).FirstOrDefaultAsync(s => s.Id == entity.Id);
         if (entityExists == null) return default;
 
         for (var i = 0; i < context.Category.Count(); i++)
         {
-            var category = context.Category/*.Include(i => i.Article)*/.Skip(i).First();
+            var category = context.Category /*.Include(i => i.Article)*/.Skip(i).First();
             if (categoriesList.Any(i => i.Id == category.Id))
             {
-                if (!entityExists.Category.Any(i => i.Id == category.Id))
-                {
-                    entityExists.Category.Add(category);
-                }
+                if (!entityExists.Category.Any(i => i.Id == category.Id)) entityExists.Category.Add(category);
             }
             else
             {
@@ -50,13 +48,13 @@ public class ArticleRepository(Func<WebDataContext> contextFactory, IMapper mapp
                 }
             }
         }
-            
+
         context.Set<ArticleEntity>().Update(entityExists);
         await context.SaveChangesAsync();
 
         return entityExists.Id;
     }
-        
+
     public async Task<ArticleEntity> GetByUrl(string url)
     {
         await using var context = ContextFactory();

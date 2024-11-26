@@ -2,5 +2,5 @@
 
 namespace CMS.DAL.Repositories.Interfaces;
 
-public interface IAppRepository<TEntity, TId> 
+public interface IAppRepository<TEntity, TId>
     where TEntity : IEntity<TId>;

@@ -13,8 +13,8 @@ public class FacadeBase<TListModel, TDetailModel, TNewModel, TUpdateModel, TRepo
     where TRepository : RepositoryBase<TEntity, TId>
     where TEntity : class, IEntity<TId>
 {
-    protected readonly TRepository Repository = repository;
     protected readonly IMapper Mapper = mapper;
+    protected readonly TRepository Repository = repository;
 
     public virtual async Task<IList<TListModel>> GetAll()
     {
@@ -26,7 +26,7 @@ public class FacadeBase<TListModel, TDetailModel, TNewModel, TUpdateModel, TRepo
         var entity = await Repository.GetById(id);
         return Mapper.Map<TDetailModel>(entity);
     }
-        
+
     public virtual async Task<TUpdateModel> GetEditedById(TId id)
     {
         var entity = await Repository.GetById(id);

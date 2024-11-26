@@ -17,7 +17,7 @@ public class GalleryFacade(GalleryRepository repository, IMapper mapper)
     {
         return Mapper.Map<List<GalleryListModel>>(await Repository.GetAll(parentId));
     }
-        
+
     public virtual async Task<GalleryDetailModel> GetByUrl(string url)
     {
         var cleanUrl = url.Trim(' ', '/');
@@ -26,17 +26,14 @@ public class GalleryFacade(GalleryRepository repository, IMapper mapper)
         var parentId = Guid.Empty;
 
         var entity = new GalleryEntity();
-            
+
         foreach (var urlPart in urlParts)
         {
             entity = await Repository.GetByUrl(urlPart, parentId);
-            if (entity == null)
-            {
-                return null;
-            }
+            if (entity == null) return null;
             parentId = entity.Id;
         }
-            
+
         var detailData = Mapper.Map<GalleryDetailModel>(entity);
         detailData.GalleryList = await GetAll(detailData.Id);
         detailData.ParentUrl = cleanUrl;
@@ -47,11 +44,8 @@ public class GalleryFacade(GalleryRepository repository, IMapper mapper)
     {
         var item = await Repository.GetById(id);
         var urlList = new List<string>();
-        if (item == null)
-        {
-            return ("", urlList.ToArray());
-        }
-            
+        if (item == null) return ("", urlList.ToArray());
+
         var url = item.Url;
         urlList.Add(url);
         while (item.ParentId != Guid.Empty)

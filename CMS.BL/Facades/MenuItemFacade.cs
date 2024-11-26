@@ -17,7 +17,7 @@ public class MenuItemFacade(MenuItemRepository repository, IMapper mapper)
     {
         return Mapper.Map<List<MenuItemListModel>>(await Repository.GetAll(parentId));
     }
-        
+
     public async Task<MenuItemDetailModel> GetDetailDataById(Guid id)
     {
         var entity = await Repository.GetById(id);
@@ -31,13 +31,9 @@ public class MenuItemFacade(MenuItemRepository repository, IMapper mapper)
         var order = 0;
         var items = await Repository.GetAll();
         if (items.Count == 0)
-        {
             order = 1;
-        }
         else
-        {
             order = items.Max(m => m.Order) + 1;
-        }
 
         newModel.Order = order;
         var entity = Mapper.Map<MenuItemEntity>(newModel);
@@ -49,10 +45,7 @@ public class MenuItemFacade(MenuItemRepository repository, IMapper mapper)
         var firstEntity = await Repository.GetById(firstItem);
         var secondEntity = await Repository.GetById(secondItem);
 
-        if (firstEntity == null || secondEntity == null)
-        {
-            return false;
-        }
+        if (firstEntity == null || secondEntity == null) return false;
 
         var firstOrder = firstEntity.Order;
         var secondOrder = secondEntity.Order;

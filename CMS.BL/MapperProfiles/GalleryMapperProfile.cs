@@ -12,10 +12,10 @@ public class GalleryMapperProfile : Profile
         CreateMap<GalleryNewModel, GalleryEntity>();
         CreateMap<GalleryEntity, GalleryDetailModel>();
         CreateMap<GalleryDetailModel, GalleryNewModel>();
-            
+
         CreateMap<GalleryUpdateModel, GalleryEntity>();
         CreateMap<GalleryDetailModel, GalleryUpdateModel>();
-            
+
         CreateMap<GalleryEntity, GalleryUpdateModel>();
     }
 }

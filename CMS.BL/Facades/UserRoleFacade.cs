@@ -24,6 +24,7 @@ public class UserRoleFacade(
             item.Role = await roleRepository.GetById(item.RoleId);
             item.User = await userRepository.GetById(item.UserId);
         }
+
         return Mapper.Map<IList<UserRoleModel>>(items);
     }
 }

@@ -1,7 +1,7 @@
 ﻿@model CMS.Models.Calendar.CalendarNewModel
 
 @{
-    ViewBag.Title = @_localizer["title"];
+    ViewBag.Title = _localizer["title"];
 }
 
 <form asp-action="Create" class="row g-3 needs-validation" novalidate>
@@ -28,6 +28,6 @@
     </div>
 
     <div class="col-12">
-        <input class="btn btn-dark" type="submit" value="@_localizer["create_button"]" />
+        <input class="btn btn-dark" type="submit" value="@_localizer["create_button"]"/>
     </div>
 </form>

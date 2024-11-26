@@ -4,61 +4,50 @@ using CMS.BL.Facades;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace CMS.Web.Areas.Admin.Controllers
+namespace CMS.Web.Areas.Admin.Controllers;
+
+[Area("Admin")]
+[Authorize(Policy = "UserControls")]
+public class UserController : Controller
 {
-    [Area("Admin")]
-    [Authorize(Policy = "UserControls")]
-    public class UserController : Controller
+    private readonly UserFacade _userFacade;
+
+    public UserController(UserFacade userFacade)
     {
-        private readonly UserFacade _userFacade;
-        public UserController(UserFacade userFacade)
-        {
-            _userFacade = userFacade;
-        }
-        
-        public async Task<IActionResult> Index()
-        {
-            var users = await _userFacade.GetAll();
-            return View(users);
-        }
+        _userFacade = userFacade;
+    }
 
-        public async Task<IActionResult> Details(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+    public async Task<IActionResult> Index()
+    {
+        var users = await _userFacade.GetAll();
+        return View(users);
+    }
 
-            var userDetail = await _userFacade.GetById(id.Value);
-            if (userDetail == null)
-            {
-                return NotFound();
-            }
-            return View(userDetail);
-        }
-        
-        public async Task<IActionResult> Delete(Guid? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
+    public async Task<IActionResult> Details(Guid? id)
+    {
+        if (id == null) return NotFound();
 
-            var user = await _userFacade.GetById(id.Value);
-            if (user == null)
-            {
-                return NotFound();
-            }
+        var userDetail = await _userFacade.GetById(id.Value);
+        if (userDetail == null) return NotFound();
+        return View(userDetail);
+    }
 
-            return View(user);
-        }
-        
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(Guid id)
-        {
-            await _userFacade.Remove(id);
-            return RedirectToAction(nameof(Index), new { area = "Admin" });
-        }
+    public async Task<IActionResult> Delete(Guid? id)
+    {
+        if (id == null) return NotFound();
+
+        var user = await _userFacade.GetById(id.Value);
+        if (user == null) return NotFound();
+
+        return View(user);
+    }
+
+    [HttpPost]
+    [ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(Guid id)
+    {
+        await _userFacade.Remove(id);
+        return RedirectToAction(nameof(Index), new { area = "Admin" });
     }
 }

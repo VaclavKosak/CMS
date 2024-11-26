@@ -19,36 +19,40 @@ public static class FileHelpers
     // If you require a check on specific characters in the IsValidFileExtensionAndSignature
     // method, supply the characters in the _allowedChars field.
     private static readonly byte[] _allowedChars = { };
+
     // For more file signatures, see the File Signatures Database (https://www.filesignatures.net/)
     // and the official specifications for the file types you wish to add.
-    private static readonly Dictionary<string, List<byte[]>> _fileSignature = new Dictionary<string, List<byte[]>>
+    private static readonly Dictionary<string, List<byte[]>> _fileSignature = new()
     {
         { ".gif", new List<byte[]> { new byte[] { 0x47, 0x49, 0x46, 0x38 } } },
         { ".png", new List<byte[]> { new byte[] { 0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A } } },
-        { ".jpeg", new List<byte[]>
+        {
+            ".jpeg", new List<byte[]>
             {
                 new byte[] { 0xFF, 0xD8, 0xFF, 0xE0 },
                 new byte[] { 0xFF, 0xD8, 0xFF, 0xE2 },
-                new byte[] { 0xFF, 0xD8, 0xFF, 0xE3 },
+                new byte[] { 0xFF, 0xD8, 0xFF, 0xE3 }
             }
         },
-        { ".jpg", new List<byte[]>
+        {
+            ".jpg", new List<byte[]>
             {
                 new byte[] { 0xFF, 0xD8, 0xFF, 0xE0 },
                 new byte[] { 0xFF, 0xD8, 0xFF, 0xE1 },
-                new byte[] { 0xFF, 0xD8, 0xFF, 0xE8 },
+                new byte[] { 0xFF, 0xD8, 0xFF, 0xE8 }
             }
         },
-        { ".zip", new List<byte[]> 
+        {
+            ".zip", new List<byte[]>
             {
-                new byte[] { 0x50, 0x4B, 0x03, 0x04 }, 
+                new byte[] { 0x50, 0x4B, 0x03, 0x04 },
                 new byte[] { 0x50, 0x4B, 0x4C, 0x49, 0x54, 0x45 },
                 new byte[] { 0x50, 0x4B, 0x53, 0x70, 0x58 },
                 new byte[] { 0x50, 0x4B, 0x05, 0x06 },
                 new byte[] { 0x50, 0x4B, 0x07, 0x08 },
-                new byte[] { 0x57, 0x69, 0x6E, 0x5A, 0x69, 0x70 },
+                new byte[] { 0x57, 0x69, 0x6E, 0x5A, 0x69, 0x70 }
             }
-        },
+        }
     };
 
     // **WARNING!**
@@ -58,8 +62,8 @@ public static class FileHelpers
     // systems. For more information, see the topic that accompanies this sample
     // app.
 
-    public static async Task<byte[]> ProcessFormFile<T>(IFormFile formFile, 
-        ModelStateDictionary modelState, string[] permittedExtensions, 
+    public static async Task<byte[]> ProcessFormFile<T>(IFormFile formFile,
+        ModelStateDictionary modelState, string[] permittedExtensions,
         long sizeLimit)
     {
         var fieldDisplayName = string.Empty;
@@ -74,13 +78,9 @@ public static class FileHelpers
                     StringComparison.Ordinal) + 1));
 
         if (property != null)
-        {
             if (property.GetCustomAttribute(typeof(DisplayAttribute)) is
                 DisplayAttribute displayAttribute)
-            {
                 fieldDisplayName = $"{displayAttribute.Name} ";
-            }
-        }
 
         // Don't trust the file name sent by the client. To display
         // the file name, HTML-encode the value.
@@ -91,12 +91,12 @@ public static class FileHelpers
         // a BOM as their content.
         if (formFile.Length == 0)
         {
-            modelState.AddModelError(formFile.Name, 
+            modelState.AddModelError(formFile.Name,
                 $"{fieldDisplayName}({trustedFileNameForDisplay}) is empty.");
 
             return Array.Empty<byte>();
         }
-            
+
         if (formFile.Length > sizeLimit)
         {
             var megabyteSizeLimit = sizeLimit / 1048576;
@@ -117,23 +117,17 @@ public static class FileHelpers
                 // content was a BOM and the content is actually
                 // empty after removing the BOM.
                 if (memoryStream.Length == 0)
-                {
                     modelState.AddModelError(formFile.Name,
                         $"{fieldDisplayName}({trustedFileNameForDisplay}) is empty.");
-                }
 
                 if (!IsValidFileExtensionAndSignature(
                         formFile.FileName, memoryStream, permittedExtensions))
-                {
                     modelState.AddModelError(formFile.Name,
                         $"{fieldDisplayName}({trustedFileNameForDisplay}) file " +
                         "type isn't permitted or the file's signature " +
                         "doesn't match the file's extension.");
-                }
                 else
-                {
                     return memoryStream.ToArray();
-                }
             }
         }
         catch (Exception ex)
@@ -148,7 +142,7 @@ public static class FileHelpers
     }
 
     public static async Task<byte[]> ProcessStreamedFile(
-        MultipartSection section, ContentDispositionHeaderValue contentDisposition, 
+        MultipartSection section, ContentDispositionHeaderValue contentDisposition,
         ModelStateDictionary modelState, string[] permittedExtensions, long sizeLimit)
     {
         try
@@ -169,7 +163,7 @@ public static class FileHelpers
                         $"The file exceeds {megabyteSizeLimit:N1} MB.");
                 }
                 else if (!IsValidFileExtensionAndSignature(
-                             contentDisposition.FileName.Value, memoryStream, 
+                             contentDisposition.FileName.Value, memoryStream,
                              permittedExtensions))
                 {
                     modelState.AddModelError("File",
@@ -195,17 +189,11 @@ public static class FileHelpers
 
     private static bool IsValidFileExtensionAndSignature(string fileName, Stream data, string[] permittedExtensions)
     {
-        if (string.IsNullOrEmpty(fileName) || data == null || data.Length == 0)
-        {
-            return false;
-        }
+        if (string.IsNullOrEmpty(fileName) || data == null || data.Length == 0) return false;
 
         var ext = Path.GetExtension(fileName).ToLowerInvariant();
 
-        if (string.IsNullOrEmpty(ext) || !permittedExtensions.Contains(ext))
-        {
-            return false;
-        }
+        if (string.IsNullOrEmpty(ext) || !permittedExtensions.Contains(ext)) return false;
 
         data.Position = 0;
 
@@ -217,12 +205,8 @@ public static class FileHelpers
                 {
                     // Limits characters to ASCII encoding.
                     for (var i = 0; i < data.Length; i++)
-                    {
                         if (reader.ReadByte() > sbyte.MaxValue)
-                        {
                             return false;
-                        }
-                    }
                 }
                 else
                 {
@@ -233,9 +217,7 @@ public static class FileHelpers
                         var b = reader.ReadByte();
                         if (b > sbyte.MaxValue ||
                             !_allowedChars.Contains(b))
-                        {
                             return false;
-                        }
                     }
                 }
 
@@ -263,60 +245,52 @@ public static class FileHelpers
             var signatures = _fileSignature[ext];
             var headerBytes = reader.ReadBytes(signatures.Max(m => m.Length));
 
-            return signatures.Any(signature => 
+            return signatures.Any(signature =>
                 headerBytes.Take(signature.Length).SequenceEqual(signature));
         }
     }
-        
+
     public static IEnumerable<string> SortFilesByName(IEnumerable<string> list)
     {
         var items = list.ToArray();
         Array.Sort(items, new AlphanumComparator());
         return items;
     }
-        
+
     public static IEnumerable<string> SortFilesByDate(IEnumerable<string> list)
     {
         var items = list.ToArray();
         Array.Sort(items, new DateComparator());
         return items;
     }
-        
+
     public static string[] GetImagesFromPath(string path, string url, SortByType sortByType)
     {
         url ??= "";
 
         var saveToPath = Path.Combine(path, url);
-            
-        if (!Directory.Exists(saveToPath))
-        {
-            return Array.Empty<string>();
-        } 
-            
+
+        if (!Directory.Exists(saveToPath)) return Array.Empty<string>();
+
         // Get all files
         var files = Directory.GetFiles(saveToPath).Select(s => s);
 
-        if (!files.Any())
-        {
-            return Array.Empty<string>();
-        }
+        if (!files.Any()) return Array.Empty<string>();
 
-        var imageExtension = new string[] { ".jpg", ".png", ".gif", ".webp", ".avif", ".jpeg" };
+        var imageExtension = new[] { ".jpg", ".png", ".gif", ".webp", ".avif", ".jpeg" };
         files = files.Where(w => imageExtension.Contains(new FileInfo(w).Extension.ToLower()));
 
         // Filter files by
-        files = sortByType == SortByType.Name ? FileHelpers.SortFilesByName(files) : FileHelpers.SortFilesByDate(files);
-            
+        files = sortByType == SortByType.Name ? SortFilesByName(files) : SortFilesByDate(files);
+
         // Filtered files to array
-        var filteredFiles = files.Select(m => m.Remove(0, m.LastIndexOf('\\')+1)).ToArray();
-            
+        var filteredFiles = files.Select(m => m.Remove(0, m.LastIndexOf('\\') + 1)).ToArray();
+
         for (var i = 0; i < filteredFiles.Length; i++)
         {
             var oldString = filteredFiles[i];
             if (oldString.Contains('/'))
-            {
                 filteredFiles[i] = oldString[oldString.LastIndexOf("/", StringComparison.Ordinal)..].Replace("/", "");
-            }
         }
 
         return filteredFiles;
@@ -325,12 +299,9 @@ public static class FileHelpers
     public static List<(string, string, string)> GetImagesFiles(string path, string url, SortByType sortByType)
     {
         var images = GetImagesFromPath(path, url, sortByType);
-        Dictionary<string, (string, string, string)> imagesFiles = new Dictionary<string, (string, string, string)>();
-        foreach (var image in images)
-        {
-            imagesFiles.Add(image.Split('.').First(), (image, "", ""));
-        }
-            
+        var imagesFiles = new Dictionary<string, (string, string, string)>();
+        foreach (var image in images) imagesFiles.Add(image.Split('.').First(), (image, "", ""));
+
         var detailImages = GetImagesFromPath(path, Path.Combine(url, "details"), sortByType);
         foreach (var image in detailImages)
         {
@@ -338,7 +309,7 @@ public static class FileHelpers
             var row = imagesFiles[key];
             imagesFiles[key] = (row.Item1, image, "");
         }
-            
+
         var thumbnailImages = GetImagesFromPath(path, Path.Combine(url, "thumbnails"), sortByType);
         foreach (var image in thumbnailImages)
         {
@@ -346,7 +317,7 @@ public static class FileHelpers
             var row = imagesFiles[key];
             imagesFiles[key] = (row.Item1, row.Item2, image);
         }
-            
+
         return imagesFiles.Values.ToList();
     }
 }

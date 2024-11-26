@@ -12,7 +12,7 @@ public class ArticleMapperProfile : Profile
         CreateMap<ArticleNewModel, ArticleEntity>();
         CreateMap<ArticleEntity, ArticleDetailModel>();
         CreateMap<ArticleDetailModel, ArticleNewModel>();
-            
+
         CreateMap<ArticleUpdateModel, ArticleEntity>();
         CreateMap<ArticleDetailModel, ArticleUpdateModel>();
     }

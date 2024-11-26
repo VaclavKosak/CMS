@@ -1,7 +1,6 @@
-namespace CMS.Models.Category
+namespace CMS.Models.Category;
+
+public class CategoryNewModel
 {
-    public class CategoryNewModel
-    {
-        public string Name { get; set; }
-    }
+    public string Name { get; set; }
 }

@@ -6,15 +6,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\CMS.Common\CMS.Common.csproj" />
-      <ProjectReference Include="..\CMS.DAL\CMS.DAL.csproj" />
-      <ProjectReference Include="..\CMS.Models\CMS.Models.csproj" />
+        <ProjectReference Include="..\CMS.Common\CMS.Common.csproj"/>
+        <ProjectReference Include="..\CMS.DAL\CMS.DAL.csproj"/>
+        <ProjectReference Include="..\CMS.Models\CMS.Models.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-      <PackageReference Include="Scrutor.AspNetCore" Version="3.3.0" />
+        <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1"/>
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0"/>
+        <PackageReference Include="Scrutor.AspNetCore" Version="3.3.0"/>
     </ItemGroup>
 
 </Project>

@@ -6,7 +6,7 @@ namespace CMS.Web.Models;
 
 public class FileUploadModel
 {
-    [Required]
-    public IList<IFormFile> FileUpload { get; set; }
+    [Required] public IList<IFormFile> FileUpload { get; set; }
+
     public string Url { get; set; }
 }

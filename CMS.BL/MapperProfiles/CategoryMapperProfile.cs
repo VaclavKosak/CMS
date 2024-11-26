@@ -12,7 +12,7 @@ public class CategoryMapperProfile : Profile
         CreateMap<CategoryNewModel, CategoryEntity>();
         CreateMap<CategoryEntity, CategoryDetailModel>();
         CreateMap<CategoryDetailModel, CategoryNewModel>();
-            
+
         CreateMap<CategoryUpdateModel, CategoryEntity>();
         CreateMap<CategoryDetailModel, CategoryUpdateModel>();
     }

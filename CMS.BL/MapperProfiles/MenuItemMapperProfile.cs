@@ -12,7 +12,7 @@ public class MenuItemMapperProfile : Profile
         CreateMap<MenuItemNewModel, MenuItemEntity>();
         CreateMap<MenuItemEntity, MenuItemDetailModel>();
         CreateMap<MenuItemDetailModel, MenuItemNewModel>();
-            
+
         CreateMap<MenuItemUpdateModel, MenuItemEntity>();
         CreateMap<MenuItemDetailModel, MenuItemUpdateModel>();
     }

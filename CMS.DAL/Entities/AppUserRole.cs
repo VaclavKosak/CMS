@@ -11,6 +11,6 @@ public class AppUserRole : IdentityUserRole<Guid>, IEntity<Guid>
 {
     public AppUser User { get; set; }
     public AppRole Role { get; set; }
-    [AllowNull]
-    public Guid Id { get; set; }
+
+    [AllowNull] public Guid Id { get; set; }
 }

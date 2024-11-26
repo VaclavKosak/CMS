@@ -7,15 +7,9 @@ public class AlphanumComparator : IComparer
 {
     public int Compare(object x, object y)
     {
-        if (x is not string s1)
-        {
-            return 0;
-        }
+        if (x is not string s1) return 0;
 
-        if (y is not string s2)
-        {
-            return 0;
-        }
+        if (y is not string s2) return 0;
 
         var len1 = s1.Length;
         var len2 = s2.Length;
@@ -43,13 +37,9 @@ public class AlphanumComparator : IComparer
                 marker1++;
 
                 if (marker1 < len1)
-                {
                     ch1 = s1[marker1];
-                }
                 else
-                {
                     break;
-                }
             } while (char.IsDigit(ch1) == char.IsDigit(space1[0]));
 
             do
@@ -58,13 +48,9 @@ public class AlphanumComparator : IComparer
                 marker2++;
 
                 if (marker2 < len2)
-                {
                     ch2 = s2[marker2];
-                }
                 else
-                {
                     break;
-                }
             } while (char.IsDigit(ch2) == char.IsDigit(space2[0]));
 
             // If we have collected numbers, compare them numerically.
@@ -85,11 +71,9 @@ public class AlphanumComparator : IComparer
                 result = string.Compare(str1, str2, StringComparison.Ordinal);
             }
 
-            if (result != 0)
-            {
-                return result;
-            }
+            if (result != 0) return result;
         }
+
         return len1 - len2;
     }
 }

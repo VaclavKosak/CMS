@@ -12,7 +12,7 @@ public class CalendarMapperProfile : Profile
         CreateMap<CalendarNewModel, CalendarEntity>();
         CreateMap<CalendarEntity, CalendarDetailModel>();
         CreateMap<CalendarDetailModel, CalendarNewModel>();
-            
+
         CreateMap<CalendarUpdateModel, CalendarEntity>();
         CreateMap<CalendarDetailModel, CalendarUpdateModel>();
     }

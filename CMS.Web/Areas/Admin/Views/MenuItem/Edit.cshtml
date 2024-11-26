@@ -1,14 +1,14 @@
 @model CMS.Models.MenuItem.MenuItemUpdateModel
 
 @{
-    ViewBag.Title = @_localizer["title"];
+    ViewBag.Title = _localizer["title"];
 }
 
 <form asp-action="Edit" class="row g-3 needs-validation" novalidate>
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="Id" />
-    <input type="hidden" asp-for="Order" />
-    <input type="hidden" asp-for="ParentId" />
+    <input type="hidden" asp-for="Id"/>
+    <input type="hidden" asp-for="Order"/>
+    <input type="hidden" asp-for="ParentId"/>
     <div class="col-md-12">
         <label asp-for="Title" class="form-label">@_localizer["menuitem_title"]</label>
         <input asp-for="Title" class="form-control" id="sourceUrl">
@@ -19,17 +19,19 @@
         <div class="input-group mb-3">
             <span class="input-group-text" id="url">@ViewBag.Domain/</span>
             <input asp-for="Url" class="form-control" aria-describedby="url" id="destUrl">
-            <button class="btn btn-outline-secondary" type="button" id="generate_url">@_localizer["generate_url"]</button>
+            <button class="btn btn-outline-secondary" type="button"
+                    id="generate_url">@_localizer["generate_url"]</button>
         </div>
         <span asp-validation-for="Url" class="invalid-feedback">@_localizer["url_invalid"]</span>
     </div>
 
     <div class="col-12">
-        <input class="btn btn-dark" type="submit" value="@_localizer["edit_button"]" />
+        <input class="btn btn-dark" type="submit" value="@_localizer["edit_button"]"/>
     </div>
 </form>
 
 @section Scripts
+
 {
     <script src="~/Resources/Res/Admin/Scripts/src/UrlController.js" asp-append-version="true"></script>
 }

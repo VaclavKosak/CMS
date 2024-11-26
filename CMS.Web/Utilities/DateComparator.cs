@@ -11,15 +11,9 @@ public class DateComparator : IComparer
 {
     public int Compare(object x, object y)
     {
-        if (x is not string s1)
-        {
-            return 0;
-        }
+        if (x is not string s1) return 0;
 
-        if (y is not string s2)
-        {
-            return 0;
-        }
+        if (y is not string s2) return 0;
 
         var objX = GetImageDate(s1);
         var objY = GetImageDate(s2);
