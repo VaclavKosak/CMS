@@ -4,12 +4,7 @@ using CMS.DAL.Entities;
 using CMS.DAL.Repositories;
 using CMS.Models.User;
 
-namespace CMS.BL.Facades
-{
-    public class UserFacade : FacadeBase<UserModel, UserModel, UserModel, UserModel, UserRepository, AppUser, Guid>
-    {
-        public UserFacade(UserRepository repository, IMapper mapper) : base(repository, mapper)
-        {
-        }
-    }
-}
+namespace CMS.BL.Facades;
+
+public class UserFacade(UserRepository repository, IMapper mapper)
+    : FacadeBase<UserModel, UserModel, UserModel, UserModel, UserRepository, AppUser, Guid>(repository, mapper);

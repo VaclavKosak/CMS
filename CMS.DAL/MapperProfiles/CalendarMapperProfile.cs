@@ -1,13 +1,12 @@
 ﻿using AutoMapper;
 using CMS.DAL.Entities;
 
-namespace CMS.DAL.MapperProfiles
+namespace CMS.DAL.MapperProfiles;
+
+public class CalendarMapperProfile : Profile
 {
-    public class CalendarMapperProfile : Profile
+    public CalendarMapperProfile()
     {
-        public CalendarMapperProfile()
-        {
-            CreateMap<CalendarEntity, CalendarEntity>();
-        }
+        CreateMap<CalendarEntity, CalendarEntity>();
     }
 }

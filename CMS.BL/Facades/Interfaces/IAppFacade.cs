@@ -1,7 +1,3 @@
-﻿namespace CMS.BL.Facades.Interfaces
-{
-    public interface IAppFacade
-    {
-        
-    }
-}
+﻿namespace CMS.BL.Facades.Interfaces;
+
+public interface IAppFacade;

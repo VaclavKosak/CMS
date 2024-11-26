@@ -2,14 +2,13 @@ using AutoMapper;
 using CMS.DAL.Entities;
 using CMS.Models.User;
 
-namespace CMS.BL.MapperProfiles
+namespace CMS.BL.MapperProfiles;
+
+public class UserMapperProfile : Profile
 {
-    public class UserMapperProfile : Profile
+    public UserMapperProfile()
     {
-        public UserMapperProfile()
-        {
-            CreateMap<UserModel, AppUser>();
-            CreateMap<AppUser, UserModel>();
-        }
+        CreateMap<UserModel, AppUser>();
+        CreateMap<AppUser, UserModel>();
     }
 }

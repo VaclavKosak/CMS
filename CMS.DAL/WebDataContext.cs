@@ -6,14 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CMS.DAL
 {
-    public class WebDataContext : IdentityDbContext<AppUser, AppRole, Guid, IdentityUserClaim<Guid>,
-        AppUserRole, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>
+    public class WebDataContext(DbContextOptions options)
+        : IdentityDbContext<AppUser, AppRole, Guid, IdentityUserClaim<Guid>,
+            AppUserRole, IdentityUserLogin<Guid>, IdentityRoleClaim<Guid>, IdentityUserToken<Guid>>(options)
     {
-        public WebDataContext(DbContextOptions options) : base(options)
-        {
-            
-        }
-        
         public virtual DbSet<ArticleEntity> Article { get; set; }
         public virtual DbSet<CategoryEntity> Category { get; set; }
         public virtual DbSet<GalleryEntity> Gallery { get; set; }

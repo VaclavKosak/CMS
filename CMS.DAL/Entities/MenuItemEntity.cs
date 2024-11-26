@@ -1,13 +1,11 @@
 using System;
-using CMS.Common.Enums;
 
-namespace CMS.DAL.Entities
+namespace CMS.DAL.Entities;
+
+public class MenuItemEntity : EntityBase<Guid>
 {
-    public class MenuItemEntity : EntityBase<Guid>
-    {
-        public Guid ParentId { get; set; }
-        public string Title { get; set; }
-        public int Order { get; set; }
-        public string Url { get; set; }
-    }
+    public Guid ParentId { get; set; }
+    public string Title { get; set; }
+    public int Order { get; set; }
+    public string Url { get; set; }
 }

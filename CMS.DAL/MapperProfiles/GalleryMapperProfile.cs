@@ -1,13 +1,12 @@
 using AutoMapper;
 using CMS.DAL.Entities;
 
-namespace CMS.DAL.MapperProfiles
+namespace CMS.DAL.MapperProfiles;
+
+public class GalleryMapperProfile : Profile
 {
-    public class GalleryMapperProfile : Profile
+    public GalleryMapperProfile()
     {
-        public GalleryMapperProfile()
-        {
-            CreateMap<GalleryEntity, GalleryEntity>();
-        }
+        CreateMap<GalleryEntity, GalleryEntity>();
     }
 }

@@ -7,29 +7,25 @@ using CMS.DAL.Entities;
 using CMS.DAL.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
-namespace CMS.DAL.Repositories
+namespace CMS.DAL.Repositories;
+
+public class GalleryRepository(Func<WebDataContext> contextFactory, IMapper mapper)
+    : RepositoryBase<GalleryEntity, Guid>(contextFactory, mapper), IAppRepository<GalleryEntity, Guid>
 {
-    public class GalleryRepository : RepositoryBase<GalleryEntity, Guid>, IAppRepository<GalleryEntity, Guid>
+    public async Task<IList<GalleryEntity>> GetAll(Guid parentId)
     {
-        public GalleryRepository(Func<WebDataContext> contextFactory, IMapper mapper) : base(contextFactory, mapper)
-        {
-        }
+        await using var context = ContextFactory();
+        return await context.Set<GalleryEntity>().Where(m => m.ParentId == parentId).OrderBy(o => o.DateTime).ToListAsync();
+    }
         
-        public async Task<IList<GalleryEntity>> GetAll(Guid parentId)
+    public async Task<GalleryEntity> GetByUrl(string url, Guid? parentId)
+    {
+        await using var context = ContextFactory();
+        var query = context.Set<GalleryEntity>().AsQueryable();
+        if (parentId != null)
         {
-            await using var context = _contextFactory();
-            return await context.Set<GalleryEntity>().Where(m => m.ParentId == parentId).OrderBy(o => o.DateTime).ToListAsync();
+            query = query.Where(m => m.ParentId == parentId.Value);
         }
-        
-        public async Task<GalleryEntity> GetByUrl(string url, Guid? parentId)
-        {
-            await using var context = _contextFactory();
-            var query = context.Set<GalleryEntity>().AsQueryable();
-            if (parentId != null)
-            {
-                query = query.Where(m => m.ParentId == parentId.Value);
-            }
-            return await query.FirstOrDefaultAsync(entity => entity.Url.Equals(url));
-        }
+        return await query.FirstOrDefaultAsync(entity => entity.Url.Equals(url));
     }
 }

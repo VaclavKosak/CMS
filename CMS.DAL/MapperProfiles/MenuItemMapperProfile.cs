@@ -1,13 +1,12 @@
 using AutoMapper;
 using CMS.DAL.Entities;
 
-namespace CMS.DAL.MapperProfiles
+namespace CMS.DAL.MapperProfiles;
+
+public class MenuItemMapperProfile : Profile
 {
-    public class MenuItemMapperProfile : Profile
+    public MenuItemMapperProfile()
     {
-        public MenuItemMapperProfile()
-        {
-            CreateMap<MenuItemEntity, MenuItemEntity>();
-        }
+        CreateMap<MenuItemEntity, MenuItemEntity>();
     }
 }

@@ -6,20 +6,14 @@ using Microsoft.Extensions.Configuration;
 
 namespace CMS.Web.Components;
 
-public class AnalyticsComponent : ViewComponent
+public class AnalyticsComponent(IConfiguration configuration) : ViewComponent
 {
-    private readonly IConfiguration _configuration;
-    
-    public AnalyticsComponent(IConfiguration configuration)
-    {
-        _configuration = configuration;
-    }
-    
     public Task<IViewComponentResult> InvokeAsync(string extraScript)
     {
         var configValues = new List<string>();
         
-        var configValue = _configuration["google-analytics"];
+        var configValue = configuration["google-analytics"];
+        
         // Google analytics
         if (!string.IsNullOrEmpty(configValue))
         {
@@ -27,7 +21,7 @@ public class AnalyticsComponent : ViewComponent
         }
         
         // Google ads
-        configValue = _configuration["google-ads"];
+        configValue = configuration["google-ads"];
         if (!string.IsNullOrEmpty(configValue))
         {
             configValues.Add(configValue);
