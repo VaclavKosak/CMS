@@ -45,16 +45,12 @@ public class MenuItemController(MenuItemFacade menuItemFacade, IMapper mapper, I
     public async Task<IActionResult> Create(MenuItemModel item)
     {
         ViewBag.Domain = configuration["Domain"];
-        if (ModelState.IsValid)
-        {
-            var id = await menuItemFacade.Create(item);
+        if (!ModelState.IsValid) return View(item);
+        await menuItemFacade.Create(item);
 
-            return item.ParentId != Guid.Empty
-                ? RedirectToAction(nameof(Details), new { id = item.ParentId, area = "Admin" })
-                : RedirectToAction(nameof(Index), new { area = "Admin" });
-        }
-
-        return View(item);
+        return item.ParentId != Guid.Empty
+            ? RedirectToAction(nameof(Details), new { id = item.ParentId, area = "Admin" })
+            : RedirectToAction(nameof(Index), new { area = "Admin" });
     }
 
     public async Task<IActionResult> Edit(Guid? id)
@@ -74,18 +70,14 @@ public class MenuItemController(MenuItemFacade menuItemFacade, IMapper mapper, I
         ViewBag.Domain = configuration["Domain"];
         if (id != item.Id) return NotFound();
 
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid) return RedirectToAction(nameof(Index), new { area = "Admin" });
+        try
         {
-            try
-            {
-                await menuItemFacade.Update(item);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                return View(item);
-            }
-
-            return RedirectToAction(nameof(Index), new { area = "Admin" });
+            await menuItemFacade.Update(item);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return View(item);
         }
 
         return RedirectToAction(nameof(Index), new { area = "Admin" });

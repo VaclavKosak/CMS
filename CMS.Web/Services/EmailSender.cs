@@ -17,7 +17,8 @@ public class EmailSender(IConfiguration configuration) : IEmailSender
         emailMessage.Subject = subject;
         emailMessage.Body = new TextPart("html") { Text = message };
 
-        using var client = new SmtpClient { ServerCertificateValidationCallback = (s, c, h, e) => true };
+        using var client = new SmtpClient();
+        client.ServerCertificateValidationCallback = (s, c, h, e) => true;
 
         client.Connect(configuration["Email:Server"], Convert.ToInt32(configuration["Email:Port"]),
             Convert.ToBoolean(configuration["Email:SSL"])); // true pokud je to s ssl, pokud bez tak false

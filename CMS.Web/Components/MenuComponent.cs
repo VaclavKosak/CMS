@@ -4,18 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CMS.Web.Components;
 
-public class MenuComponent : ViewComponent
+public class MenuComponent(MenuItemFacade menuItemFacade) : ViewComponent
 {
-    private readonly MenuItemFacade _menuItemFacade;
-
-    public MenuComponent(MenuItemFacade menuItemFacade)
-    {
-        _menuItemFacade = menuItemFacade;
-    }
-
     public async Task<IViewComponentResult> InvokeAsync()
     {
-        var menuItems = await _menuItemFacade.GetAll();
+        var menuItems = await menuItemFacade.GetAll();
         return View(menuItems);
     }
 }

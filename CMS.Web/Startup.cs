@@ -17,14 +17,9 @@ using Microsoft.Extensions.Hosting;
 
 namespace CMS.Web;
 
-public class Startup
+public class Startup(IConfiguration configuration)
 {
-    public Startup(IConfiguration configuration)
-    {
-        Configuration = configuration;
-    }
-
-    public IConfiguration Configuration { get; }
+    public IConfiguration Configuration { get; } = configuration;
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
@@ -182,16 +177,14 @@ public class Startup
         foreach (var roleName in roleNames)
         {
             var roleExist = roleManager.RoleExistsAsync(roleName).Result;
-            if (!roleExist)
+            if (roleExist) continue;
+            var role = new AppRole
             {
-                var role = new AppRole
-                {
-                    Id = Guid.NewGuid(),
-                    Name = roleName,
-                    NormalizedName = roleName.Normalize()
-                };
-                var result = roleManager.CreateAsync(role).Result;
-            }
+                Id = Guid.NewGuid(),
+                Name = roleName,
+                NormalizedName = roleName.Normalize()
+            };
+            var result = roleManager.CreateAsync(role).Result;
         }
     }
 }

@@ -11,20 +11,11 @@ namespace CMS.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
 [Authorize(Policy = "Calendar")]
-public class CalendarController : Controller
+public class CalendarController(CalendarFacade calendarFacade, IMapper mapper) : Controller
 {
-    private readonly CalendarFacade _calendarFacade;
-    private readonly IMapper _mapper;
-
-    public CalendarController(CalendarFacade calendarFacade, IMapper mapper)
-    {
-        _calendarFacade = calendarFacade;
-        _mapper = mapper;
-    }
-
     public async Task<IActionResult> Index()
     {
-        var items = await _calendarFacade.GetAll();
+        var items = await calendarFacade.GetAll();
         return View(items);
     }
 
@@ -32,7 +23,7 @@ public class CalendarController : Controller
     {
         if (id == null) return NotFound();
 
-        var item = await _calendarFacade.GetById(id.Value);
+        var item = await calendarFacade.GetById(id.Value);
 
         return View(item);
     }
@@ -48,7 +39,7 @@ public class CalendarController : Controller
     {
         if (ModelState.IsValid)
         {
-            var id = await _calendarFacade.Create(item);
+            var id = await calendarFacade.Create(item);
             return RedirectToAction(nameof(Index), new { area = "Admin" });
         }
 
@@ -59,9 +50,9 @@ public class CalendarController : Controller
     {
         if (id == null) return NotFound();
 
-        var item = await _calendarFacade.GetById(id.Value);
+        var item = await calendarFacade.GetById(id.Value);
 
-        return View(_mapper.Map<CalendarModel>(item));
+        return View(mapper.Map<CalendarModel>(item));
     }
 
     [HttpPost]
@@ -74,7 +65,7 @@ public class CalendarController : Controller
         {
             try
             {
-                await _calendarFacade.Update(item);
+                await calendarFacade.Update(item);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -91,7 +82,7 @@ public class CalendarController : Controller
     {
         if (id == null) return NotFound();
 
-        var item = await _calendarFacade.GetById(id.Value);
+        var item = await calendarFacade.GetById(id.Value);
         return View(item);
     }
 
@@ -100,7 +91,7 @@ public class CalendarController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        await _calendarFacade.Remove(id);
+        await calendarFacade.Remove(id);
         return RedirectToAction(nameof(Index), new { area = "Admin" });
     }
 }

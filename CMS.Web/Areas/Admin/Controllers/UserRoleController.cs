@@ -11,29 +11,19 @@ namespace CMS.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
 [Authorize(Policy = "UserRole")]
-public class UserRoleController : Controller
+public class UserRoleController(UserFacade userFacade, UserRoleFacade userRoleFacade, RoleFacade roleFacade)
+    : Controller
 {
-    private readonly RoleFacade _roleFacade;
-    private readonly UserFacade _userFacade;
-    private readonly UserRoleFacade _userRoleFacade;
-
-    public UserRoleController(UserFacade userFacade, UserRoleFacade userRoleFacade, RoleFacade roleFacade)
-    {
-        _userFacade = userFacade;
-        _userRoleFacade = userRoleFacade;
-        _roleFacade = roleFacade;
-    }
-
     public async Task<IActionResult> Index()
     {
-        var items = await _userRoleFacade.GetAll();
+        var items = await userRoleFacade.GetAll();
         return View(items);
     }
 
     public async Task<IActionResult> Create()
     {
-        ViewData["RoleId"] = new SelectList(await _roleFacade.GetAll(), "Id", "Name");
-        ViewData["UserId"] = new SelectList(await _userFacade.GetAll(), "Id", "UserName");
+        ViewData["RoleId"] = new SelectList(await roleFacade.GetAll(), "Id", "Name");
+        ViewData["UserId"] = new SelectList(await userFacade.GetAll(), "Id", "UserName");
         return View();
     }
 
@@ -43,16 +33,16 @@ public class UserRoleController : Controller
     {
         if (ModelState.IsValid)
         {
-            var appUserRole = await _userRoleFacade.GetById(applicationUserRole.UserId);
+            var appUserRole = await userRoleFacade.GetById(applicationUserRole.UserId);
             if (appUserRole == null)
             {
-                await _userRoleFacade.Create(applicationUserRole);
+                await userRoleFacade.Create(applicationUserRole);
                 return RedirectToAction(nameof(Index));
             }
         }
 
-        ViewData["RoleId"] = new SelectList(await _roleFacade.GetAll(), "Id", "Name", applicationUserRole.RoleId);
-        ViewData["UserId"] = new SelectList(await _userFacade.GetAll(), "Id", "UserName", applicationUserRole.UserId);
+        ViewData["RoleId"] = new SelectList(await roleFacade.GetAll(), "Id", "Name", applicationUserRole.RoleId);
+        ViewData["UserId"] = new SelectList(await userFacade.GetAll(), "Id", "UserName", applicationUserRole.UserId);
         return View(applicationUserRole);
     }
 
@@ -60,10 +50,10 @@ public class UserRoleController : Controller
     {
         if (id == null) return NotFound();
 
-        var applicationUserRole = await _userRoleFacade.GetById(id.Value);
+        var applicationUserRole = await userRoleFacade.GetById(id.Value);
         if (applicationUserRole == null) return NotFound();
-        ViewData["RoleId"] = new SelectList(await _roleFacade.GetAll(), "Id", "Name", applicationUserRole.RoleId);
-        ViewData["UserId"] = new SelectList(await _userFacade.GetAll(), "Id", "UserName", applicationUserRole.UserId);
+        ViewData["RoleId"] = new SelectList(await roleFacade.GetAll(), "Id", "Name", applicationUserRole.RoleId);
+        ViewData["UserId"] = new SelectList(await userFacade.GetAll(), "Id", "UserName", applicationUserRole.UserId);
         return View(applicationUserRole);
     }
 
@@ -77,8 +67,8 @@ public class UserRoleController : Controller
         {
             try
             {
-                await _userRoleFacade.Remove(id.Value);
-                await _userRoleFacade.Create(applicationUserRole);
+                await userRoleFacade.Remove(id.Value);
+                await userRoleFacade.Create(applicationUserRole);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -90,13 +80,13 @@ public class UserRoleController : Controller
             return RedirectToAction(nameof(Index), "UserRole", new { area = "Admin" });
         }
 
-        ViewData["RoleId"] = new SelectList(await _roleFacade.GetAll(), "Id", "Name", applicationUserRole.RoleId);
-        ViewData["UserId"] = new SelectList(await _userFacade.GetAll(), "Id", "UserName", applicationUserRole.UserId);
+        ViewData["RoleId"] = new SelectList(await roleFacade.GetAll(), "Id", "Name", applicationUserRole.RoleId);
+        ViewData["UserId"] = new SelectList(await userFacade.GetAll(), "Id", "UserName", applicationUserRole.UserId);
         return View(applicationUserRole);
     }
 
     private bool ApplicationUserRoleExists(string id)
     {
-        return _userRoleFacade.GetById(Guid.Parse(id)) != null;
+        return userRoleFacade.GetById(Guid.Parse(id)) != null;
     }
 }

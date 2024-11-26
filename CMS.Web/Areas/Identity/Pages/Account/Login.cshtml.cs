@@ -13,20 +13,13 @@ using Microsoft.Extensions.Logging;
 namespace CMS.Web.Areas.Identity.Pages.Account;
 
 [AllowAnonymous]
-public class LoginModel : PageModel
+public class LoginModel(
+    SignInManager<AppUser> signInManager,
+    ILogger<LoginModel> logger,
+    UserManager<AppUser> userManager)
+    : PageModel
 {
-    private readonly ILogger<LoginModel> _logger;
-    private readonly SignInManager<AppUser> _signInManager;
-    private readonly UserManager<AppUser> _userManager;
-
-    public LoginModel(SignInManager<AppUser> signInManager,
-        ILogger<LoginModel> logger,
-        UserManager<AppUser> userManager)
-    {
-        _userManager = userManager;
-        _signInManager = signInManager;
-        _logger = logger;
-    }
+    private readonly UserManager<AppUser> _userManager = userManager;
 
     [BindProperty] public InputModel Input { get; set; }
 
@@ -45,7 +38,7 @@ public class LoginModel : PageModel
         // Clear the existing external cookie to ensure a clean login process
         await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
 
-        ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
         ReturnUrl = returnUrl;
     }
@@ -54,16 +47,16 @@ public class LoginModel : PageModel
     {
         returnUrl ??= Url.Content("~/");
 
-        ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+        ExternalLogins = (await signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
         if (ModelState.IsValid)
         {
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-            var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, false);
+            var result = await signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, false);
             if (result.Succeeded)
             {
-                _logger.LogInformation("User logged in.");
+                logger.LogInformation("User logged in.");
                 return RedirectToAction("Index", "Home", new { area = "Admin" });
             }
 
@@ -71,7 +64,7 @@ public class LoginModel : PageModel
                 return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, Input.RememberMe });
             if (result.IsLockedOut)
             {
-                _logger.LogWarning("User account locked out.");
+                logger.LogWarning("User account locked out.");
                 return RedirectToPage("./Lockout");
             }
 

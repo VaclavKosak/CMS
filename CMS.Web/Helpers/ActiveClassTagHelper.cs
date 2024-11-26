@@ -23,12 +23,10 @@ public class ActiveClassTagHelper(IHtmlGenerator generator) : AnchorTagHelper(ge
         else if (!string.IsNullOrWhiteSpace(Controller))
             result = string.Equals(Controller, currentController, StringComparison.OrdinalIgnoreCase);
 
-        if (result)
-        {
-            var existingClasses = output.Attributes["class"].Value.ToString();
-            if (output.Attributes["class"] != null) output.Attributes.Remove(output.Attributes["class"]);
+        if (!result) return;
+        var existingClasses = output.Attributes["class"].Value.ToString();
+        if (output.Attributes["class"] != null) output.Attributes.Remove(output.Attributes["class"]);
 
-            output.Attributes.Add("class", $"{existingClasses} active");
-        }
+        output.Attributes.Add("class", $"{existingClasses} active");
     }
 }

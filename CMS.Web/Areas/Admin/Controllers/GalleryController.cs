@@ -18,20 +18,13 @@ namespace CMS.Web.Areas.Admin.Controllers;
 [Area("Admin")]
 [Authorize(Policy = "Gallery")]
 [Route("[area]/[controller]")]
-public class GalleryController : Controller
+public class GalleryController(
+    GalleryFacade galleryFacade,
+    IWebHostEnvironment webHostEnvironment,
+    IConfiguration configuration)
+    : Controller
 {
-    private readonly GalleryFacade _galleryFacade;
-    private readonly string _targetFilePath;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-
-    public GalleryController(GalleryFacade galleryFacade, IWebHostEnvironment webHostEnvironment,
-        IConfiguration configuration)
-    {
-        _galleryFacade = galleryFacade;
-        _webHostEnvironment = webHostEnvironment;
-
-        _targetFilePath = configuration.GetValue<string>("GalleryPath");
-    }
+    private readonly string _targetFilePath = configuration.GetValue<string>("GalleryPath");
 
     [Route("")]
     [Route("[action]")]
@@ -40,11 +33,11 @@ public class GalleryController : Controller
         ViewData["parentUrl"] = "";
         ViewData["imageFolder"] = _targetFilePath;
 
-        var path = Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath);
+        var path = Path.Combine(webHostEnvironment.WebRootPath, _targetFilePath);
 
         var galleryView = new GalleryViewModel
         {
-            GalleryList = await _galleryFacade.GetAll(Guid.Empty),
+            GalleryList = await galleryFacade.GetAll(Guid.Empty),
             FilesPath = FileHelpers.GetImagesFiles(path, "", SortByType.Name)
         };
         return View(galleryView);
@@ -55,20 +48,20 @@ public class GalleryController : Controller
     {
         if (string.IsNullOrEmpty(url)) url = "";
 
-        var gallery = await _galleryFacade.GetByUrl(url);
+        var gallery = await galleryFacade.GetByUrl(url);
         if (gallery == null) return NotFound();
 
-        var (parentUrl, urlTree) = await _galleryFacade.GetParentUrl(gallery.Id);
+        var (parentUrl, urlTree) = await galleryFacade.GetParentUrl(gallery.Id);
         ViewData["parentUrl"] = parentUrl;
         ViewData["imageFolder"] = Path.Combine(_targetFilePath, parentUrl);
         ViewData["urlTree"] = urlTree;
 
-        var path = Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath);
+        var path = Path.Combine(webHostEnvironment.WebRootPath, _targetFilePath);
 
         var galleryView = new GalleryViewModel
         {
             Gallery = gallery,
-            GalleryList = await _galleryFacade.GetAll(gallery.Id),
+            GalleryList = await galleryFacade.GetAll(gallery.Id),
             FilesPath = FileHelpers.GetImagesFiles(path, parentUrl, gallery.SortBy)
         };
 
@@ -94,12 +87,12 @@ public class GalleryController : Controller
     {
         if (ModelState.IsValid)
         {
-            var (parentUrl, urlTree) = await _galleryFacade.GetParentUrl(gallery.ParentId);
+            var (parentUrl, urlTree) = await galleryFacade.GetParentUrl(gallery.ParentId);
             var url = Path.Combine(parentUrl, gallery.Url).Replace('\\', '/');
 
             if (!CreateFolder(url)) return View(gallery);
 
-            await _galleryFacade.Create(gallery);
+            await galleryFacade.Create(gallery);
 
             return gallery.ParentId != Guid.Empty
                 ? RedirectToAction("Details", new { url, admin = "Admin" })
@@ -115,7 +108,7 @@ public class GalleryController : Controller
     {
         if (id == null) return NotFound();
 
-        var item = await _galleryFacade.GetEditedById(id.Value);
+        var item = await galleryFacade.GetEditedById(id.Value);
         if (item == null) return NotFound();
         return View(item);
     }
@@ -129,12 +122,12 @@ public class GalleryController : Controller
 
         if (ModelState.IsValid)
         {
-            var (parentUrl, urlTree) = await _galleryFacade.GetParentUrl(gallery.ParentId);
-            var oldUrl = Path.Combine(parentUrl, (await _galleryFacade.GetById(id)).Url).Replace('\\', '/');
+            var (parentUrl, urlTree) = await galleryFacade.GetParentUrl(gallery.ParentId);
+            var oldUrl = Path.Combine(parentUrl, (await galleryFacade.GetById(id)).Url).Replace('\\', '/');
             var newUrl = Path.Combine(parentUrl, gallery.Url).Replace('\\', '/');
 
             if (!RenameFolder(oldUrl, newUrl)) return View(gallery);
-            var updatedItem = await _galleryFacade.Update(gallery);
+            var updatedItem = await galleryFacade.Update(gallery);
 
             return gallery.ParentId != Guid.Empty
                 ? RedirectToAction("Details", new { url = newUrl, admin = "Admin" })
@@ -149,7 +142,7 @@ public class GalleryController : Controller
     {
         if (id == null) return NotFound();
 
-        var item = await _galleryFacade.GetById(id.Value);
+        var item = await galleryFacade.GetById(id.Value);
         if (item == null) return NotFound();
 
         return View(item);
@@ -161,22 +154,22 @@ public class GalleryController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        var item = await _galleryFacade.GetById(id);
-        var (parentUrl, urlTree) = await _galleryFacade.GetParentUrl(item.ParentId);
+        var item = await galleryFacade.GetById(id);
+        var (parentUrl, urlTree) = await galleryFacade.GetParentUrl(item.ParentId);
         var url = Path.Combine(parentUrl, item.Url).Replace('\\', '/');
 
         // Check if album have no child
-        var items = await _galleryFacade.GetAll(item.Id);
+        var items = await galleryFacade.GetAll(item.Id);
         if (items == null || items.Count > 0) return NotFound();
 
         // Remove all files in directory
         ClearFolder(url, true);
 
         // Remove folder
-        Directory.Delete(Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath, url));
+        Directory.Delete(Path.Combine(webHostEnvironment.WebRootPath, _targetFilePath, url));
 
         // Remove record from DB
-        await _galleryFacade.Remove(id);
+        await galleryFacade.Remove(id);
         return RedirectToAction(nameof(Index), new { area = "Admin" });
     }
 
@@ -185,11 +178,11 @@ public class GalleryController : Controller
         string detailFileName)
     {
         // Load all files for detele
-        var file = new FileInfo(Path.Combine(_webHostEnvironment.WebRootPath, filePath, fileName));
+        var file = new FileInfo(Path.Combine(webHostEnvironment.WebRootPath, filePath, fileName));
         var fileThumbnails =
-            new FileInfo(Path.Combine(_webHostEnvironment.WebRootPath, filePath, "thumbnails", thumbnailFileName));
+            new FileInfo(Path.Combine(webHostEnvironment.WebRootPath, filePath, "thumbnails", thumbnailFileName));
         var fileDetail =
-            new FileInfo(Path.Combine(_webHostEnvironment.WebRootPath, filePath, "details", detailFileName));
+            new FileInfo(Path.Combine(webHostEnvironment.WebRootPath, filePath, "details", detailFileName));
         // Check if all files exists
         if (!file.Exists || !fileThumbnails.Exists || !fileDetail.Exists) return NotFound();
         // Delete loaded files
@@ -207,7 +200,7 @@ public class GalleryController : Controller
 
         ClearFolder(url);
 
-        var path = Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath);
+        var path = Path.Combine(webHostEnvironment.WebRootPath, _targetFilePath);
 
         // Generate new files
         var files = FileHelpers.GetImagesFromPath(path, url, SortByType.Name);
@@ -221,7 +214,7 @@ public class GalleryController : Controller
 
     private void ClearFolder(string url, bool withOriginal = false)
     {
-        var path = Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath);
+        var path = Path.Combine(webHostEnvironment.WebRootPath, _targetFilePath);
         if (string.IsNullOrEmpty(url)) url = "";
 
         var fileThumbnails = Path.Combine(path, url, "thumbnails");
@@ -265,7 +258,7 @@ public class GalleryController : Controller
     private bool CreateFolder(string url)
     {
         // Create gallery folder
-        var folderPath = Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath, url);
+        var folderPath = Path.Combine(webHostEnvironment.WebRootPath, _targetFilePath, url);
         if (Directory.Exists(folderPath)) return false;
 
         Directory.CreateDirectory(folderPath);
@@ -279,9 +272,9 @@ public class GalleryController : Controller
         if (urlOld == urlNew) return true;
 
         // Old folder path - old name
-        var folderPathOld = Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath, urlOld);
+        var folderPathOld = Path.Combine(webHostEnvironment.WebRootPath, _targetFilePath, urlOld);
         // New folder path - new name
-        var folderPathNew = Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath, urlNew);
+        var folderPathNew = Path.Combine(webHostEnvironment.WebRootPath, _targetFilePath, urlNew);
         // Check if folders exists
         if (!Directory.Exists(folderPathOld) || Directory.Exists(folderPathNew)) return false;
         // Rename - move from folder to folder

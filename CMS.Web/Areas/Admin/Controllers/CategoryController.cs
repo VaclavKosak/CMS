@@ -11,20 +11,11 @@ namespace CMS.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
 [Authorize(Policy = "Category")]
-public class CategoryController : Controller
+public class CategoryController(IMapper mapper, CategoryFacade categoryFacade) : Controller
 {
-    private readonly CategoryFacade _categoryFacade;
-    private readonly IMapper _mapper;
-
-    public CategoryController(IMapper mapper, CategoryFacade categoryFacade)
-    {
-        _mapper = mapper;
-        _categoryFacade = categoryFacade;
-    }
-
     public async Task<IActionResult> Index()
     {
-        var items = await _categoryFacade.GetAll();
+        var items = await categoryFacade.GetAll();
         return View(items);
     }
 
@@ -32,7 +23,7 @@ public class CategoryController : Controller
     {
         if (id == null) return NotFound();
 
-        var item = await _categoryFacade.GetById(id.Value);
+        var item = await categoryFacade.GetById(id.Value);
 
         return View(item);
     }
@@ -46,22 +37,18 @@ public class CategoryController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(CategoryModel item)
     {
-        if (ModelState.IsValid)
-        {
-            var id = await _categoryFacade.Create(item);
-            return RedirectToAction(nameof(Index), new { area = "Admin" });
-        }
-
-        return View(item);
+        if (!ModelState.IsValid) return View(item);
+        await categoryFacade.Create(item);
+        return RedirectToAction(nameof(Index), new { area = "Admin" });
     }
 
     public async Task<IActionResult> Edit(Guid? id)
     {
         if (id == null) return NotFound();
 
-        var item = await _categoryFacade.GetById(id.Value);
+        var item = await categoryFacade.GetById(id.Value);
 
-        return View(_mapper.Map<CategoryModel>(item));
+        return View(mapper.Map<CategoryModel>(item));
     }
 
     [HttpPost]
@@ -70,18 +57,14 @@ public class CategoryController : Controller
     {
         if (id != item.Id) return NotFound();
 
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid) return RedirectToAction(nameof(Index), new { area = "Admin" });
+        try
         {
-            try
-            {
-                await _categoryFacade.Update(item);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                return View(item);
-            }
-
-            return RedirectToAction(nameof(Index), new { area = "Admin" });
+            await categoryFacade.Update(item);
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            return View(item);
         }
 
         return RedirectToAction(nameof(Index), new { area = "Admin" });
@@ -91,7 +74,7 @@ public class CategoryController : Controller
     {
         if (id == null) return NotFound();
 
-        var item = await _categoryFacade.GetById(id.Value);
+        var item = await categoryFacade.GetById(id.Value);
         return View(item);
     }
 
@@ -100,7 +83,7 @@ public class CategoryController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        await _categoryFacade.Remove(id);
+        await categoryFacade.Remove(id);
         return RedirectToAction(nameof(Index), new { area = "Admin" });
     }
 }

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Logging;
 using Microsoft.Net.Http.Headers;
 
 namespace CMS.Web.Areas.Admin.Controllers;
@@ -17,28 +16,18 @@ namespace CMS.Web.Areas.Admin.Controllers;
 [Authorize(Policy = "File")]
 [Route("[area]/[controller]/[action]")]
 [RequestFormLimits(MultipartBodyLengthLimit = long.MaxValue)]
-public class FileController : ControllerBase
+public class FileController(
+    IWebHostEnvironment webHostEnvironment,
+    IConfiguration configuration)
+    : ControllerBase
 {
-    private const long MaxFileSize = 10L * 1024L * 1024L * 1024L;
-    private readonly ILogger<FileController> _logger;
-    private readonly string _targetFilePath;
-    private readonly string _targetUploadFilePath;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-
-    public FileController(ILogger<FileController> logger, IWebHostEnvironment webHostEnvironment,
-        IConfiguration configuration)
-    {
-        _logger = logger;
-        _webHostEnvironment = webHostEnvironment;
-
-        _targetFilePath = configuration.GetValue<string>("GalleryPath");
-        _targetUploadFilePath = configuration.GetValue<string>("UploadPath");
-    }
+    private readonly string _targetFilePath = configuration.GetValue<string>("GalleryPath");
+    private readonly string _targetUploadFilePath = configuration.GetValue<string>("UploadPath");
 
     [HttpPost]
     public async Task<string> UploadFile()
     {
-        var filePath = Path.Combine(_webHostEnvironment.WebRootPath, _targetUploadFilePath);
+        var filePath = Path.Combine(webHostEnvironment.WebRootPath, _targetUploadFilePath);
 
         var request = HttpContext.Request;
         if (!request.HasFormContentType ||
@@ -58,7 +47,7 @@ public class FileController : ControllerBase
             var fileName = Path.GetRandomFileName() + Path.GetFileName(contentDisposition.FileName.Value);
 
             // Check if file exists - if yes - generate new name
-            if (fileName == null || string.IsNullOrEmpty(fileName) ||
+            if (string.IsNullOrEmpty(fileName) ||
                 fileName.IndexOfAny(Path.GetInvalidFileNameChars()) > 0 ||
                 System.IO.File.Exists(Path.Combine(filePath, fileName)))
                 fileName = Path.GetRandomFileName();
@@ -89,7 +78,7 @@ public class FileController : ControllerBase
     public async Task<IActionResult> UploadLargeFile(string url)
     {
         // Folder
-        var saveToPath = Path.Combine(_webHostEnvironment.WebRootPath, _targetFilePath);
+        var saveToPath = Path.Combine(webHostEnvironment.WebRootPath, _targetFilePath);
         if (!Directory.Exists(saveToPath)) Directory.CreateDirectory(saveToPath);
 
         url ??= "";
@@ -125,7 +114,7 @@ public class FileController : ControllerBase
                 var fileName = Path.GetFileName(contentDisposition.FileName.Value);
 
                 // Check if file exists - if yes - generate new name
-                if (fileName == null || string.IsNullOrEmpty(fileName) ||
+                if (string.IsNullOrEmpty(fileName) ||
                     fileName.IndexOfAny(Path.GetInvalidFileNameChars()) > 0 ||
                     System.IO.File.Exists(Path.Combine(saveToPath, fileName)))
                     fileName = Path.GetRandomFileName();

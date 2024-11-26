@@ -17,25 +17,16 @@ namespace CMS.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
 [Authorize(Policy = "Article")]
-public class ArticleController : Controller
+public class ArticleController(
+    IMapper mapper,
+    ArticleFacade articleFacade,
+    IConfiguration configuration,
+    CategoryFacade categoryFacade)
+    : Controller
 {
-    private readonly ArticleFacade _articleFacade;
-    private readonly CategoryFacade _categoryFacade;
-    private readonly IConfiguration _configuration;
-    private readonly IMapper _mapper;
-
-    public ArticleController(IMapper mapper, ArticleFacade articleFacade, IConfiguration configuration,
-        CategoryFacade categoryFacade)
-    {
-        _mapper = mapper;
-        _articleFacade = articleFacade;
-        _configuration = configuration;
-        _categoryFacade = categoryFacade;
-    }
-
     public async Task<IActionResult> Index()
     {
-        var items = await _articleFacade
+        var items = await articleFacade
             .GetAll();
 
         items = items.Where(p => p.PageType != PageType.PagePart).ToList();
@@ -45,23 +36,25 @@ public class ArticleController : Controller
 
     public async Task<IActionResult> PageParts()
     {
-        var pageParts = new PagePartsViewModel();
-        pageParts.Parts = new List<PagePartsItemModel>
+        var pageParts = new PagePartsViewModel
         {
-            new()
+            Parts = new List<PagePartsItemModel>
             {
-                PartName = "ABC",
-                Articles = new List<ArticleModel>
+                new()
                 {
-                    //await _articleFacade.GetByUrl("abc-art"), 
-                }
-            },
-            new()
-            {
-                PartName = "DEF",
-                Articles = new List<ArticleModel>
+                    PartName = "ABC",
+                    Articles = new List<ArticleModel>
+                    {
+                        //await _articleFacade.GetByUrl("abc-art"), 
+                    }
+                },
+                new()
                 {
-                    //await _articleFacade.GetByUrl("def-art"), 
+                    PartName = "DEF",
+                    Articles = new List<ArticleModel>
+                    {
+                        //await _articleFacade.GetByUrl("def-art"), 
+                    }
                 }
             }
         };
@@ -71,8 +64,8 @@ public class ArticleController : Controller
 
     public async Task<IActionResult> Create()
     {
-        ViewBag.Category = new SelectList(await _categoryFacade.GetAll(), "Id", "Name");
-        ViewBag.Domain = _configuration["Domain"];
+        ViewBag.Category = new SelectList(await categoryFacade.GetAll(), "Id", "Name");
+        ViewBag.Domain = configuration["Domain"];
         return View();
     }
 
@@ -80,43 +73,43 @@ public class ArticleController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(ArticleModel item)
     {
-        ViewBag.Domain = _configuration["Domain"];
+        ViewBag.Domain = configuration["Domain"];
         if (ModelState.IsValid)
         {
-            var id = await _articleFacade.Create(item);
+            var id = await articleFacade.Create(item);
             return RedirectToAction(nameof(Index), new { area = "Admin" });
         }
 
-        ViewBag.Category = new SelectList(await _categoryFacade.GetAll(), "Id", "Name");
+        ViewBag.Category = new SelectList(await categoryFacade.GetAll(), "Id", "Name");
         return View(item);
     }
 
     public async Task<IActionResult> Edit(Guid? id)
     {
-        ViewBag.Domain = _configuration["Domain"];
+        ViewBag.Domain = configuration["Domain"];
         if (id == null) return NotFound();
 
-        var item = await _articleFacade.GetById(id.Value);
+        var item = await articleFacade.GetById(id.Value);
 
         var categoryListIds = item.Category.Select(categoryEntity => categoryEntity.Id).ToList();
 
-        ViewBag.Category = new MultiSelectList(await _categoryFacade.GetAll(), "Id", "Name", categoryListIds);
+        ViewBag.Category = new MultiSelectList(await categoryFacade.GetAll(), "Id", "Name", categoryListIds);
 
-        return View(_mapper.Map<ArticleModel>(item));
+        return View(mapper.Map<ArticleModel>(item));
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Guid id, ArticleModel item)
     {
-        ViewBag.Domain = _configuration["Domain"];
+        ViewBag.Domain = configuration["Domain"];
         if (id != item.Id) return NotFound();
 
         if (ModelState.IsValid)
         {
             try
             {
-                await _articleFacade.Update(item);
+                await articleFacade.Update(item);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -133,7 +126,7 @@ public class ArticleController : Controller
     {
         if (id == null) return NotFound();
 
-        var item = await _articleFacade.GetById(id.Value);
+        var item = await articleFacade.GetById(id.Value);
         return View(item);
     }
 
@@ -142,7 +135,7 @@ public class ArticleController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        await _articleFacade.Remove(id);
+        await articleFacade.Remove(id);
         return RedirectToAction(nameof(Index), new { area = "Admin" });
     }
 }

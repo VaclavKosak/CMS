@@ -12,19 +12,13 @@ using Microsoft.Extensions.Configuration;
 namespace CMS.Web.Areas.Identity.Pages.Account;
 
 [AllowAnonymous]
-public class RegisterConfirmationModel : PageModel
+public class RegisterConfirmationModel(
+    UserManager<AppUser> userManager,
+    IEmailSender sender,
+    IConfiguration configuration)
+    : PageModel
 {
-    private readonly IConfiguration _configuration;
-    private readonly IEmailSender _sender;
-    private readonly UserManager<AppUser> _userManager;
-
-    public RegisterConfirmationModel(UserManager<AppUser> userManager, IEmailSender sender,
-        IConfiguration configuration)
-    {
-        _userManager = userManager;
-        _sender = sender;
-        _configuration = configuration;
-    }
+    private readonly IEmailSender _sender = sender;
 
     public string Email { get; set; }
 
@@ -36,24 +30,22 @@ public class RegisterConfirmationModel : PageModel
     {
         if (email == null) return RedirectToPage("/Index");
 
-        var user = await _userManager.FindByEmailAsync(email);
+        var user = await userManager.FindByEmailAsync(email);
         if (user == null) return NotFound($"Unable to load user with email '{email}'.");
 
         Email = email;
         // Once you add a real email sender, you should remove this code that lets you confirm the account
         DisplayConfirmAccountLink = true;
-        if (DisplayConfirmAccountLink)
-        {
-            var userId = await _userManager.GetUserIdAsync(user);
-            var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-            code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            EmailConfirmationUrl = Url.Page(
-                "/Account/ConfirmEmail",
-                null,
-                new { area = "Identity", userId, code, returnUrl },
-                host: _configuration["Domain"],
-                protocol: Request.Scheme);
-        }
+        if (!DisplayConfirmAccountLink) return Page();
+        var userId = await userManager.GetUserIdAsync(user);
+        var code = await userManager.GenerateEmailConfirmationTokenAsync(user);
+        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
+        EmailConfirmationUrl = Url.Page(
+            "/Account/ConfirmEmail",
+            null,
+            new { area = "Identity", userId, code, returnUrl },
+            host: configuration["Domain"],
+            protocol: Request.Scheme);
 
         return Page();
     }

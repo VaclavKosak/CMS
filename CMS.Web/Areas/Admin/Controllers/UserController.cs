@@ -8,18 +8,11 @@ namespace CMS.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
 [Authorize(Policy = "UserControls")]
-public class UserController : Controller
+public class UserController(UserFacade userFacade) : Controller
 {
-    private readonly UserFacade _userFacade;
-
-    public UserController(UserFacade userFacade)
-    {
-        _userFacade = userFacade;
-    }
-
     public async Task<IActionResult> Index()
     {
-        var users = await _userFacade.GetAll();
+        var users = await userFacade.GetAll();
         return View(users);
     }
 
@@ -27,7 +20,7 @@ public class UserController : Controller
     {
         if (id == null) return NotFound();
 
-        var userDetail = await _userFacade.GetById(id.Value);
+        var userDetail = await userFacade.GetById(id.Value);
         if (userDetail == null) return NotFound();
         return View(userDetail);
     }
@@ -36,7 +29,7 @@ public class UserController : Controller
     {
         if (id == null) return NotFound();
 
-        var user = await _userFacade.GetById(id.Value);
+        var user = await userFacade.GetById(id.Value);
         if (user == null) return NotFound();
 
         return View(user);
@@ -47,7 +40,7 @@ public class UserController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        await _userFacade.Remove(id);
+        await userFacade.Remove(id);
         return RedirectToAction(nameof(Index), new { area = "Admin" });
     }
 }
