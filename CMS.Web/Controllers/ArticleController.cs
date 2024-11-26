@@ -5,25 +5,18 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CMS.Web.Controllers;
 
-public class ArticleController : Controller
+public class ArticleController(ArticleFacade articleFacade) : Controller
 {
-    private readonly ArticleFacade _articleFacade;
-
-    public ArticleController(ArticleFacade articleFacade)
-    {
-        _articleFacade = articleFacade;
-    }
-
     public async Task<IActionResult> Index()
     {
-        return View(await _articleFacade.GetAll());
+        return View(await articleFacade.GetAll());
     }
 
     public async Task<IActionResult> Details(Guid? id)
     {
         if (id == null) return NotFound();
 
-        var article = await _articleFacade.GetById(id.Value);
+        var article = await articleFacade.GetById(id.Value);
         if (article == null) return NotFound();
 
         return View(article);
@@ -34,7 +27,7 @@ public class ArticleController : Controller
     {
         if (url == "") return NotFound();
 
-        var article = await _articleFacade.GetByUrl(url);
+        var article = await articleFacade.GetByUrl(url);
         if (article == null) return NotFound();
 
         return View(article);
