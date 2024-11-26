@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace CMS.Models.Calendar;
 
-public class CalendarUpdateModel
+public class CalendarModel
 {
     public Guid Id { get; set; }
 

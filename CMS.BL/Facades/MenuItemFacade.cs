@@ -10,25 +10,25 @@ using CMS.Models.MenuItem;
 namespace CMS.BL.Facades;
 
 public class MenuItemFacade(MenuItemRepository repository, IMapper mapper)
-    : FacadeBase<MenuItemListModel, MenuItemDetailModel, MenuItemNewModel, MenuItemUpdateModel,
+    : FacadeBase<MenuItemModel, MenuItemModel, MenuItemModel, MenuItemModel,
         MenuItemRepository, MenuItemEntity, Guid>(repository, mapper)
 {
-    public async Task<List<MenuItemListModel>> GetAll(Guid parentId)
+    public async Task<List<MenuItemModel>> GetAll(Guid parentId)
     {
-        return Mapper.Map<List<MenuItemListModel>>(await Repository.GetAll(parentId));
+        return Mapper.Map<List<MenuItemModel>>(await Repository.GetAll(parentId));
     }
 
-    public async Task<MenuItemDetailModel> GetDetailDataById(Guid id)
+    public async Task<MenuItemModel> GetDetailDataById(Guid id)
     {
         var entity = await Repository.GetById(id);
-        var detailData = Mapper.Map<MenuItemDetailModel>(entity);
+        var detailData = Mapper.Map<MenuItemModel>(entity);
         detailData.MenuList = await GetAll(detailData.Id);
         return detailData;
     }
 
-    public override async Task<Guid> Create(MenuItemNewModel newModel)
+    public override async Task<Guid> Create(MenuItemModel newModel)
     {
-        var order = 0;
+        int order;
         var items = await Repository.GetAll();
         if (items.Count == 0)
             order = 1;
@@ -40,12 +40,12 @@ public class MenuItemFacade(MenuItemRepository repository, IMapper mapper)
         return await Repository.Insert(entity);
     }
 
-    public async Task<bool> ChangeOrder(Guid firstItem, Guid secondItem)
+    public async Task ChangeOrder(Guid firstItem, Guid secondItem)
     {
         var firstEntity = await Repository.GetById(firstItem);
         var secondEntity = await Repository.GetById(secondItem);
 
-        if (firstEntity == null || secondEntity == null) return false;
+        if (firstEntity == null || secondEntity == null) return;
 
         var firstOrder = firstEntity.Order;
         var secondOrder = secondEntity.Order;
@@ -55,7 +55,5 @@ public class MenuItemFacade(MenuItemRepository repository, IMapper mapper)
 
         await Repository.Update(firstEntity);
         await Repository.Update(secondEntity);
-
-        return true;
     }
 }

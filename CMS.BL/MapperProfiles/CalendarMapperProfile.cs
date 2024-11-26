@@ -8,12 +8,8 @@ public class CalendarMapperProfile : Profile
 {
     public CalendarMapperProfile()
     {
-        CreateMap<CalendarEntity, CalendarListModel>();
-        CreateMap<CalendarNewModel, CalendarEntity>();
-        CreateMap<CalendarEntity, CalendarDetailModel>();
-        CreateMap<CalendarDetailModel, CalendarNewModel>();
-
-        CreateMap<CalendarUpdateModel, CalendarEntity>();
-        CreateMap<CalendarDetailModel, CalendarUpdateModel>();
+        CreateMap<CalendarEntity, CalendarModel>();
+        CreateMap<CalendarModel, CalendarEntity>();
+        CreateMap<CalendarModel, CalendarModel>();
     }
 }

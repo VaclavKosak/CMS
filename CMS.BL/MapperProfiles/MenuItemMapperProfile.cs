@@ -8,12 +8,8 @@ public class MenuItemMapperProfile : Profile
 {
     public MenuItemMapperProfile()
     {
-        CreateMap<MenuItemEntity, MenuItemListModel>();
-        CreateMap<MenuItemNewModel, MenuItemEntity>();
-        CreateMap<MenuItemEntity, MenuItemDetailModel>();
-        CreateMap<MenuItemDetailModel, MenuItemNewModel>();
-
-        CreateMap<MenuItemUpdateModel, MenuItemEntity>();
-        CreateMap<MenuItemDetailModel, MenuItemUpdateModel>();
+        CreateMap<MenuItemEntity, MenuItemModel>();
+        CreateMap<MenuItemModel, MenuItemEntity>();
+        CreateMap<MenuItemModel, MenuItemModel>();
     }
 }

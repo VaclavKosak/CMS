@@ -8,12 +8,8 @@ public class CategoryMapperProfile : Profile
 {
     public CategoryMapperProfile()
     {
-        CreateMap<CategoryEntity, CategoryListModel>();
-        CreateMap<CategoryNewModel, CategoryEntity>();
-        CreateMap<CategoryEntity, CategoryDetailModel>();
-        CreateMap<CategoryDetailModel, CategoryNewModel>();
-
-        CreateMap<CategoryUpdateModel, CategoryEntity>();
-        CreateMap<CategoryDetailModel, CategoryUpdateModel>();
+        CreateMap<CategoryEntity, CategoryModel>();
+        CreateMap<CategoryModel, CategoryEntity>();
+        CreateMap<CategoryModel, CategoryModel>();
     }
 }

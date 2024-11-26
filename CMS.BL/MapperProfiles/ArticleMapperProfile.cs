@@ -8,12 +8,8 @@ public class ArticleMapperProfile : Profile
 {
     public ArticleMapperProfile()
     {
-        CreateMap<ArticleEntity, ArticleListModel>();
-        CreateMap<ArticleNewModel, ArticleEntity>();
-        CreateMap<ArticleEntity, ArticleDetailModel>();
-        CreateMap<ArticleDetailModel, ArticleNewModel>();
-
-        CreateMap<ArticleUpdateModel, ArticleEntity>();
-        CreateMap<ArticleDetailModel, ArticleUpdateModel>();
+        CreateMap<ArticleEntity, ArticleModel>();
+        CreateMap<ArticleModel, ArticleEntity>();
+        CreateMap<ArticleModel, ArticleModel>();
     }
 }

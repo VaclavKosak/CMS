@@ -4,10 +4,10 @@ using CMS.Models.Article;
 
 namespace CMS.Models.Category;
 
-public class CategoryDetailModel
+public class CategoryModel
 {
     public Guid Id { get; set; }
     public string Name { get; set; }
 
-    public ICollection<ArticleListModel> Article { get; set; }
+    public ICollection<ArticleModel> Article { get; set; }
 }

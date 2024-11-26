@@ -7,5 +7,5 @@ using CMS.Models.Calendar;
 namespace CMS.BL.Facades;
 
 public class CalendarFacade(CalendarRepository repository, IMapper mapper)
-    : FacadeBase<CalendarListModel, CalendarDetailModel, CalendarNewModel, CalendarUpdateModel,
+    : FacadeBase<CalendarModel, CalendarModel, CalendarModel, CalendarModel,
         CalendarRepository, CalendarEntity, Guid>(repository, mapper);

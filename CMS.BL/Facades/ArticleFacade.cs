@@ -10,10 +10,10 @@ using CMS.Models.Article;
 namespace CMS.BL.Facades;
 
 public class ArticleFacade(ArticleRepository repository, IMapper mapper, CategoryRepository categoryRepository)
-    : FacadeBase<ArticleListModel, ArticleDetailModel, ArticleNewModel, ArticleUpdateModel,
+    : FacadeBase<ArticleModel, ArticleModel, ArticleModel, ArticleModel,
         ArticleRepository, ArticleEntity, Guid>(repository, mapper)
 {
-    public override async Task<Guid> Create(ArticleNewModel newModel)
+    public override async Task<Guid> Create(ArticleModel newModel)
     {
         // insert article
         var entity = Mapper.Map<ArticleEntity>(newModel);
@@ -27,24 +27,24 @@ public class ArticleFacade(ArticleRepository repository, IMapper mapper, Categor
         return itemId;
     }
 
-    public override async Task<Guid> Update(ArticleUpdateModel updateModel)
+    public override async Task<Guid> Update(ArticleModel model)
     {
-        var entity = Mapper.Map<ArticleEntity>(updateModel);
+        var entity = Mapper.Map<ArticleEntity>(model);
         await Repository.Update(entity);
 
-        var originalEntity = await Repository.GetById(updateModel.Id);
+        var originalEntity = await Repository.GetById(model.Id);
         entity.Category = new List<CategoryEntity>();
         foreach (var category in originalEntity.Category) entity.Category.Add(category);
 
-        updateModel.CategoriesList ??= new List<Guid>();
-        var categories = await categoryRepository.GetAllByIds(updateModel.CategoriesList.ToArray());
+        model.CategoriesList ??= new List<Guid>();
+        var categories = await categoryRepository.GetAllByIds(model.CategoriesList.ToArray());
 
         return await Repository.Update(entity, categories);
     }
 
-    public async Task<ArticleDetailModel> GetByUrl(string url)
+    public async Task<ArticleModel> GetByUrl(string url)
     {
         var entity = await Repository.GetByUrl(url);
-        return Mapper.Map<ArticleDetailModel>(entity);
+        return Mapper.Map<ArticleModel>(entity);
     }
 }

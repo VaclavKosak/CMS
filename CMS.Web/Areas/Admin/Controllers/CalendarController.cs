@@ -44,7 +44,7 @@ public class CalendarController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(CalendarNewModel item)
+    public async Task<IActionResult> Create(CalendarModel item)
     {
         if (ModelState.IsValid)
         {
@@ -61,12 +61,12 @@ public class CalendarController : Controller
 
         var item = await _calendarFacade.GetById(id.Value);
 
-        return View(_mapper.Map<CalendarUpdateModel>(item));
+        return View(_mapper.Map<CalendarModel>(item));
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, CalendarUpdateModel item)
+    public async Task<IActionResult> Edit(Guid id, CalendarModel item)
     {
         if (id != item.Id) return NotFound();
 

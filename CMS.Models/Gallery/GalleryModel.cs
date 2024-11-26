@@ -4,7 +4,7 @@ using CMS.Common.Enums;
 
 namespace CMS.Models.Gallery;
 
-public class GalleryDetailModel
+public class GalleryModel
 {
     public Guid Id { get; set; }
     public Guid ParentId { get; set; }
@@ -15,6 +15,6 @@ public class GalleryDetailModel
     public DateTime DateTime { get; set; }
     public SortByType SortBy { get; set; }
 
-    public List<GalleryListModel> GalleryList { get; set; }
+    public List<GalleryModel> GalleryList { get; set; }
     public string ParentUrl { get; set; }
 }

@@ -8,14 +8,14 @@ public class GalleryMapperProfile : Profile
 {
     public GalleryMapperProfile()
     {
-        CreateMap<GalleryEntity, GalleryListModel>();
-        CreateMap<GalleryNewModel, GalleryEntity>();
-        CreateMap<GalleryEntity, GalleryDetailModel>();
-        CreateMap<GalleryDetailModel, GalleryNewModel>();
+        CreateMap<GalleryEntity, GalleryModel>();
+        CreateMap<GalleryModel, GalleryEntity>();
+        CreateMap<GalleryEntity, GalleryModel>();
+        CreateMap<GalleryModel, GalleryModel>();
 
-        CreateMap<GalleryUpdateModel, GalleryEntity>();
-        CreateMap<GalleryDetailModel, GalleryUpdateModel>();
+        CreateMap<GalleryModel, GalleryEntity>();
+        CreateMap<GalleryModel, GalleryModel>();
 
-        CreateMap<GalleryEntity, GalleryUpdateModel>();
+        CreateMap<GalleryEntity, GalleryModel>();
     }
 }

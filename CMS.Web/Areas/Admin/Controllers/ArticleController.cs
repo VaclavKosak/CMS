@@ -51,7 +51,7 @@ public class ArticleController : Controller
             new()
             {
                 PartName = "ABC",
-                Articles = new List<ArticleDetailModel>
+                Articles = new List<ArticleModel>
                 {
                     //await _articleFacade.GetByUrl("abc-art"), 
                 }
@@ -59,7 +59,7 @@ public class ArticleController : Controller
             new()
             {
                 PartName = "DEF",
-                Articles = new List<ArticleDetailModel>
+                Articles = new List<ArticleModel>
                 {
                     //await _articleFacade.GetByUrl("def-art"), 
                 }
@@ -78,7 +78,7 @@ public class ArticleController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(ArticleNewModel item)
+    public async Task<IActionResult> Create(ArticleModel item)
     {
         ViewBag.Domain = _configuration["Domain"];
         if (ModelState.IsValid)
@@ -102,12 +102,12 @@ public class ArticleController : Controller
 
         ViewBag.Category = new MultiSelectList(await _categoryFacade.GetAll(), "Id", "Name", categoryListIds);
 
-        return View(_mapper.Map<ArticleUpdateModel>(item));
+        return View(_mapper.Map<ArticleModel>(item));
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, ArticleUpdateModel item)
+    public async Task<IActionResult> Edit(Guid id, ArticleModel item)
     {
         ViewBag.Domain = _configuration["Domain"];
         if (id != item.Id) return NotFound();

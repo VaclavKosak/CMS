@@ -7,5 +7,5 @@ using CMS.Models.Category;
 namespace CMS.BL.Facades;
 
 public class CategoryFacade(CategoryRepository repository, IMapper mapper)
-    : FacadeBase<CategoryListModel, CategoryDetailModel, CategoryNewModel, CategoryUpdateModel,
+    : FacadeBase<CategoryModel, CategoryModel, CategoryModel, CategoryModel,
         CategoryRepository, CategoryEntity, Guid>(repository, mapper);

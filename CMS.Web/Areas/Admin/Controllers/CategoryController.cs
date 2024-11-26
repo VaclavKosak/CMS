@@ -44,7 +44,7 @@ public class CategoryController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(CategoryNewModel item)
+    public async Task<IActionResult> Create(CategoryModel item)
     {
         if (ModelState.IsValid)
         {
@@ -61,12 +61,12 @@ public class CategoryController : Controller
 
         var item = await _categoryFacade.GetById(id.Value);
 
-        return View(_mapper.Map<CategoryUpdateModel>(item));
+        return View(_mapper.Map<CategoryModel>(item));
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, CategoryUpdateModel item)
+    public async Task<IActionResult> Edit(Guid id, CategoryModel item)
     {
         if (id != item.Id) return NotFound();
 

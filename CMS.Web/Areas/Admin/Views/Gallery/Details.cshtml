@@ -1,12 +1,12 @@
 @model CMS.Web.Models.GalleryViewModel
 
 @{
-    ViewData["Title"] = Model.GalleryDetail.Title;
+    ViewData["Title"] = Model.Gallery.Title;
 }
 
 @section Button {
     <a asp-action="Create" class="btn btn-dark btn-custom-big"
-       asp-route-parentId="@Model.GalleryDetail.Id">@_localizer["create_button"]</a>
+       asp-route-parentId="@Model.Gallery.Id">@_localizer["create_button"]</a>
 }
 
 <div class="table-responsive">
@@ -63,7 +63,7 @@
 <a asp-action="ReRenderImg" class="btn btn-dark" asp-route-filePath="@ViewData["imageFolder"]"
    asp-route-url="@ViewData["parentUrl"]">@_localizer["re_render_files"]</a>
 
-<a asp-action="Edit" class="btn btn-dark" asp-route-id="@Model.GalleryDetail.Id">@_localizer["edit_album"]</a>
+<a asp-action="Edit" class="btn btn-dark" asp-route-id="@Model.Gallery.Id">@_localizer["edit_album"]</a>
 
 <h2 class="display-6 fw-bold pt-2">Nahrat fotky</h2>
 <form class="row g-3 needs-validation mb-3" asp-area="Admin" asp-controller="File" asp-action="UploadLargeFile"

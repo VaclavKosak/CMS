@@ -67,7 +67,7 @@ public class GalleryController : Controller
 
         var galleryView = new GalleryViewModel
         {
-            GalleryDetail = gallery,
+            Gallery = gallery,
             GalleryList = await _galleryFacade.GetAll(gallery.Id),
             FilesPath = FileHelpers.GetImagesFiles(path, parentUrl, gallery.SortBy)
         };
@@ -78,7 +78,7 @@ public class GalleryController : Controller
     [Route("[action]/{parentId:guid?}")]
     public IActionResult Create(Guid? parentId)
     {
-        var newModel = new GalleryNewModel
+        var newModel = new GalleryModel
         {
             ParentId = parentId ?? Guid.Empty
         };
@@ -90,7 +90,7 @@ public class GalleryController : Controller
     [Route("[action]")]
     [Route("[action]/{parentId:guid?}")]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(GalleryNewModel gallery)
+    public async Task<IActionResult> Create(GalleryModel gallery)
     {
         if (ModelState.IsValid)
         {
@@ -123,7 +123,7 @@ public class GalleryController : Controller
     [Route("[action]/{id?}")]
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, GalleryUpdateModel gallery)
+    public async Task<IActionResult> Edit(Guid id, GalleryModel gallery)
     {
         if (id != gallery.Id) return NotFound();
 

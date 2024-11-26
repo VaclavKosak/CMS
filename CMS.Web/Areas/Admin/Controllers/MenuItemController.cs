@@ -12,22 +12,12 @@ namespace CMS.Web.Areas.Admin.Controllers;
 
 [Area("Admin")]
 [Authorize(Policy = "MenuItem")]
-public class MenuItemController : Controller
+public class MenuItemController(MenuItemFacade menuItemFacade, IMapper mapper, IConfiguration configuration)
+    : Controller
 {
-    private readonly IConfiguration _configuration;
-    private readonly IMapper _mapper;
-    private readonly MenuItemFacade _menuItemFacade;
-
-    public MenuItemController(MenuItemFacade menuItemFacade, IMapper mapper, IConfiguration configuration)
-    {
-        _menuItemFacade = menuItemFacade;
-        _mapper = mapper;
-        _configuration = configuration;
-    }
-
     public async Task<IActionResult> Index()
     {
-        var items = await _menuItemFacade.GetAll(Guid.Empty);
+        var items = await menuItemFacade.GetAll(Guid.Empty);
         return View(items);
     }
 
@@ -35,15 +25,15 @@ public class MenuItemController : Controller
     {
         if (id == null) return NotFound();
 
-        var item = await _menuItemFacade.GetDetailDataById(id.Value);
+        var item = await menuItemFacade.GetDetailDataById(id.Value);
 
         return View(item);
     }
 
     public IActionResult Create(Guid? parentId)
     {
-        ViewBag.Domain = _configuration["Domain"];
-        var newModel = new MenuItemNewModel
+        ViewBag.Domain = configuration["Domain"];
+        var newModel = new MenuItemModel
         {
             ParentId = parentId ?? Guid.Empty
         };
@@ -52,12 +42,12 @@ public class MenuItemController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create(MenuItemNewModel item)
+    public async Task<IActionResult> Create(MenuItemModel item)
     {
-        ViewBag.Domain = _configuration["Domain"];
+        ViewBag.Domain = configuration["Domain"];
         if (ModelState.IsValid)
         {
-            var id = await _menuItemFacade.Create(item);
+            var id = await menuItemFacade.Create(item);
 
             return item.ParentId != Guid.Empty
                 ? RedirectToAction(nameof(Details), new { id = item.ParentId, area = "Admin" })
@@ -69,26 +59,26 @@ public class MenuItemController : Controller
 
     public async Task<IActionResult> Edit(Guid? id)
     {
-        ViewBag.Domain = _configuration["Domain"];
+        ViewBag.Domain = configuration["Domain"];
         if (id == null) return NotFound();
 
-        var item = await _menuItemFacade.GetById(id.Value);
+        var item = await menuItemFacade.GetById(id.Value);
 
-        return View(_mapper.Map<MenuItemUpdateModel>(item));
+        return View(mapper.Map<MenuItemModel>(item));
     }
 
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Guid id, MenuItemUpdateModel item)
+    public async Task<IActionResult> Edit(Guid id, MenuItemModel item)
     {
-        ViewBag.Domain = _configuration["Domain"];
+        ViewBag.Domain = configuration["Domain"];
         if (id != item.Id) return NotFound();
 
         if (ModelState.IsValid)
         {
             try
             {
-                await _menuItemFacade.Update(item);
+                await menuItemFacade.Update(item);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -105,7 +95,7 @@ public class MenuItemController : Controller
     {
         if (id == null) return NotFound();
 
-        var item = await _menuItemFacade.GetById(id.Value);
+        var item = await menuItemFacade.GetById(id.Value);
         return View(item);
     }
 
@@ -114,14 +104,14 @@ public class MenuItemController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(Guid id)
     {
-        await _menuItemFacade.Remove(id);
+        await menuItemFacade.Remove(id);
         return RedirectToAction(nameof(Index), new { area = "Admin" });
     }
 
     public async Task<IActionResult> ChangeOrder(Guid firstItem, Guid secondItem)
     {
-        await _menuItemFacade.ChangeOrder(firstItem, secondItem);
-        var item = await _menuItemFacade.GetById(firstItem);
+        await menuItemFacade.ChangeOrder(firstItem, secondItem);
+        var item = await menuItemFacade.GetById(firstItem);
 
         return item.ParentId != Guid.Empty
             ? RedirectToAction("Details", new { id = item.ParentId, area = "Admin" })

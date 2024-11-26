@@ -10,15 +10,15 @@ using CMS.Models.Gallery;
 namespace CMS.BL.Facades;
 
 public class GalleryFacade(GalleryRepository repository, IMapper mapper)
-    : FacadeBase<GalleryListModel, GalleryDetailModel, GalleryNewModel, GalleryUpdateModel,
+    : FacadeBase<GalleryModel, GalleryModel, GalleryModel, GalleryModel,
         GalleryRepository, GalleryEntity, Guid>(repository, mapper)
 {
-    public async Task<List<GalleryListModel>> GetAll(Guid parentId)
+    public async Task<List<GalleryModel>> GetAll(Guid parentId)
     {
-        return Mapper.Map<List<GalleryListModel>>(await Repository.GetAll(parentId));
+        return Mapper.Map<List<GalleryModel>>(await Repository.GetAll(parentId));
     }
 
-    public virtual async Task<GalleryDetailModel> GetByUrl(string url)
+    public virtual async Task<GalleryModel> GetByUrl(string url)
     {
         var cleanUrl = url.Trim(' ', '/');
 
@@ -34,7 +34,7 @@ public class GalleryFacade(GalleryRepository repository, IMapper mapper)
             parentId = entity.Id;
         }
 
-        var detailData = Mapper.Map<GalleryDetailModel>(entity);
+        var detailData = Mapper.Map<GalleryModel>(entity);
         detailData.GalleryList = await GetAll(detailData.Id);
         detailData.ParentUrl = cleanUrl;
         return detailData;

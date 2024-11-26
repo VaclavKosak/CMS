@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using CMS.Common.Enums;
+using CMS.DAL.Entities;
 
 namespace CMS.Models.Article;
 
-public class ArticleNewModel
+public class ArticleModel
 {
+    public Guid Id { get; set; }
+
     [Required] public string Title { get; set; }
 
     [Required] public string Description { get; set; }
@@ -19,4 +22,5 @@ public class ArticleNewModel
     public PageType PageType { get; set; }
 
     public ICollection<Guid> CategoriesList { get; set; }
+    public ICollection<CategoryEntity> Category { get; set; }
 }
