@@ -167,12 +167,12 @@ public class Startup(IConfiguration configuration)
         if (context != null) context.Database.Migrate();
     }
 
-    private void CreateRoles(IServiceProvider serviceProvider)
+    private static void CreateRoles(IServiceProvider serviceProvider)
     {
         // Initializing custom roles 
         var roleManager = serviceProvider.GetRequiredService<RoleManager<AppRole>>();
         // Roles
-        string[] roleNames = { "Admin", "Editor", "User" };
+        string[] roleNames = ["Admin", "Editor", "User"];
 
         foreach (var roleName in roleNames)
         {
@@ -184,7 +184,7 @@ public class Startup(IConfiguration configuration)
                 Name = roleName,
                 NormalizedName = roleName.Normalize()
             };
-            var result = roleManager.CreateAsync(role).Result;
+            _ = roleManager.CreateAsync(role).Result;
         }
     }
 }
