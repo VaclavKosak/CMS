@@ -19,7 +19,7 @@ namespace CMS.Web;
 
 public class Startup(IConfiguration configuration)
 {
-    public IConfiguration Configuration { get; } = configuration;
+    private IConfiguration Configuration { get; } = configuration;
 
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
@@ -30,11 +30,7 @@ public class Startup(IConfiguration configuration)
         services.AddControllersWithViews();
         services.AddOptions();
 
-        services.AddDbContext<WebDataContext>(
-            options => options.UseNpgsql(Configuration.GetConnectionString("DefaultConnection"),
-                m => m.MigrationsAssembly("CMS.Web")), ServiceLifetime.Transient);
-
-        new DALInstaller().Install(services);
+        DALInstaller.Install(services, Configuration);
         new BLInstaller().Install(services);
 
         services.AddAutoMapper(typeof(DALInstaller), typeof(BLInstaller));

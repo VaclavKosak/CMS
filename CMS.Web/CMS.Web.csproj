@@ -26,7 +26,6 @@
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration" Version="7.0.11"/>
         <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="7.0.11"/>
         <PackageReference Include="MimeKit" Version="4.2.0"/>
-        <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.11"/>
         <PackageReference Include="SkiaSharp" Version="2.88.6"/>
         <PackageReference Include="SkiaSharp.NativeAssets.Linux" Version="2.88.6"/>
     </ItemGroup>
