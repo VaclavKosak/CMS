@@ -1,6 +1,7 @@
 ﻿@model ErrorViewModel
 @{
     ViewData["Title"] = $"Error {Model!.ErrorCode}";
+    Layout = "_Layout";
 }
 
 <h1 class="text-capitalize text-black-50">Error @Html.DisplayFor(modelItem => Model.ErrorCode)</h1>
