@@ -215,7 +215,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Migrations"/>
         <Folder Include="Resources\Res\Vendor\"/>
         <Folder Include="Resources\Views"/>
         <Folder Include="wwwroot\assets\src\images\"/>
