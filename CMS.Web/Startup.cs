@@ -151,16 +151,8 @@ public class Startup(IConfiguration configuration)
 
             endpoints.MapRazorPages();
         });
-
-        UpdateDatabase(app);
+        
         CreateRoles(serviceProvider);
-    }
-
-    private void UpdateDatabase(IApplicationBuilder app)
-    {
-        using var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope();
-        using var context = serviceScope.ServiceProvider.GetService<WebDataContext>();
-        if (context != null) context.Database.Migrate();
     }
 
     private static void CreateRoles(IServiceProvider serviceProvider)
