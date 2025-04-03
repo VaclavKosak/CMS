@@ -1,14 +1,14 @@
 ﻿import esbuild from 'esbuild'
 import fs from 'fs'
-import {sassPlugin} from 'esbuild-sass-plugin';
-import postcss from 'postcss';
-import autoprefixer from 'autoprefixer';
-import postcssPresetEnv from 'postcss-preset-env';
+import { sassPlugin } from 'esbuild-sass-plugin'
+import postcss from 'postcss'
+import autoprefixer from 'autoprefixer'
+import postcssPresetEnv from 'postcss-preset-env'
 
-const args = process.argv.slice(2);
+const args = process.argv.slice(2)
 const watch = args.includes('--watch')
 
-//Custom watch plugin
+// Custom watch plugin
 const watchPlugin = {
     name: 'watch-plugin',
     setup(build) {
@@ -25,87 +25,85 @@ const watchPlugin = {
     }
 }
 
-// configure project paths for auto-discovery
-const inputWebPaths = ['./Resources/Res/Web/Styles', './Resources/Res/Web/Scripts'];
-const inputAdminPaths = ['./Resources/Res/Admin/Styles', './Resources/Res/Admin/Scripts'];
+const inputWebPaths = ['./Resources/Res/Web/Styles', './Resources/Res/Web/Scripts']
+const inputAdminPaths = ['./Resources/Res/Admin/Styles', './Resources/Res/Admin/Scripts']
 const extensions = {
     '.ts': '.js',
     '.scss': '.css'
-};
-const excludedExtensions = ['.d.ts'];
-
-// output path for generated files
-const outputPath = './wwwroot';
+}
+const excludedExtensions = ['.d.ts']
+const outputPath = './wwwroot'
 
 function autoDiscoverFiles(path) {
-    let targets = {};
+    let targets = {}
     for (const entry of fs.readdirSync(path)) {
-
-        const entryPath = `${path}/${entry}`;
+        const entryPath = `${path}/${entry}`
         if (fs.lstatSync(entryPath).isDirectory()) {
-            // recursive browse directory
-            const childTargets = autoDiscoverFiles(entryPath);
-            targets = {...targets, ...childTargets};
-
-        } else if (!entry.startsWith("_")
-            && !excludedExtensions.some(e => hasExtension(entryPath, e))) {
-
-            const matchedExtension = Object.keys(extensions).filter(e => hasExtension(entryPath, e))[0];
+            const childTargets = autoDiscoverFiles(entryPath)
+            targets = { ...targets, ...childTargets }
+        } else if (!entry.startsWith('_') && !excludedExtensions.some(e => hasExtension(entryPath, e))) {
+            const matchedExtension = Object.keys(extensions).filter(e => hasExtension(entryPath, e))[0]
             if (matchedExtension) {
-                // this is our file
-                targets[entryPath] = entryPath.substring(0, entryPath.length - matchedExtension.length) + extensions[matchedExtension];
+                targets[entryPath] = entryPath.substring(0, entryPath.length - matchedExtension.length) + extensions[matchedExtension]
             }
         }
     }
-    return targets;
+    return targets
 }
 
 function hasExtension(path, extension) {
-    return path.toUpperCase().endsWith(extension.toUpperCase());
+    return path.toUpperCase().endsWith(extension.toUpperCase())
 }
 
 async function main(inputPaths) {
-
-    // search for inputs
-    let targets = {};
+    let targets = {}
     for (const path of inputPaths) {
-        const foundTargets = autoDiscoverFiles(path);
-        targets = {...targets, ...foundTargets};
+        const foundTargets = autoDiscoverFiles(path)
+        targets = { ...targets, ...foundTargets }
     }
 
-    // build
     for (const target in targets) {
-        console.log('\x1b[0m', `Compiling ${target}...`);
+        console.log('\x1b[0m', `Compiling ${target}...`)
 
         try {
-
             const context = await esbuild.context({
                 format: 'esm',
                 bundle: true,
                 entryPoints: [target],
                 outfile: `${outputPath}/${targets[target]}`,
-                target: [
-                    'esnext'
-                ],
+                target: ['esnext'],
                 sourcemap: false,
                 treeShaking: false,
                 minify: true,
                 mangleProps: /^_/,
+
+                // ✅ Přidáno: loader pro SVG soubory s ?raw
+                loader: {
+                    '.svg': 'text'
+                },
+
                 plugins: [
                     sassPlugin({
                         async transform(source) {
-                            const {css} = await postcss([autoprefixer, postcssPresetEnv({
-                                stage: 1,
-                                features: {
-                                    "cascade-layers": false
-                                }
-                            })]).process(source, {from: undefined})
+                            const { css } = await postcss([
+                                autoprefixer,
+                                postcssPresetEnv({
+                                    stage: 1,
+                                    features: {
+                                        'cascade-layers': false
+                                    }
+                                })
+                            ]).process(source, { from: undefined })
                             return css
                         }
                     }),
                     watchPlugin
                 ],
-                external: ['*.ttf', '*.eot', '*.eot?#iefix', '*.woff', '*.otf', '*.svg', '*.svg?#webfont', '*.jpg', '*.jpeg', '*.png', '*.webp', '*.avif']
+                external: [
+                    '*.ttf', '*.eot', '*.eot?#iefix', '*.woff', '*.otf',
+                    '*.svg', '*.svg?#webfont', '*.jpg', '*.jpeg', '*.png',
+                    '*.webp', '*.avif'
+                ]
             })
 
             if (watch) {
@@ -116,10 +114,10 @@ async function main(inputPaths) {
                 context.dispose()
             }
         } catch (err) {
-            console.error('\x1b[32m', `Cannot build ${target}: ${err}`);
+            console.error('\x1b[31m', `Cannot build ${target}: ${err}`)
         }
     }
 }
 
-main(inputWebPaths);
-main(inputAdminPaths);
+main(inputWebPaths)
+main(inputAdminPaths)
